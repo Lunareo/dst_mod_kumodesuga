@@ -1,0 +1,17 @@
+GLOBAL.setmetatable(env, { __index = function(_, k) return GLOBAL.rawget(GLOBAL, k) end })
+
+modimport "main/assets"
+modimport "main/prefabfiles"
+modimport "main/derives"
+modimport "main/envutil"
+modimport "main/language"
+modimport "main/skins"
+modimport "main/tuning"
+modimport "main/constants"
+modimport "main/simplepreparedfoods"
+modimport "main/recipes"
+modimport "main/postinit"
+modimport "main/actions"
+modimport "main/componentactions"
+modimport "main/characters"
+--modimport "main/networkrpc"

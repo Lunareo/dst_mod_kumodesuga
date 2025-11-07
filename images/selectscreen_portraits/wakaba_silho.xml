@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="selectscreen_portraits.tex"/>
+    <Elements>
+        <Element name="wakaba_silho.tex" u1="0.55127" u2="0.733887" v1="0.446289" v2="0.999023"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+

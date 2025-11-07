@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="selectscreen_portraits.tex"/>
+    <Elements>
+        <Element name="shiro.tex" u1="0.000488281" u2="0.183105" v1="0.446289" v2="0.999023"/>
+        <Element name="shiro_silho.tex" u1="0.184082" u2="0.366699" v1="0.446289" v2="0.999023"/>
+        <Element name="wakaba.tex" u1="0.367676" u2="0.550293" v1="0.446289" v2="0.999023"/>
+        <Element name="wakaba_silho.tex" u1="0.55127" u2="0.733887" v1="0.446289" v2="0.999023"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+

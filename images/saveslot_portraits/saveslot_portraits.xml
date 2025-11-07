@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="saveslot_portraits.tex"/>
+    <Elements>
+        <Element name="shiro.tex" u1="0.00195313" u2="0.466797" v1="0.191406" v2="0.996094"/>
+        <Element name="wakaba.tex" u1="0.470703" u2="0.935547" v1="0.191406" v2="0.996094"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+
