@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="kumo_cookbook.tex"/>
+    <Elements>
+        <Element name="chips.tex" u1="0.501953" u2="0.748047" v1="0.503906" v2="0.996094"/>
+        <Element name="kurikuta_dried.tex" u1="0.00195313" u2="0.498047" v1="0.00390625" v2="0.996094"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+

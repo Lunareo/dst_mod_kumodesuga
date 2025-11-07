@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="names_gold_cn_wakaba.tex"/>
+    <Elements>
+        <Element name="wakaba.tex" u1="0.000488281" u2="0.791504" v1="0.436523" v2="0.999023"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+
