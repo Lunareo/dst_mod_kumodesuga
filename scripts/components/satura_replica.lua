@@ -1,24 +1,21 @@
 local high_satu_percent = 2 / 3
 
-local function ctor(self, inst)
-    local classified = inst.player_classified
-    if TheWorld.ismastersim then
-        self.classified = classified
-    elseif classified and self.classified == nil then
-        self:AttachClassified(classified)
+local function ctor(self)
+    while not self.classified do
+        local classified = self.inst.player_classified
+        if TheWorld.ismastersim then
+            self.classified = classified
+        elseif classified and self.classified == nil then
+            self:AttachClassified(classified)
+        end
+        Yield()
     end
 end
 
 local Satura = Class(function(self, inst)
     self.inst = inst
 
-    ctor(self, inst)
-    inst:StartThread(function()
-        while not self.classified do
-            Yield()
-            ctor(self, inst)
-        end
-    end)
+    StartThread(ctor, inst and inst.GUID, self)
 end)
 
 function Satura:AttachClassified(classified)
@@ -89,7 +86,7 @@ function Satura:IsHighsaturated()
         return self.inst.components.satura:IsHighsaturated()
     else
         return self.classified ~= nil and
-        self.classified.currentsatura:value() >= self.classified.maxsatura:value() * high_satu_percent
+            self.classified.currentsatura:value() >= self.classified.maxsatura:value() * high_satu_percent
     end
 end
 

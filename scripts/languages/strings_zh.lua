@@ -106,7 +106,7 @@ return {
     SKIN_QUOTES = {
         shiro = nil,
         wakaba = nil,
-        shiro_jk = "如同记忆力的一般, 尽管那是虚假的。",
+        shiro_jk = "如同记忆里的一般, 尽管那是虚假的。",
         shiro_classic = "我的那些能力值都去哪了?",
     },
 }

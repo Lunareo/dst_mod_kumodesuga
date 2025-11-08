@@ -7,6 +7,6 @@ hookimport "components/hunger"
 hookimport "prefabs/player_classified"
 hookimport "widgets/statusdisplays"
 
-AddComponentPostInit("hunger", function(self)
-    self.inst:AddComponent("satura")
+AddPlayerPostInitByComponent("builder", function(inst)
+    inst:AddComponent("satura")
 end)

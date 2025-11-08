@@ -3,4 +3,5 @@ PrefabFiles = {
     "spiderscythe",
     "storing_space",
     "shiro_spells",
+    "buffs_kmds",
 }
