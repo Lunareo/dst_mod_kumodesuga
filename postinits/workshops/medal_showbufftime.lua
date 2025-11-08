@@ -1,5 +1,5 @@
-AddComponentPostInit("medal_showbufftime", function(self)
-    UTIL.FnExtend(self, "getbuffinfofn", function(inst, buff_info)
+AddComponentPostInit("medal_showbufftime", function(ShowBuffTime)
+    UTIL.FnExtend(ShowBuffTime, "getbuffinfofn", function(inst, buff_info)
         local satura = inst.replica.satura
         if satura then
             if satura:IsHighsaturated() then

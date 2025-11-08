@@ -12,16 +12,32 @@ local foods = {
         sanity = TUNING.SANITY_HUGE,
         perishtime = TUNING.PERISH_PRESERVED,
         cooktime = 1.5,
-        potlevel = "med",
-        floater = { nil, .5 },
         overridebuild = "kumo_food",
         cookbook_atlas = "images/kumo_cookbook.xml",
         nospice = true,
+        notinitprefab = true, -- compatible with functional medal
+    },
+    chips = {
+        test = function(cooker, names, tags)
+            return ((names.potato or 0) + (names.potato_cooked or 0)
+                + (names.seataro or 0) + (names.seataro_cooked or 0)
+                + (names.sweet_potato or 0) + (names.sweet_potato_cooked or 0)) >= 4 -- compatible with tropical mods
+        end,
+        priority = 1,
+        foodtype = FOODTYPE.VEGGIE,
+        health = -TUNING.HEALING_SMALL,
+        hunger = TUNING.CALORIES_MOREHUGE,
+        sanity = TUNING.SANITY_LARGE,
+        perishtime = TUNING.PERISH_PRESERVED,
+        cooktime = .5,
+        overridebuild = "kumo_food",
+        cookbook_atlas = "images/kumo_cookbook.xml",
     },
 }
 
 require "spicedfoods"
 local SPICES = UTIL.GetUpvalue(GenerateSpicedFoods, "SPICES")
+local spicefoods = {}
 
 for k, v in pairs(foods) do
     v.name = k
@@ -29,7 +45,7 @@ for k, v in pairs(foods) do
     v.priority = v.priority or 0
     v.perishtime = v.perishtime or TUNING.PERISH_PRESERVED
     v.cooktime = v.cooktime or 1
-    v.potlevel = v.potlevel or "low"
+    v.potlevel = v.potlevel or "med"
     v.overridebuild = v.overridebuild or k
     table.insert(Assets, Asset("ANIM", "anim/" .. v.overridebuild .. ".zip"))
     v.cookbook_atlas = v.cookbook_atlas or ("images/cookbook_" .. k .. ".xml")
@@ -51,8 +67,9 @@ for k, v in pairs(foods) do
         end
     end
     if not v.nospice then
-        GenerateSpicedFoods({ v })
+        spicefoods[k] = v
     end
 end
 
+GenerateSpicedFoods(spicefoods)
 merge(require("preparedfoods"), foods)

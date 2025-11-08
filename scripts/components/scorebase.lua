@@ -32,7 +32,7 @@ end
 local ScoreBase = Class(function(self, inst, name)
     self.inst = inst
     self.name = name and string.lower(name) or "scorebase"
-    self.current = 0
+    self.current = 0 -- consider self["current" .. name]
     self.max = 100
     self.save_max = nil
     self.maxmodifier = SourceModifierList(self.inst, 0, SourceModifierList.additive)

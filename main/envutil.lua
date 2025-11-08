@@ -47,6 +47,15 @@ hookimport = function(module, ...)
     end
 end
 
+---@param cmp string
+---@param fn fun(inst:ent):any
+AddPlayerPostInitByComponent = function(cmp, fn)
+    AddComponentPostInit(cmp, function(self)
+        fn(self.inst)
+    end)
+end
+
+
 ---@type table<string, function>
 UTIL = {}
 
@@ -65,9 +74,9 @@ UTIL.FnExtend = function(obj, key, prefn, pstfn, isSkipOld)
         end
         if not skipOldFlag then
             if newparams ~= nil then
-                oldvalrets = { oldval(unpack(newparams)) }
+                oldvalrets = { oldval and oldval(unpack(newparams)) }
             else
-                oldvalrets = { oldval(...) }
+                oldvalrets = { oldval and oldval(...) }
             end
             if not isSkipOld then
                 rets = oldvalrets
