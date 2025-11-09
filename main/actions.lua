@@ -21,41 +21,9 @@ local parryhandler = ActionHandler(Parry, "doshortaction")
 AddStategraphActionHandler("wilson", parryhandler)
 AddStategraphActionHandler("wilson_client", parryhandler)
 
-
-local Spell = AddAction(
-    "SPELL",
-    STRINGS.ACTIONS.CASTAOE.GENERIC,
-    function(act)
-        return true
+UTIL.FnExtend(ACTIONS.USESPELLBOOK, "strfn", nil, function(rets, act)
+    if act.doer and act.doer.components.spellbook and act.doer == act.target then
+        rets = { "CASTSPELL" }
     end
-)
-
-Spell.pre_action_cb = function(act)
-    local inst = act.doer
-    if inst ~= nil and inst.components.spelluser then
-        inst.components.spelluser:ActivateSpellItem()
-    end
-end
-Spell.priority = 10
-Spell.rmb = true
-Spell.distance = 36
-Spell.mount_valid = false
-
-local UnSpell = AddAction(
-    "UNSPELL",
-    STRINGS.UI.HUD.CANCEL,
-    function(act)
-        return true
-    end
-)
-
-UnSpell.pre_action_cb = function(act)
-    local inst = act.doer
-    if inst ~= nil and inst.components.spelluser then
-        inst.components.spelluser:DeactivateSpellItem()
-    end
-end
-UnSpell.priority = 10
-UnSpell.rmb = true
-UnSpell.distance = 36
-UnSpell.mount_valid = false
+    return rets
+end)

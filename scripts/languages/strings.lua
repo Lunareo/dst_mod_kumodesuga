@@ -30,6 +30,12 @@ return {
         CASTAOE = {
             SPIDERSCYTHE = "Sweep",
         },
+        USESPELLBOOK = {
+            CASTSPELL = STRINGS.ACTIONS.CASTSPELL.GENERIC,
+        },
+    },
+    SPELLS = {
+        TOGGLENIGHTVISION = "Toggle Night Vision",
     },
     CHARACTER_TITLES = {
         shiro = "White hair mysterious girl",

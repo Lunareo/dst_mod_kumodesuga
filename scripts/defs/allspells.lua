@@ -46,29 +46,22 @@ local function AutoToggleWidget(fn)
     end
 end
 
+---@class ThePlayer
+---@field nightvision netvar|nil
+
 local function isNightVisionActivated()
-    return ThePlayer and ThePlayer.replica.inventory and ThePlayer.replica.inventory:EquipHasTag("nightvision")
+    return ThePlayer and ThePlayer.nightvision and ThePlayer.nightvision:value()
 end
-
-local function ToggleNightVision(player, equip)
-    equip:AddOrRemoveTag("nightvision", not equip:HasTag("nightvision"))
-    player:PushEvent("equip", { item = equip, eslot = equip.replica.equippable:EquipSlot(), no_animation = true })
-end
-
-AddModRPCHandler("Shiro_spell", "NightVision", ToggleNightVision)
 
 return
 {
     ToggleNightVision = {
-        label = "NightVision",
+        label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
             inst.components.spellbook.closeonexecute = false
         end,
         execute = function(inst)
-            ToggleNightVision(ThePlayer or inst.components.inventoryitem:GetGrandOwner(), inst)
-            if not TheWorld.ismastersim then
-                SendModRPCToServer(GetModRPC("Shiro_spell", "NightVision"), inst)
-            end
+            SendModRPCToServer(GetModRPC("Kmds_spells", "togglenightvision"))
         end,
         bank = "spell_icons_woby",
         build = "spell_icons_woby",
@@ -82,4 +75,3 @@ return
         postinit = AutoToggleWidget(isNightVisionActivated),
     },
 }
-
