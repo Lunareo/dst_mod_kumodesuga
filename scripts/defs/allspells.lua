@@ -47,10 +47,10 @@ local function AutoToggleWidget(fn)
 end
 
 ---@class ThePlayer
----@field nightvision netvar|nil
+---@field _toggle_nightvision netvar|nil
 
 local function isNightVisionActivated()
-    return ThePlayer and ThePlayer.nightvision and ThePlayer.nightvision:value()
+    return ThePlayer and ThePlayer._toggle_nightvision and ThePlayer._toggle_nightvision:value()
 end
 
 return

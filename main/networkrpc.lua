@@ -1,6 +1,6 @@
 local function ToggleNightVision(player)
-    if player.nightvision ~= nil then
-        player.nightvision:set(not player.nightvision:value())
+    if player._toggle_nightvision ~= nil then
+        player._toggle_nightvision:set(not player._toggle_nightvision:value())
     end
 end
 
