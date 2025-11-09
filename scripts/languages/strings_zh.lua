@@ -30,6 +30,12 @@ return {
         CASTAOE = {
             SPIDERSCYTHE = "横扫",
         },
+        USESPELLBOOK = {
+            CASTSPELL = nil,
+        },
+    },
+    SPELLS = {
+        TOGGLENIGHTVISION = "夜视",
     },
     CHARACTER_TITLES = {
         shiro = "白色长发的神秘少女",

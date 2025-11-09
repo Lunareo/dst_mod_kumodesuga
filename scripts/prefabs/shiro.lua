@@ -19,17 +19,53 @@ end
 
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
+local NIGHTVISION_COLOURCUBES =
+{
+    day = "images/colour_cubes/mole_vision_off_cc.tex",
+    dusk = "images/colour_cubes/mole_vision_on_cc.tex",
+    night = "images/colour_cubes/mole_vision_on_cc.tex",
+    full_moon = "images/colour_cubes/mole_vision_off_cc.tex",
+}
+
+local SPELLBOOK_RADIUS = 120
+
+local Spells = require "defs/allspells"
+local SHIRO_SPELLS = {
+    Spells.ToggleNightVision,
+}
+
+local function onnightvisiondirty(inst, ...)
+    local isnightvision = inst.nightvision and inst.nightvision:value()
+    inst.components.playervision:ForceNightVision(isnightvision)
+    if isnightvision then
+        inst.components.playervision:PushForcedNightVision("shiro_spells", 10, NIGHTVISION_COLOURCUBES, true)
+    else
+        inst.components.playervision:PopForcedNightVision("shiro_spells")
+    end
+end
+
 local common_postinit = function(inst)
+    inst.nightvision = net_bool(inst.GUID, "kmds.nightvision", "kmds.nightvisiondirty")
+    inst:ListenForEvent("kmds.nightvisiondirty", onnightvisiondirty)
+
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
 
-    inst:AddComponent("spelluser")
+    local spellbook = inst:AddComponent("spellbook")
+    spellbook:SetRadius(SPELLBOOK_RADIUS)
+    spellbook:SetFocusRadius(SPELLBOOK_RADIUS) --UIAnimButton don't use focus radius SPELLBOOK_FOCUS_RADIUS)
+    spellbook:SetItems(SHIRO_SPELLS)
 
     local RemoveTag = inst.RemoveTag
     function inst:RemoveTag(tag)
         if tag == "spiderdisguise" then return end
         RemoveTag(self, tag)
+    end
+
+    local IsInLight = inst.IsInLight
+    function inst:IsInLight()
+        return IsInLight(self) or self.nightvision and self.nightvision:value()
     end
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
@@ -52,11 +88,6 @@ local master_postinit = function(inst)
 
     inst.components.locomotor:SetTriggersCreep(false)
 
-    inst:DoTaskInTime(0, function()
-        if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BEARD) == nil then
-            inst.components.inventory:Equip(SpawnPrefab("shiro_spells"))
-        end
-    end)
 end
 
 return MakePlayerCharactor(avatar_name, prefabs, assets, common_postinit, master_postinit)
