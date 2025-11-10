@@ -15,3 +15,6 @@ modimport "main/actions"
 --modimport "main/componentactions"
 modimport "main/characters"
 modimport "main/networkrpc"
+
+-- temp
+package.loaded["components/nightvision"] = modrequire("skills/nightvision", GLOBAL)

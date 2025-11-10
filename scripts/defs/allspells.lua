@@ -50,7 +50,7 @@ end
 ---@field _toggle_nightvision netvar|nil
 
 local function isNightVisionActivated()
-    return ThePlayer and ThePlayer._toggle_nightvision and ThePlayer._toggle_nightvision:value()
+    return ThePlayer and ThePlayer.components.nightvision and ThePlayer.components.nightvision.update:value()
 end
 
 return
