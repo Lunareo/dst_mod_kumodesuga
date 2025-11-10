@@ -132,7 +132,6 @@ getsetter = function(t, k)
         return p[2]
     end
 end
-
 GLOBAL.getsetter = getsetter
 
 local function print_call_stack()
@@ -157,5 +156,9 @@ local function print_call_stack()
         level = level + 1
     end
 end
-
 GLOBAL.print_call_stack = print_call_stack
+
+local debugprintf = function(fmt, ...)
+    print(string.format("[DEBUG] " .. fmt, ...))
+end
+GLOBAL.debugprintf = debugprintf

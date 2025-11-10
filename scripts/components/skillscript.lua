@@ -1,40 +1,50 @@
-local Skills = {}
+local Skills, Replicas = {}, {}
 
-local function LoadSkill(name)
-    if Skills[name] ~= nil then
+local function LoadSkill(name, self)
+    if Skills[name] == nil then
         Skills[name] = require("skills/" .. name)
         assert(Skills[name], "could not load skill " .. name)
+        Skills[name].WatchWorldState = self.WatchWorldState
+        Skills[name].StopWatchingWorldState = self.StopWatchingWorldState
     end
     return Skills[name]
 end
 
+local replica_mt =
+{
+    __index = function(t, k)
+        return rawget(t, "inst"):ValidateReplicaSkill(k, rawget(t, "_")[k])
+    end,
+}
+
 ---@class components
----@field skillscripts component_skillscripts
+---@field skillscript component_skillscript
 
 ---@class playerskill
 ---@field OnSave fun(skill:playerskill, data:table):(table)|nil
 ---@field OnLoad fun(skill:playerskill, data:table):(nil)|nil
 
----@class component_skillscripts
+---@class component_skillscript
 ---@field inst ent
 ---@field skills table<string, playerskill>
-local SkillScripts = Class(function(self, inst)
+---@field replica table<string, playerskill>
+local SkillScript = Class(function(self, inst)
     self.inst = inst
     self.skills = {}
+    self.replica = { _ = {}, component = self }
+    setmetatable(self.replica, replica_mt)
 end)
 
-function SkillScripts:AddSkill(name)
+function SkillScript:AddSkill(name)
     local lwr_name = string.lower(name)
     if self.skills[lwr_name] ~= nil then
         print("Skill " .. name .. " already exists on entity " .. tostring(self.inst) .. "!")
         return self.skills[lwr_name]
     end
-    local skill = LoadSkill(name)
+    local skill = LoadSkill(name, self)
     if not skill then
         error("Skill " .. name .. " does not exist!")
     end
-
-    self:ReplicateSkill(name)
 
     local loadedskill = skill(self.inst, self)
     self.skills[lwr_name] = loadedskill
@@ -44,14 +54,15 @@ function SkillScripts:AddSkill(name)
     return loadedskill
 end
 
-function SkillScripts:ReplicateSkill(name)
+function SkillScript:RemoveSkill(name)
+
 end
 
-function SkillScripts:GetSkill(name)
+function SkillScript:GetSkill(name)
     return self.skills[name]
 end
 
-function SkillScripts:OnSave(data)
+function SkillScript:OnSave(data)
     for k, v in pairs(self.skills) do
         if v.OnSave then
             data[k] = v:OnSave(data)
@@ -60,4 +71,8 @@ function SkillScripts:OnSave(data)
     return data
 end
 
-return SkillScripts
+function SkillScript:ValidateReplicaSkill(name, skill)
+    return self.inst:HasTag("_skill." .. name) and skill or nil
+end
+
+return SkillScript
