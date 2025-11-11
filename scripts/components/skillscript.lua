@@ -20,20 +20,24 @@ local replica_mt =
 ---@class components
 ---@field skillscript component_skillscript
 
----@class playerskill
----@field OnSave fun(skill:playerskill, data:table):(table)|nil
----@field OnLoad fun(skill:playerskill, data:table):(nil)|nil
-
----@class component_skillscript
+---@class component_skillscript: component_base
 ---@field inst ent
----@field skills table<string, playerskill>
----@field replica table<string, playerskill>
+---@field skills table<string, table>
+---@field replica table<string, table>
 local SkillScript = Class(function(self, inst)
     self.inst = inst
     self.skills = {}
     self.replica = { _ = {}, component = self }
     setmetatable(self.replica, replica_mt)
 end)
+
+function SkillScript:OnRemoveFromEntity()
+    for k, v in pairs(self.skills) do
+        if v.OnRemoveFromEntity then
+            v:OnRemoveFromEntity()
+        end
+    end
+end
 
 function SkillScript:AddSkill(name)
     local lwr_name = string.lower(name)
@@ -69,6 +73,14 @@ function SkillScript:OnSave(data)
         end
     end
     return data
+end
+
+function SkillScript:OnLoad(data)
+    for k, v in pairs(data or {}) do
+        if self.skills[k] and self.skills[k].OnLoad then
+            self.skills[k]:OnLoad(v)
+        end
+    end
 end
 
 function SkillScript:ValidateReplicaSkill(name, skill)

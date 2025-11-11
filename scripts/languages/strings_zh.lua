@@ -38,8 +38,8 @@ return {
         TOGGLENIGHTVISION = "夜视",
     },
     CHARACTER_TITLES = {
-        shiro = "白色长发的神秘少女",
-        wakaba = "管理者D的真面目",
+        shiro = "神之替身",
+        wakaba = "神之化身",
     },
     CHARACTER_NAMES = {
         shiro = "白",
@@ -113,6 +113,6 @@ return {
         shiro = nil,
         wakaba = nil,
         shiro_jk = "如同记忆里的一般, 尽管那是虚假的。",
-        shiro_classic = "我的那些能力值都去哪了?",
+        shiro_classic = "我的那些能力都去哪了?",
     },
 }

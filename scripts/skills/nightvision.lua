@@ -3,7 +3,8 @@
 ---@field nightvision component_nightvision
 
 ---@class component_nightvision: component_base
----@field root table # component_skillscript
+---@field root table|nil # component_skillscript
+---@field name string
 ---@field activate netvar # net_bool
 ---@field update netvar # net_bool
 local NightVision = Class(function(self, inst, root)
@@ -19,7 +20,10 @@ local NightVision = Class(function(self, inst, root)
 end, nil, {})
 
 function NightVision:ToggleUpdate(update)
-    self.update:set(update or not self.update:value())
+    StartThread(function()
+        Yield()
+        self.update:set(update or not self.update:value())
+    end, self.inst and self.inst.GUID)
 end
 
 function NightVision:OnRemoveFromEntity()
@@ -105,6 +109,10 @@ function NightVision:OnLoad(data)
     if data and data.update then
         self:ToggleUpdate(true)
     end
+end
+
+function NightVision:GetDebugString()
+    return string.format("Activate: %s | Update: %s", tostring(self.activate:value()), tostring(self.update:value()))
 end
 
 return NightVision

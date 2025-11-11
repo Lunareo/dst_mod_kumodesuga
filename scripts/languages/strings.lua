@@ -1,6 +1,6 @@
 return {
     NAMES = {
-        SHIRO = "Shiro",
+        SHIRO = "Shiraori",
         WAKABA = "Wakaba",
         HELHEIM_BEYONDER = "Helheim Beyonder",
         KURIKUTA_DRIED = "Dried Kurikuta Fruit",
@@ -38,11 +38,11 @@ return {
         TOGGLENIGHTVISION = "Toggle Night Vision",
     },
     CHARACTER_TITLES = {
-        shiro = "White hair mysterious girl",
-        wakaba = "Administrator D",
+        shiro = "Goddess' standin",
+        wakaba = "Goddess' avatar",
     },
     CHARACTER_NAMES = {
-        shiro = "White",
+        shiro = "White Weaver",
         wakaba = "Hiiro Wakaba",
     },
     CHARACTER_DESCRIPTIONS = {
@@ -61,10 +61,10 @@ return {
     CHARACTERS = {
         SHIRO = {
             DESCRIBE = {
-                SHIRO = "%s, are you my stand?",
+                SHIRO = "%s, are you my standin?",
                 WAKABA = "",
                 SPIDERSCYTHE = "...It gives a sense of closeness and reassurance.",
-                CHIPS = "That is going too far.",
+                CHIPS = "I need more.",
                 KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
             },
         },
@@ -99,7 +99,7 @@ return {
     },
     SKIN_NAMES = {
         shiro = "Death White",
-        wakaba = "Jasmine",
+        wakaba = "Goddess' role playing",
         shiro_jk = "School Days",
         shiro_classic = "Kumoko",
     },
