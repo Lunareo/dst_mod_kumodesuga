@@ -1,4 +1,7 @@
 ---@diagnostic disable: lowercase-global, undefined-global, redundant-return-value
+
+GLOBAL.setmetatable(env, { __index = function(_, k) return GLOBAL.rawget(GLOBAL, k) end })
+
 ---@type table<string, table>
 local package_loaded = {}
 
@@ -72,11 +75,11 @@ UTIL.FnExtend = function(obj, key, prefn, pstfn, isSkipOld)
         if prefn ~= nil then
             rets, skipOldFlag, newparams = prefn(...)
         end
-        if not skipOldFlag then
+        if type(oldval) == "function" and not skipOldFlag then
             if newparams ~= nil then
-                oldvalrets = { oldval and oldval(unpack(newparams)) }
+                oldvalrets = { oldval(unpack(newparams)) }
             else
-                oldvalrets = { oldval and oldval(...) }
+                oldvalrets = { oldval(...) }
             end
             if not isSkipOld then
                 rets = oldvalrets
@@ -121,6 +124,8 @@ UTIL.GetUpvalue = function(fn, ...)
     return val, i, caller
 end
 
+UTIL.VoidFn = function() end
+
 ---@param t class
 ---@param k string
 ---@return function|nil
@@ -134,7 +139,7 @@ getsetter = function(t, k)
 end
 GLOBAL.getsetter = getsetter
 
-local function print_call_stack()
+local tracestack = function()
     print("\n[Trace stack]")
     local level = 2
 
@@ -156,7 +161,7 @@ local function print_call_stack()
         level = level + 1
     end
 end
-GLOBAL.print_call_stack = print_call_stack
+GLOBAL.tracestack = tracestack
 
 local debugprintf = function(fmt, ...)
     print(string.format("[DEBUG] " .. fmt, ...))
