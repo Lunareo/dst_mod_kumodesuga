@@ -1,9 +1,7 @@
-GLOBAL.setmetatable(env, { __index = function(_, k) return GLOBAL.rawget(GLOBAL, k) end })
-
+modimport "main/envutil"
 modimport "main/assets"
 modimport "main/prefabfiles"
 modimport "main/derives"
-modimport "main/envutil"
 modimport "main/language"
 modimport "main/skins"
 modimport "main/tuning"
@@ -12,9 +10,7 @@ modimport "main/preparedfoods"
 modimport "main/recipes"
 modimport "main/postinit"
 modimport "main/actions"
---modimport "main/componentactions"
+modimport "main/skill2cmp"
+modimport "main/componentactions"
 modimport "main/characters"
 modimport "main/networkrpc"
-
--- temp
-package.loaded["components/nightvision"] = modrequire("skills/nightvision", GLOBAL)

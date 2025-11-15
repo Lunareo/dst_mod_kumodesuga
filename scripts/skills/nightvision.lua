@@ -66,27 +66,27 @@ function NightVision:_OnUpdateDirty()
     end
 end
 
+local NIGHTVISION_GRUEIMMUNITY_NAME = "skills.nightvision"
 function NightVision:_OnActivateDirty()
     local inst = self.inst
     if inst.components.playervision ~= nil then
         if self.activate:value() then
-            inst.components.playervision:PushForcedNightVision(inst)
+            inst.components.playervision:PushForcedNightVision(NIGHTVISION_GRUEIMMUNITY_NAME)
         else
-            inst.components.playervision:PopForcedNightVision(inst)
+            inst.components.playervision:PopForcedNightVision(NIGHTVISION_GRUEIMMUNITY_NAME)
         end
     end
 end
 
-local NIGHTVISION_GRUEIMMUNITY_NAME = "skills.nightvision"
 function NightVision:_SetForceNightVision(on)
     local inst = self.inst
     self.activate:set(on)
 
     if inst.components.playervision ~= nil then
         if on then
-            inst.components.playervision:PushForcedNightVision(inst)
+            inst.components.playervision:PushForcedNightVision(NIGHTVISION_GRUEIMMUNITY_NAME)
         else
-            inst.components.playervision:PopForcedNightVision(inst)
+            inst.components.playervision:PopForcedNightVision(NIGHTVISION_GRUEIMMUNITY_NAME)
         end
     end
 

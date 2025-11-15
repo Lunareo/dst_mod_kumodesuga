@@ -20,7 +20,6 @@ end
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
 local SPELLBOOK_RADIUS = 120
-
 local Spells = require "defs/allspells"
 local SHIRO_SPELLS = {
     Spells.ToggleNightVision,

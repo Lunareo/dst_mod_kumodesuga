@@ -36,6 +36,7 @@ return {
     },
     SPELLS = {
         TOGGLENIGHTVISION = "夜视",
+        FREEZE = "静止之魔眼",
     },
     CHARACTER_TITLES = {
         shiro = "神之替身",

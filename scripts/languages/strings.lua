@@ -36,6 +36,7 @@ return {
     },
     SPELLS = {
         TOGGLENIGHTVISION = "Toggle Night Vision",
+        FREEZE = "Freeze Glance",
     },
     CHARACTER_TITLES = {
         shiro = "Goddess' standin",

@@ -53,6 +53,11 @@ local function isNightVisionActivated()
     return ThePlayer and ThePlayer.components.nightvision and ThePlayer.components.nightvision.update:value()
 end
 
+local function isStoringSpaceOpened()
+    local space = ThePlayer and ThePlayer.replica.inventory:GetEquippedItem(EQUIPSLOTS.BEARD)
+    return space and space.replica.container and space.replica.container:IsOpenedBy(ThePlayer)
+end
+
 return
 {
     ToggleNightVision = {
@@ -61,7 +66,7 @@ return
             inst.components.spellbook.closeonexecute = false
         end,
         execute = function(inst)
-            SendModRPCToServer(GetModRPC("Kmds_spells", "togglenightvision"))
+            SendModRPCToServer(GetModRPC("kmds.skills", "nightvision.update"))
         end,
         bank = "spell_icons_woby",
         build = "spell_icons_woby",
@@ -73,5 +78,21 @@ return
         },
         widget_scale = ICON_SCALE,
         postinit = AutoToggleWidget(isNightVisionActivated),
+    },
+    ToggleStoringSpace = {
+        label = STRINGS.SPELLS.TOGGLESTORINGSPACE,
+        execute = function(inst)
+            SendModRPCToServer(GetModRPC("kmds.skills", "nightvision.update"))
+        end,
+        bank = "spell_icons_woby",
+        build = "spell_icons_woby",
+        anims =
+        {
+            idle = { anim = "working" },
+            focus = { anim = "working_focus" },
+            down = { anim = "working_pressed" },
+        },
+        widget_scale = ICON_SCALE,
+        postinit = AutoToggleWidget(isStoringSpaceOpened),
     },
 }

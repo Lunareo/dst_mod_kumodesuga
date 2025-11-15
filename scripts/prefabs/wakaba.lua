@@ -51,6 +51,12 @@ local heal_srcs = {
     "saturation",
 }
 
+local SPELLBOOK_RADIUS = 120
+local Spells = require "defs/allspells"
+local WAKABA_SPELLS = {
+    Spells.ToggleStoringSpace,
+}
+
 local common_postinit = function(inst)
     inst:AddTag(avatar_name)
     inst:AddTag("D_spirit")
@@ -58,6 +64,11 @@ local common_postinit = function(inst)
     inst:AddTag("canbuildspcontainer")
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
+
+    local spellbook = inst:AddComponent("spellbook")
+    spellbook:SetRadius(SPELLBOOK_RADIUS)
+    spellbook:SetFocusRadius(SPELLBOOK_RADIUS) --UIAnimButton don't use focus radius SPELLBOOK_FOCUS_RADIUS)
+    spellbook:SetItems(WAKABA_SPELLS)
 
     if not TheNet:IsDedicated() then
         inst.CreateHealthBadge = WakabaAgeBadge

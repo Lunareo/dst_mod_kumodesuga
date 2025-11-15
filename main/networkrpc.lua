@@ -4,4 +4,6 @@ local function ToggleNightVision(player)
     end
 end
 
-AddModRPCHandler("Kmds_spells", "togglenightvision", ToggleNightVision)
+AddModRPCHandler("kmds.skills", "nightvision.update", ToggleNightVision)
+
+AddModRPCHandler("kmds.skills", "storingspace.toggle", UTIL.VoidFn)
