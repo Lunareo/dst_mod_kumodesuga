@@ -3,7 +3,7 @@ local assets = {
     Asset("ANIM", "anim/spiderscythe.zip"),
 }
 
-local tag = "D_spirit"
+local TAG_CAN_USE = "D_spirit"
 
 local TUNE = {
     BASE_DMG = TUNING.BASE_SURVIVOR_ATTACK * 1.25,
@@ -18,7 +18,7 @@ local TUNE = {
 }
 
 local function OnKilledOther(attacker, eventdata)
-    if attacker and attacker:IsValid() and attacker:HasTag(tag) and eventdata and eventdata.victim and eventdata.victim.components.health and
+    if attacker and attacker:IsValid() and attacker:HasTag(TAG_CAN_USE) and eventdata and eventdata.victim and eventdata.victim.components.health and
         attacker.components.inventory then
         local touch = attacker.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if touch and touch.prefab == "spiderscythe" then
@@ -38,18 +38,14 @@ local function Equip(inst, owner)
         inst._thron_task:Cancel()
         inst._thron_task = nil
     end
-    inst._thron_task = owner and owner:IsValid() and not owner:HasTag(tag) and owner.components.health and
-        inst:DoPeriodicTask(1, function()
-            owner.components.health:DoDelta(TUNE.THRON_DMG, nil, "arachnecurse")
-        end)
+    inst._thron_task = owner and owner:IsValid() and not owner:HasTag(TAG_CAN_USE) and owner.components.health and
+        inst:DoPeriodicTask(1, function() owner.components.health:DoDelta(TUNE.THRON_DMG, nil, "arachnecurse") end)
     if inst._owner then
         inst:RemoveEventCallback("killed", OnKilledOther, inst._owner)
     end
     inst._owner = owner
     inst:ListenForEvent("killed", OnKilledOther, owner)
-    if owner and owner:HasTag(tag) then
-        inst.components.aoetargeting:SetEnabled(true)
-    end
+    inst.components.aoetargeting:SetEnabled(owner:HasTag(TAG_CAN_USE))
 end
 
 local function UnEquip(inst, owner)
@@ -74,7 +70,7 @@ local function OnAttack(inst, attacker, target)
             attacker = attacker, weapon = inst
         })
     end
-    if attacker:HasTag(tag) then
+    if attacker:HasTag(TAG_CAN_USE) then
         if attacker.components.health then
             attacker.components.health:DoDelta(TUNE.HP_DT, nil, "hemophagia")
         end
@@ -85,7 +81,7 @@ local function OnAttack(inst, attacker, target)
 end
 
 local function Dapper(inst, owner)
-    return owner and not owner:HasTag(tag) and TUNE.DAPPER or 0
+    return owner and not owner:HasTag(TAG_CAN_USE) and TUNE.DAPPER or 0
 end
 
 local function ReticuleMouseTargetFn(inst, mousepos)

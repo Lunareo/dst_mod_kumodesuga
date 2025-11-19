@@ -1,7 +1,7 @@
 ---@diagnostic disable: lowercase-global
 local function en_zh(en, zh) return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en end
 
-name = "Kumodesu: Alpha"
+name = en_zh("Kumodesuga, nanika?", "转生成为蜘蛛") .. ": Alpha"
 version = "1.0.0"
 description = ""
 author = "Runar"
@@ -18,7 +18,7 @@ dst_compatible = true
 all_clients_require_mod = true
 -- client_only_mod = true
 
-icon_atlas = "modicon.xml"
+icon_atlas = "images/modicon.xml"
 icon = "modicon.tex"
 
 server_filter_tags = {}
