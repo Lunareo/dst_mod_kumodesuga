@@ -8,9 +8,7 @@ local function healowner(inst, owner)
 end
 
 AddPrefabPostInit("wakaba", function(inst)
-    if not TheWorld.ismastersim then
-        return
-    end
+    if not TheWorld.ismastersim then return end
     local Health = inst.components.health
     UTIL.FnExtend(Health, "DoDelta",
         function(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb, ...)
