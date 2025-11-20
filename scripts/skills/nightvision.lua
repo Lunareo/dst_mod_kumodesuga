@@ -19,6 +19,11 @@ local NightVision = Class(function(self, inst, root)
     end
 end, nil, {})
 
+-- reserve for rpc
+function NightVision:Enable(enable)
+    self:ToggleUpdate(enable)
+end
+
 function NightVision:ToggleUpdate(update)
     StartThread(function()
         Yield()

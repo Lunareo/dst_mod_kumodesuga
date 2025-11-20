@@ -24,21 +24,47 @@ local CREATURES_MUST = { "_combat" }
 local CREATURES_CAN  = { "monster", "smallcreature", "largecreature", "animal", "bigbernie", "character" }
 local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "noattack", "notarget" }
 
-local function ValidTargetFn(inst, doer, pos)
-    local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
-    print("Get Valid Target", target)
+local function EndFreeze(target, physactive, canbepickedup)
+    if target.Physics ~= nil then
+        target.Physics:SetActive(true)
+    end
+    if target.AnimState ~= nil then
+        target.AnimState:Resume()
+    end
+    if target.sg ~= nil then
+        target.sg:Start()
+    end
+    if target.components.inventoryitem ~= nil then
+        target.components.inventoryitem.canbepickedup = canbepickedup
+    end
+    target:RestartBrain("freezed")
+end
+
+local function StartFreeze(target)
     if target ~= nil then
+        local physactive, canbepickedup
         if target.Physics ~= nil then
-            target.Physics:Stop()
+            physactive = target.Physics:IsActive()
+            target.Physics:SetActive(false)
         end
         if target.AnimState ~= nil then
-            target.AnimState:SetDeltaTimeMultiplier(0)
+            target.AnimState:Pause()
         end
         if target.sg ~= nil then
             target.sg:Stop()
         end
+        if target.components.inventoryitem ~= nil then
+            canbepickedup, target.components.inventoryitem.canbepickedup = target.components.inventoryitem.canbepickedup,
+                true
+        end
         target:StopBrain("freezed")
+        target:DoTaskInTime(3, EndFreeze, physactive, canbepickedup)
     end
+end
+
+local function FreezableTargetFn(inst, doer, pos)
+    local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
+    StartFreeze(target)
 end
 
 return {
@@ -48,7 +74,8 @@ return {
             inst.components.spellbook.closeonexecute = false
         end,
         execute = function(inst)
-            SendModRPCToServer(GetModRPC("kmds.skills", "nightvision.update"))
+            SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
+            --SendModRPCToServer(GetModRPC("kmds.skills", "nightvision.update"))
         end,
         bank = "spell_icons_woby",
         build = "spell_icons_woby",
@@ -76,7 +103,7 @@ return {
             aoetargeting.reticule.targetfn = ReticuleTargetFn
 
             if TheWorld.ismastersim then
-                inst.components.aoespell:SetSpellFn(ValidTargetFn)
+                inst.components.aoespell:SetSpellFn(FreezableTargetFn)
                 spellbook:SetSpellFn(nil)
             end
         end,
