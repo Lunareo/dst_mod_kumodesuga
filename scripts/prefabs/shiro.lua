@@ -19,21 +19,10 @@ end
 
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
-local SPELLBOOK_RADIUS = 120
-local Spells = require "defs/allspells"
-local SHIRO_SPELLS = {
-    Spells.ToggleNightVision,
-}
-
 local common_postinit = function(inst)
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
-
-    local spellbook = inst:AddComponent("spellbook")
-    spellbook:SetRadius(SPELLBOOK_RADIUS)
-    spellbook:SetFocusRadius(SPELLBOOK_RADIUS) --UIAnimButton don't use focus radius SPELLBOOK_FOCUS_RADIUS)
-    spellbook:SetItems(SHIRO_SPELLS)
 
     inst:AddComponent("nightvision")
 

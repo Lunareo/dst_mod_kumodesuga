@@ -1,5 +1,6 @@
-hookimport("prefabs", "allplayers", "wakaba")
+hookimport("prefabs", "allplayers", "wakaba", "shiro")
 hookimport("components", "builder", "builder_replica", "sanity")
 hookimport("stategraphs", "SGwilson")
 hookimport("widgets", "eventannouncer", "itemtile")
 hookimport("workshops", "insight", "medal_showbufftime", "stella")
+hookimport("input")

@@ -4,5 +4,6 @@ PrefabFiles = {
     "helheim_beyonder",
     "reticule_kmds",
     "spiderscythe",
-    "storing_space"
+    "storing_space",
+    "spell_item",
 }
