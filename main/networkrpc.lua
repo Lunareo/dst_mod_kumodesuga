@@ -1,4 +1,10 @@
-AddModRPCHandler("kmds.skills", "nightvision.update", function(player)
-    if player.components.nightvision == nil then return end
-    player.components.nightvision:ToggleUpdate()
+local skillhashes = {
+    [hash("nightvision")] = "nightvision",
+    [hash("rusher")] = "rusher",
+}
+
+AddModRPCHandler("kmds.skills", "skills.updating", function(player, skillhash, update)
+    local skill = player.components[skillhashes[skillhash]]
+    if skill == nil or type(skill.Enable) ~= "function" then return end
+    player.components[skillhashes[skillhash]]:Enable(update)
 end)
