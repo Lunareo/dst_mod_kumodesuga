@@ -120,14 +120,16 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         inst.components.debuff:SetExtendedFn(OnExtended)
         inst.components.debuff.keepondespawn = true
 
-        inst:AddComponent("timer")
-        inst.components.timer:StartTimer("buffover", duration)
-        inst:ListenForEvent("timerdone", OnTimerDone)
+        if duration ~= nil then
+            inst:AddComponent("timer")
+            inst.components.timer:StartTimer("buffover", duration)
+            inst:ListenForEvent("timerdone", OnTimerDone)
+        end
 
         if TUNING.FUNCTIONAL_MEDAL_IS_OPEN then
         end
 
-        if duration == 0 then
+        if duration == nil then
             inst.OnSave = OnSave
             inst.OnLoad = OnLoad
         end

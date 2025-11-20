@@ -167,3 +167,32 @@ local debugprintf = function(fmt, ...)
     print(string.format("[DEBUG] " .. fmt, ...))
 end
 GLOBAL.debugprintf = debugprintf
+
+---@param pos Vector3
+---@param radius number
+---@param ignoreheight boolean|nil
+---@param musttags table|nil
+---@param canttags table|nil
+---@param mustoneoftags table|nil
+---@param fn function|nil
+---@return ent|nil
+---@return number|nil
+FindClosestEntityInPoint = function(pos, radius, ignoreheight, musttags, canttags, mustoneoftags, fn)
+    if pos ~= nil then
+        local x, y, z = pos:Get()
+        local ents = TheSim:FindEntities(x, ignoreheight and 0 or y, z, radius, musttags, canttags, mustoneoftags)
+        local closestEntity = nil
+        local rangesq = radius * radius
+        for i, v in ipairs(ents) do
+            if v ~= pos and (not IsEntityDeadOrGhost(v)) and v.entity:IsVisible() and (fn == nil or fn(v, pos)) then
+                local distsq = v:GetDistanceSqToPoint(x, y, z)
+                if distsq < rangesq then
+                    rangesq = distsq
+                    closestEntity = v
+                end
+            end
+        end
+        return closestEntity, closestEntity ~= nil and rangesq or nil
+    end
+end
+GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
