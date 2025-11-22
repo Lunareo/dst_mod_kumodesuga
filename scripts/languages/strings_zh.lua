@@ -41,6 +41,7 @@ return {
         EVIL_EYES = {
             FREEZE = "静止之邪眼",
             CURSE = "诅咒之邪眼",
+            EROSION = "Erosion Gaze",
             TWIST = "歪曲之邪眼",
         },
     },

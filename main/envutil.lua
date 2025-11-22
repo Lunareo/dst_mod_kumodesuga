@@ -37,6 +37,8 @@ merge = function(dest, orig, force)
     end
     return dest
 end
+global("merge")
+GLOBAL.merge = merge
 
 ---@param module string
 ---@param ... string
@@ -138,6 +140,7 @@ getsetter = function(t, k)
         return p[2]
     end
 end
+global("getsetter")
 GLOBAL.getsetter = getsetter
 
 local tracestack = function()
@@ -196,4 +199,33 @@ FindClosestEntityInPoint = function(pos, radius, ignoreheight, musttags, canttag
         return closestEntity, closestEntity ~= nil and rangesq or nil
     end
 end
+global("FindClosestEntityInPoint")
 GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
+
+---@param inst ent
+---@param component string
+---@return table|nil
+AddComponentProxy = function(inst, component)
+    if not type(inst[component]) == "userdata" then return end
+    inst[component] = setmetatable({
+        _self = inst[component],
+        _ = {},
+    }, {
+        __index = function(t, k)
+            local v = rawget(t._, k) or rawget(GLOBAL[component], k)
+            if type(v) == "function" then
+                rawset(t, k, function(_, ...)
+                    return v(t._self, ...)
+                end)
+                return rawget(t, k)
+            else
+                return v
+            end
+        end,
+        __newindex = function(t, k, v)
+            rawset(t._, k, v)
+        end,
+    })
+    return inst[component]
+end
+GLOBAL.AddComponentProxy = AddComponentProxy

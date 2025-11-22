@@ -41,6 +41,7 @@ return {
         EVIL_EYES = {
             FREEZE = "Freeze Glance",
             CURSE = "Curse Gaze",
+            EROSION = "Erosion Gaze",
             TWIST = "Twist Glance",
         },
     },

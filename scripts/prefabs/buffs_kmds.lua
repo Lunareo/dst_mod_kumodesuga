@@ -75,6 +75,7 @@ BUFF_DEFS.freeze = {
                 true
         end
         target:StopBrain("freezed")
+        SpawnAt("fx_book_sleep", target)
         if data ~= nil then
             if data.doer ~= nil then
             end
