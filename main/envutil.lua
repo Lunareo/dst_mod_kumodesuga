@@ -6,10 +6,11 @@ GLOBAL.setmetatable(env, { __index = function(_, k) return GLOBAL.rawget(GLOBAL,
 local package_loaded = {}
 
 ---@param modulename string
----@param env_override table|nil
+---@param env_override table|_G|nil
+---@param force boolean|nil # force reload
 ---@return any
-modrequire = function(modulename, env_override)
-    if package_loaded[modulename] == nil then
+modrequire = function(modulename, env_override, force)
+    if package_loaded[modulename] == nil or force then
         local result = kleiloadlua(MODROOT .. "scripts/" .. modulename .. ".lua")
         setfenv(result, env_override or env)
         package_loaded[modulename] = { result() }

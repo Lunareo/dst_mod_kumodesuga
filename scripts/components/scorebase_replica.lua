@@ -1,4 +1,4 @@
----@class replica_scorebase
+---@class replica_scorebase: replica_base
 ---@field _ctor fun(self:table, inst:ent, name:scoretype)
 ---@field inst ent
 ---@field name scoretype

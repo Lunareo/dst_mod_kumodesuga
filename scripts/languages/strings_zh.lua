@@ -14,6 +14,8 @@ return {
         DECREASE_HUNGER = "饥饿度",
         KUMO_SATURATE = "饱足",
         KUMO_OVERSATURATE = "吃撑了",
+        BUFF_EROSION = "腐蚀",
+        BUFF_FREEZE = "冻结",
         EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>",
@@ -35,8 +37,12 @@ return {
         },
     },
     SPELLS = {
-        TOGGLENIGHTVISION = "夜视",
-        FREEZE = "静止之魔眼",
+        TOGGLENIGHTVISION = "锐利目光",
+        EVIL_EYES = {
+            FREEZE = "静止之邪眼",
+            CURSE = "诅咒之邪眼",
+            TWIST = "歪曲之邪眼",
+        },
     },
     CHARACTER_TITLES = {
         shiro = "神之替身",

@@ -18,7 +18,7 @@ local function onmax(self, new, old)
     self.inst.replica[self.name]:SetMax(new)
 end
 
----@class component_scorebase
+---@class component_scorebase: component_base
 ---@field _ctor fun(self:table, inst:ent, name:scoretype)
 ---@field inst ent
 ---@field name scoretype
