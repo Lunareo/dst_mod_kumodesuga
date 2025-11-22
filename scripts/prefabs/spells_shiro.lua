@@ -62,7 +62,7 @@ local function StartFreeze(target)
     end
 end
 
-local function FreezableTargetFn(inst, doer, pos)
+local function DoFreeze2Closest(inst, doer, pos)
     local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
     StartFreeze(target)
 end
@@ -89,10 +89,10 @@ return {
         postinit = AutoToggleWidget(isNightVisionActivated),
     },
     {
-        label = STRINGS.SPELLS.FREEZE,
+        label = STRINGS.SPELLS.EVIL_EYES.FREEZE,
         onselect = function(inst)
             local spellbook = inst.components.spellbook
-            spellbook:SetSpellName(STRINGS.SPELLS.FREEZE)
+            spellbook:SetSpellName(STRINGS.SPELLS.EVIL_EYES.FREEZE)
             inst.spellname = "freeze"
             spellbook:SetSpellAction(nil)
             local aoetargeting = inst.components.aoetargeting
@@ -103,7 +103,7 @@ return {
             aoetargeting.reticule.targetfn = ReticuleTargetFn
 
             if TheWorld.ismastersim then
-                inst.components.aoespell:SetSpellFn(FreezableTargetFn)
+                inst.components.aoespell:SetSpellFn(DoFreeze2Closest)
                 spellbook:SetSpellFn(nil)
             end
         end,
@@ -117,5 +117,14 @@ return {
             down = { anim = "working_pressed" },
         },
         widget_scale = ICON_SCALE,
+    },
+    {
+        label = STRINGS.SPELLS.EYE_CURSE,
+    },
+    {
+        label = STRINGS.SPELLS.EYE_EROSION,
+    },
+    {
+        label = STRINGS.SPELLS.EYE_TWIST,
     },
 }

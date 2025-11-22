@@ -14,6 +14,8 @@ return {
         DECREASE_HUNGER = "Hunger",
         KUMO_SATURATE = "Satiete",
         KUMO_OVERSATURATE = "Stuffed",
+        BUFF_EROSION = "Erosion",
+        BUFF_FREEZE = "Freeze",
         EROSIONDAMAGE = "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
@@ -36,7 +38,11 @@ return {
     },
     SPELLS = {
         TOGGLENIGHTVISION = "Toggle Night Vision",
-        FREEZE = "Freeze Glance",
+        EVIL_EYES = {
+            FREEZE = "Freeze Glance",
+            CURSE = "Curse Gaze",
+            TWIST = "Twist Glance",
+        },
     },
     CHARACTER_TITLES = {
         shiro = "Goddess' standin",
