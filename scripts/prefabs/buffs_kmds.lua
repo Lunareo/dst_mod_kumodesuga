@@ -100,6 +100,16 @@ BUFF_DEFS.freeze = {
     duration = 10,
     nospeech = true,
 }
+BUFF_DEFS.stronggravity = {
+    attach = function (inst, target, followsymbol, followoffset, data)
+        
+    end,
+    detach = function (inst, target, followsymbol, followoffset, data)
+        
+    end,
+    duration = 10,
+    nospeech = true,
+}
 
 local function OnTimerDone(inst, data)
     if data.name == "buffover" then

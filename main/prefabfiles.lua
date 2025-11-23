@@ -6,4 +6,5 @@ PrefabFiles = {
     "spiderscythe",
     "storing_space",
     "spell_item",
+    "strong_gravity_creep",
 }

@@ -13,6 +13,10 @@ local SPELL_FNS = {
     freeze = function(target, doer)
         target:AddDebuff("freeze", "buff_freeze", { doer = doer })
     end,
+    gravity = function(target, doer)
+        local sh = SpawnAt("daywalker_sinkhole", target)
+        if sh then sh:DoTaskInTime(5, sh.Remove) end
+    end,
 }
 
 return {
@@ -38,5 +42,9 @@ return {
     AbsorbSingleTargetSkill{
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
+    },
+    AbsorbSingleTargetSkill{
+        name = "gravity",
+        spellfn = SPELL_FNS.gravity,
     },
 }
