@@ -82,6 +82,7 @@ BUFF_DEFS.freeze = {
         end
     end,
     detach = function(inst, target, followsymbol, followoffset, data)
+        if target:IsInLimbo() then return end
         if target.Physics ~= nil then
             target.Physics:SetActive(true)
         end
