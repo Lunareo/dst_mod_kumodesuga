@@ -203,29 +203,37 @@ global("FindClosestEntityInPoint")
 GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
 
 ---@param inst ent
----@param component string
+---@param ccmp string
 ---@return table|nil
-AddComponentProxy = function(inst, component)
-    if not type(inst[component]) == "userdata" then return end
-    inst[component] = setmetatable({
-        _self = inst[component],
+AddComponentProxy = function(inst, ccmp)
+    if type(inst[ccmp]) ~= "userdata" and rawget(GLOBAL, ccmp) == nil then return end
+    inst[ccmp] = setmetatable({
+        self = inst[ccmp],
         _ = {},
     }, {
-        __index = function(t, k)
-            local v = rawget(t._, k) or rawget(GLOBAL[component], k)
-            if type(v) == "function" then
-                rawset(t, k, function(_, ...)
-                    return v(t._self, ...)
-                end)
-                return rawget(t, k)
-            else
-                return v
-            end
-        end,
         __newindex = function(t, k, v)
-            rawset(t._, k, v)
+            --debugprintf("NEWINDEX %s %s %s", tostring(t), tostring(k), tostring(v))
+            if type(v) == "function" then
+                return rawset(t._, k, function(self, ...)
+                    return v(self.self, ...)
+                end)
+            end
+            return rawset(t, k, v)
         end,
+        __index = function(t, k)
+            local v = rawget(t._, k)
+            if v ~= nil then return v end
+            v = rawget(GLOBAL[ccmp], k)
+            if type(v) == "function" then
+                --debugprintf("INDEX %s %s", tostring(t), tostring(k))
+                rawset(t._, k, function(self, ...)
+                    return v(self.self, ...)
+                end)
+                return rawget(t._, k)
+            end
+            return rawget(t, k)
+        end
     })
-    return inst[component]
+    return inst[ccmp]
 end
 GLOBAL.AddComponentProxy = AddComponentProxy
