@@ -1,5 +1,8 @@
 ---@diagnostic disable: lowercase-global, undefined-global, redundant-return-value
 
+---------------------------------------------
+---                 env                   ---
+---------------------------------------------
 GLOBAL.setmetatable(env, { __index = function(_, k) return GLOBAL.rawget(GLOBAL, k) end })
 
 ---@type table<string, table>
@@ -37,8 +40,6 @@ merge = function(dest, orig, force)
     end
     return dest
 end
-global("merge")
-GLOBAL.merge = merge
 
 ---@param module string
 ---@param ... string
@@ -129,6 +130,9 @@ end
 
 UTIL.VoidFn = function() end
 
+---------------------------------------------
+---                GLOBAL                 ---
+---------------------------------------------
 ---@param t class
 ---@param k string
 ---@return function|nil
@@ -140,7 +144,6 @@ getsetter = function(t, k)
         return p[2]
     end
 end
-global("getsetter")
 GLOBAL.getsetter = getsetter
 
 local tracestack = function()
@@ -188,7 +191,7 @@ FindClosestEntityInPoint = function(pos, radius, ignoreheight, musttags, canttag
         local closestEntity = nil
         local rangesq = radius * radius
         for i, v in ipairs(ents) do
-            if v ~= pos and (not IsEntityDeadOrGhost(v)) and v.entity:IsVisible() and (fn == nil or fn(v, pos)) then
+            if (not IsEntityDeadOrGhost(v)) and v.entity:IsVisible() and (fn == nil or fn(v, pos)) then
                 local distsq = v:GetDistanceSqToPoint(x, y, z)
                 if distsq < rangesq then
                     rangesq = distsq
@@ -199,14 +202,18 @@ FindClosestEntityInPoint = function(pos, radius, ignoreheight, musttags, canttag
         return closestEntity, closestEntity ~= nil and rangesq or nil
     end
 end
-global("FindClosestEntityInPoint")
 GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
 
+---------------------------------------------
+---              DEPRECATED               ---
+---------------------------------------------
+--[[
 ---@param inst ent
 ---@param ccmp string
 ---@return table|nil
-AddComponentProxy = function(inst, ccmp)
-    if type(inst[ccmp]) ~= "userdata" and rawget(GLOBAL, ccmp) == nil then return end
+AddComponentProxy = function(inst, ccmp) -- WARNING! IF USE "inst[ccmp]" as a param, it would not return the real component.
+    local gccmp = rawget(GLOBAL, string.gsub(ccmp, "^%l", string.upper))
+    if type(inst[ccmp]) ~= "userdata" and gccmp == nil then return end
     inst[ccmp] = setmetatable({
         self = inst[ccmp],
         _ = {},
@@ -223,7 +230,7 @@ AddComponentProxy = function(inst, ccmp)
         __index = function(t, k)
             local v = rawget(t._, k)
             if v ~= nil then return v end
-            v = rawget(GLOBAL[ccmp], k)
+            v = rawget(gccmp, k)
             if type(v) == "function" then
                 --debugprintf("INDEX %s %s", tostring(t), tostring(k))
                 rawset(t._, k, function(self, ...)
@@ -237,3 +244,4 @@ AddComponentProxy = function(inst, ccmp)
     return inst[ccmp]
 end
 GLOBAL.AddComponentProxy = AddComponentProxy
+]]

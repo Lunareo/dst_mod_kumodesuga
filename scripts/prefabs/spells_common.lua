@@ -98,11 +98,11 @@ local function AbsorbSingleTargetSkill(data)
         execute = StartAOETargeting,
         bank = data.bank or "spell_icons_woby",
         build = data.build or "spell_icons_woby",
-        anims = merge(data.anims, {
-            idle = { anim = "working" },
-            focus = { anim = "working_focus" },
-            down = { anim = "working_pressed" },
-        }),
+        anims = {
+            idle = data.anims and data.anims.idle or { anim = "working" },
+            focus = data.anims and data.anims.focus or { anim = "working_focus" },
+            down = data.anims and data.anims.down or { anim = "working_pressed" },
+        },
         widget_scale = ICON_SCALE,
     }
 end

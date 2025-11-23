@@ -43,6 +43,7 @@ return {
             CURSE = "Curse Gaze",
             EROSION = "Erosion Gaze",
             TWIST = "Twist Glance",
+            GRAVITY = "Gravitation Stare",
         },
     },
     CHARACTER_TITLES = {

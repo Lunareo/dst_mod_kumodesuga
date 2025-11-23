@@ -41,8 +41,9 @@ return {
         EVIL_EYES = {
             FREEZE = "静止之邪眼",
             CURSE = "诅咒之邪眼",
-            EROSION = "Erosion Gaze",
+            EROSION = "腐蚀之邪眼",
             TWIST = "歪曲之邪眼",
+            GRAVITY = "引斥之邪眼",
         },
     },
     CHARACTER_TITLES = {
