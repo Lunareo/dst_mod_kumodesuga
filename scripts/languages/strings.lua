@@ -20,6 +20,7 @@ return {
         EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
         ABYSSDEFENSE = "<color=#221356>Abyss Defense</color>: <color=#221356>%2.1d</color>",
+        SILK_ROPE = "Silk Rope",
     },
     RECIPE_DESC = {
         HELHEIM_BEYONDER = "",
@@ -75,6 +76,7 @@ return {
                 SPIDERSCYTHE = "...It gives a sense of closeness and reassurance.",
                 CHIPS = "I need more.",
                 KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
+                SILK_ROPE = "",
             },
         },
         WAKABA = {
@@ -92,6 +94,7 @@ return {
                 WAKABA = "Quiet beauty.",
                 CHIPS = "Crispy snack.",
                 KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
+                SILK_ROPE = "",
             },
         },
     },

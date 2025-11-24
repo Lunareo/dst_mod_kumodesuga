@@ -2,7 +2,8 @@
 <Atlas>
     <Texture filename="shiro_none.tex"/>
     <Elements>
-        <Element name="shiro_none_oval.tex" u1="0.000976563" u2="0.961914" v1="0.36084" v2="0.999512"/>
+        <Element name="shiro_none.tex" u1="0.000488281" u2="0.480957" v1="0.36084" v2="0.999512"/>
+        <Element name="shiro_none_oval.tex" u1="0.481934" u2="0.962402" v1="0.36084" v2="0.999512"/>
     </Elements>
     <StraightAlpha>false</StraightAlpha>
 </Atlas>
