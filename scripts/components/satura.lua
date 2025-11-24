@@ -58,6 +58,10 @@ function Satura:SetMax(amount)
     -- self.current = amount
 end
 
+function Satura:IsPaused()
+    return not self.burning
+end
+
 function Satura:IsSaturated()
     return self.current > 0
 end

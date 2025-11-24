@@ -229,6 +229,7 @@ local function fn()
 
     inst:AddTag("weapon")
     inst:AddTag("lighterweapon")
+    inst:AddTag("scythe")
 
     MakeInventoryFloatable(inst, "med", 0.05)
 

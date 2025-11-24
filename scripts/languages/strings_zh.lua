@@ -20,6 +20,7 @@ return {
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>",
         ABYSSDEFENSE = "<color=#221356>外道抗性</color>: <color=#221356>%2.1d</color>",
+        SILK_ROPE = "丝质长袍",
     },
     RECIPE_DESC = {
         HELHEIM_BEYONDER = nil,
@@ -75,6 +76,7 @@ return {
                 SPIDERSCYTHE = "有一种亲近的感觉。",
                 CHIPS = "没想到在这里也能吃到这个。",
                 KURIKUTA_DRIED = "比起有毒魔物的肉, 这个已经非常不错了。",
+                SILK_ROPE = "由千锤百炼的织丝技能制作而成, 比一般的布料耐用得多。",
             },
         },
         WAKABA = {
@@ -92,6 +94,7 @@ return {
                 WAKABA = "Quiet beauty.",
                 CHIPS = "酥脆可口的小零食。",
                 KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
+                SILK_ROPE = "坚韧但不厚重, 丝滑但不透凉。",
             },
         },
     },
