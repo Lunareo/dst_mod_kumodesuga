@@ -45,6 +45,7 @@ return {
             EROSION = "腐蚀之邪眼",
             TWIST = "歪曲之邪眼",
             GRAVITY = "引斥之邪眼",
+            DESTRUCTION = "腐蚀之邪眼",
         },
     },
     CHARACTER_TITLES = {
