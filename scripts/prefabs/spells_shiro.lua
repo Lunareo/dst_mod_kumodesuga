@@ -24,6 +24,11 @@ return {
         label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
             inst.components.spellbook.closeonexecute = false
+            if TheWorld.ismastersim then -- useless, maybe
+                if inst.components.spellbookcooldowns ~= nil then
+                    inst.components.spellbookcooldowns:RestartSpellCooldown("togglenightvision", 5)
+                end
+            end
         end,
         execute = function(inst)
             SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
@@ -38,13 +43,21 @@ return {
         },
         widget_scale = ICON_SCALE,
         postinit = AutoToggleWidget(isNightVisionActivated),
+        checkcooldown = function(user)
+            --client safe
+            return user
+                and user.components.spellbookcooldowns
+                and user.components.spellbookcooldowns:GetSpellCooldownPercent("togglenightvision")
+                or nil
+        end,
+        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
     },
-    AbsorbSingleTargetSkill{
+    AbsorbSingleTargetSkill {
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
     },
-    AbsorbSingleTargetSkill{
-        name = "gravity",
-        spellfn = SPELL_FNS.gravity,
-    },
+    --AbsorbSingleTargetSkill{
+    --    name = "gravity",
+    --    spellfn = SPELL_FNS.gravity,
+    --},
 }

@@ -212,7 +212,7 @@ GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
 ---@param ccmp string
 ---@return table|nil
 AddComponentProxy = function(inst, ccmp) -- WARNING! IF USE "inst[ccmp]" as a param, it would not return the real component.
-    local gccmp = rawget(GLOBAL, string.gsub(ccmp, "^%l", string.upper))
+    local gccmp = rawget(GLOBAL, FirstToUpper(ccmp))
     if type(inst[ccmp]) ~= "userdata" and gccmp == nil then return end
     inst[ccmp] = setmetatable({
         self = inst[ccmp],

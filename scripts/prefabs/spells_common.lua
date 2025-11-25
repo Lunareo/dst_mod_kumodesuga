@@ -72,10 +72,18 @@ local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "n
 ---@return table
 local function AbsorbSingleTargetSkill(data)
     local spellfn = function(inst, doer, pos)
+        if doer.components.spellbookcooldowns ~= nil and doer.components.spellbookcooldowns:IsInCooldown(data.name) then
+            return false, "SPELL_ON_COOLDOWN"
+        end
         local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
         if target ~= nil then
             data.spellfn(target, doer)
+            local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
+            if doer.components.spellbookcooldowns ~= nil and cooldown ~= nil then
+                doer.components.spellbookcooldowns:RestartSpellCooldown(data.name, cooldown)
+            end
         end
+        return true
     end
     return {
         label = STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)],
@@ -87,7 +95,11 @@ local function AbsorbSingleTargetSkill(data)
             local aoetargeting = inst.components.aoetargeting
             aoetargeting:SetRange(16)
             aoetargeting:SetDeployRadius(0)
-            aoetargeting:SetShouldRepeatCastFn(function() return true end)
+            aoetargeting:SetShouldRepeatCastFn(function(_, doer)
+                return
+                    doer.components.spellbookcooldowns == nil or
+                    doer.components.spellbookcooldowns:IsInCooldown(data.name)
+            end)
             aoetargeting.reticule.reticuleprefab = "reticuleabsorb"
             aoetargeting.reticule.targetfn = ReticuleTargetFn
             if TheWorld.ismastersim then
@@ -96,14 +108,24 @@ local function AbsorbSingleTargetSkill(data)
             end
         end,
         execute = StartAOETargeting,
-        bank = data.bank or "spell_icons_woby",
-        build = data.build or "spell_icons_woby",
+        bank = data.bank or "spell_icons_willow",
+        build = data.build or "spell_icons_willow",
         anims = {
-            idle = data.anims and data.anims.idle or { anim = "working" },
-            focus = data.anims and data.anims.focus or { anim = "working_focus" },
-            down = data.anims and data.anims.down or { anim = "working_pressed" },
+            idle = data.anims and data.anims.idle or { anim = "lunar_fire" },
+            focus = data.anims and data.anims.focus or { anim = "lunar_fire_focus", loop = true },
+            down = data.anims and data.anims.down or { anim = "lunar_fire_pressed" },
+            disabled = data.anims and data.anims.disabled or { anim = "lunar_fire_disabled" },
+            cooldown = data.anims and data.anims.cooldown or { anim = "lunar_fire_cooldown" },
         },
         widget_scale = ICON_SCALE,
+        checkcooldown = function(user)
+            --client safe
+            return user
+                and user.components.spellbookcooldowns
+                and user.components.spellbookcooldowns:GetSpellCooldownPercent(data.name)
+                or nil
+        end,
+        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
     }
 end
 
