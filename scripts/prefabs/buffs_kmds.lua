@@ -27,6 +27,8 @@ end
 ---@field priority integer|nil
 ---@field prefabs table|nil
 ---@field nospeech boolean|nil
+---@field onsave fun(inst:ent, data:table):(nil)|nil
+---@field onload fun(inst:ent, data:table):(nil)|nil
 
 ---@type table<string, buffdef>
 local BUFF_DEFS = {}
@@ -100,12 +102,45 @@ BUFF_DEFS.freeze = {
     duration = 10,
     nospeech = true,
 }
-BUFF_DEFS.stronggravity = {
-    attach = function (inst, target, followsymbol, followoffset, data)
-        
+local function docurse(inst, target, data)
+    inst._curse_count = (inst._curse_count or 0) + 1
+    if target and target.components.combat ~= nil and target.components.combat.externalbonusmodifier ~= nil then
+        target.components.combat:AddBonusModifier("buff_curse", -inst._curse_count * .1, inst)
+    end
+    local doer = inst._doer and inst._doer:IsValid() and inst._doer
+    if doer ~= nil and doer.components.combat ~= nil then
+        doer.components.combat:AddBonusModifier("buff_curse_doer", inst._curse_count * .1, inst)
+    end
+end
+BUFF_DEFS.curse = {
+    attach = function(inst, target, followsymbol, followoffset, data)
+        inst._doer = data and data.doer
+        inst._attach_task = target and target.components.combat ~= nil and
+        inst:DoPeriodicTask(1, docurse, nil, target, data) or nil
     end,
-    detach = function (inst, target, followsymbol, followoffset, data)
-        
+    detach = function(inst, target, followsymbol, followoffset, data)
+        CancelTask(inst, "_attach_task")
+        if not (data and data.persist) then
+            target.components.combat:RemoveBonusModifier("buff_curse", inst)
+            if inst._doer ~= nil and inst._doer.components.combat ~= nil then
+                inst._doer.components.combat:RemoveBonusModifier("buff_curse_doer", inst)
+            end
+        end
+    end,
+    nospeech = true,
+    onsave = function(inst, data)
+        data.curse_count = inst._curse_count
+    end,
+    onload = function(inst, data)
+        inst._curse_count = data.curse_count
+    end,
+}
+BUFF_DEFS.stronggravity = {
+    attach = function(inst, target, followsymbol, followoffset, data)
+
+    end,
+    detach = function(inst, target, followsymbol, followoffset, data)
+
     end,
     duration = 10,
     nospeech = true,
@@ -117,10 +152,6 @@ local function OnTimerDone(inst, data)
     end
 end
 
-local function OnSave(inst, data) end
-
-local function OnLoad(inst, data) end
-
 ---@param name string
 ---@param onattachedfn function
 ---@param onextendedfn function
@@ -129,8 +160,11 @@ local function OnLoad(inst, data) end
 ---@param priority integer|nil
 ---@param prefabs table|nil
 ---@param nospeech boolean|nil
+---@param onsave function|nil
+---@param onload function|nil
 ---@return Prefab
-local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration, priority, prefabs, nospeech)
+local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration, priority, prefabs, nospeech, onsave,
+                        onload)
     local ATTACH_BUFF_DATA = {
         buff = (not nospeech and "ANNOUNCE_ATTACH_BUFF_" .. string.upper(name)) or nil,
         priority = priority
@@ -215,10 +249,8 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         if TUNING.FUNCTIONAL_MEDAL_IS_OPEN then
         end
 
-        if duration == nil then
-            inst.OnSave = OnSave
-            inst.OnLoad = OnLoad
-        end
+        inst.OnSave = onsave
+        inst.OnLoad = onload
 
         return inst
     end
@@ -228,6 +260,7 @@ end
 
 local buffs = {}
 for k, v in pairs(BUFF_DEFS) do
-    table.insert(buffs, MakeBuff(k, v.attach, v.extend, v.detach, v.duration, v.priority, v.prefabs, v.nospeech))
+    table.insert(buffs,
+        MakeBuff(k, v.attach, v.extend, v.detach, v.duration, v.priority, v.prefabs, v.nospeech, v.onsave, v.onload))
 end
 return unpack(buffs)

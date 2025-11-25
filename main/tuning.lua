@@ -19,4 +19,5 @@ merge(TUNING, {
             WAKABA = { "helheim_beyonder" },
         },
     },
+    SPELL_FREEZE_COOLDOWN = 3,
 }, true)

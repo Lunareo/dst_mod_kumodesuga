@@ -78,6 +78,11 @@ return {
                 KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
                 SILK_ROPE = "",
             },
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "Waiting for skill's cooldown is necessary.",
+                },
+            },
         },
         WAKABA = {
             DESCRIBE = {
@@ -86,6 +91,11 @@ return {
                 HELHEIM_BEYONDER = "...",
                 SPIDERSCYTHE = "Hope she likes this gift.",
                 CHIPS = "Don't worry about getting fat, this is a perfect body.",
+            },
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "Adding limit to my power makes game more interesting.",
+                },
             },
         },
         GENERIC = {
