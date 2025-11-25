@@ -15,7 +15,24 @@ local function ReticuleTargetAllowWaterFn()
     return pos
 end
 
+local function AddEquipTag(inst, tag)
+    inst:AddTag(tag)
+    local owner = inst.components.inventoryitem:GetGrandOwner()
+    if owner and owner.components.inventory and inst == owner.components.inventory:GetEquippedItem(EQUIPSLOTS.SPELL) then
+        owner.components.inventory:Equip(inst)
+    end
+end
+
+local function RemoveEquipTag(inst, tag)
+    inst:RemoveTag(tag)
+    local owner = inst.components.inventoryitem:GetGrandOwner()
+    if owner and owner.components.inventory and inst == owner.components.inventory:GetEquippedItem(EQUIPSLOTS.SPELL) then
+        owner.components.inventory:Equip(inst)
+    end
+end
+
 local function fn()
+    ---@class spell_item: ent
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -54,6 +71,9 @@ local function fn()
 
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.SPELL
+
+    inst.AddEquipTag = AddEquipTag
+    inst.RemoveEquipTag = RemoveEquipTag
 
     inst.persists = false
 

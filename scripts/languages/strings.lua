@@ -38,13 +38,14 @@ return {
         },
     },
     SPELLS = {
-        TOGGLENIGHTVISION = "Toggle Night Vision",
+        TOGGLENIGHTVISION = "Spider Vision",
         EVIL_EYES = {
-            FREEZE = "Freeze Glance",
-            CURSE = "Curse Gaze",
-            EROSION = "Erosion Gaze",
+            FREEZE = "Freeze Stare",
+            CURSE = "Curse Stare",
+            EROSION = "Erosion Glance",
             TWIST = "Twist Glance",
-            GRAVITY = "Gravitation Stare",
+            GRAVITY = "Gravitation Glance",
+            DESTRUCTION = "Erosion Glare",
         },
     },
     CHARACTER_TITLES = {

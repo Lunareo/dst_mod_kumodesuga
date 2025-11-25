@@ -1,0 +1,3 @@
+---@meta
+
+EQUIPSLOTS.SPELL = "spell"
