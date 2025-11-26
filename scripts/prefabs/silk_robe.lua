@@ -7,7 +7,7 @@ params.silk_robe = {
         },
         animbank = "ui_cookpot_1x2",
         animbuild = "ui_cookpot_1x2",
-        pos = Vector3(-5, -80, 0),
+        pos = Vector3(-50, 0, 0),
     },
     issidewidget = true,
     type = "pack",
@@ -29,6 +29,7 @@ local function OnEquip(inst, owner)
     for _, v in ipairs(symbols) do
         owner.AnimState:OverrideSymbol(v, "shiro", v)
     end
+    owner.AnimState:Hide("SKIRT")
     inst.components.container:Open(owner)
 end
 
@@ -36,6 +37,7 @@ local function OnUnequip(inst, owner)
     for _, v in ipairs(symbols) do
         owner.AnimState:ClearOverrideSymbol(v)
     end
+    owner.AnimState:Show("SKIRT")
     inst.components.container:Close(owner)
 end
 
