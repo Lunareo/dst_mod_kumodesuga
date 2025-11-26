@@ -23,13 +23,13 @@ local symbols = {
     "arm_lower",
     "arm_upper",
     "torso",
+    "skirt",
 }
 
 local function OnEquip(inst, owner)
     for _, v in ipairs(symbols) do
-        owner.AnimState:OverrideSymbol(v, "shiro", v)
+        owner.AnimState:OverrideSymbol(v, "silk_robe", v)
     end
-    owner.AnimState:Hide("SKIRT")
     inst.components.container:Open(owner)
 end
 
@@ -37,7 +37,6 @@ local function OnUnequip(inst, owner)
     for _, v in ipairs(symbols) do
         owner.AnimState:ClearOverrideSymbol(v)
     end
-    owner.AnimState:Show("SKIRT")
     inst.components.container:Close(owner)
 end
 
