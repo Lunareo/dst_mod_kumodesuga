@@ -11,4 +11,4 @@ AssetATLAS = function(atlas, ...)
     end
 end
 
-AssetATLAS("images/inventoryimage_kmds.xml", "chips", "helheim_beyonder", "helheim_beyonder_hide", "kurikuta_dried", "spiderscythe")
+AssetATLAS("images/inventoryimage_kmds.xml", "chips", "helheim_beyonder", "helheim_beyonder_hide", "kurikuta_dried", "silk_robe", "spiderscythe")
