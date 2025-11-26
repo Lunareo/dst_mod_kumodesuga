@@ -7,5 +7,5 @@ PrefabFiles = {
     "storing_space",
     "spell_item",
     "strong_gravity_creep",
-    "silk_rope",
+    "silk_robe",
 }

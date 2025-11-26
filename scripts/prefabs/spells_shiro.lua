@@ -42,11 +42,11 @@ return {
         label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
             inst.components.spellbook.closeonexecute = false
-            if TheWorld.ismastersim then -- useless, maybe
-                if inst.components.spellbookcooldowns ~= nil then
-                    inst.components.spellbookcooldowns:RestartSpellCooldown("togglenightvision", 5)
-                end
-            end
+            --if TheWorld.ismastersim then -- useless, maybe
+            --    if inst.components.spellbookcooldowns ~= nil then
+            --        inst.components.spellbookcooldowns:RestartSpellCooldown("togglenightvision", 5)
+            --    end
+            --end
         end,
         execute = function(inst)
             SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
@@ -74,10 +74,12 @@ return {
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
     },
-    --AbsorbSingleTargetSkill{
-    --    name = "gravity",
-    --    spellfn = SPELL_FNS.gravity,
-    --},
+    {
+        label = STRINGS.SPELLS.GRAVITY,
+        onselect = function(inst)
+            inst.components.spellbook.closeonexecute = false
+        end,
+    },
     AbsorbSingleTargetSkill {
         name = "destruction",
         spellfn = SPELL_FNS.destruction,
