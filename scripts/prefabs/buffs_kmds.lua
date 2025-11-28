@@ -15,14 +15,10 @@ local function CancelTask(inst, task)
     end
 end
 
----@class buff_params
----@field doer ent|nil
----@field duration number|nil
-
 ---@class buffdef
----@field attach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:buff_params):(nil)
----@field extend fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:buff_params):(nil)|nil
----@field detach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:buff_params):(nil)
+---@field attach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)
+---@field extend fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)|nil
+---@field detach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)
 ---@field duration number|nil
 ---@field priority integer|nil
 ---@field prefabs table|nil
@@ -30,78 +26,6 @@ end
 ---@field onsave fun(inst:ent, data:table):(nil)|nil
 ---@field onload fun(inst:ent, data:table):(nil)|nil
 
----@type table<string, buffdef>
-local BUFF_DEFS = {}
-BUFF_DEFS.erosion = {
-    attach = function(inst, target, followsymbol, followoffset, data)
-        CancelTask(inst, "_erosion_task")
-        if target.components.combat then
-            AttachFX("erosion_fx_loop", inst, target, followsymbol, followoffset)
-            inst.attacker = data and data.attacker or inst
-            inst._erosion_task = inst:DoPeriodicTask(1, function()
-                if not (target --[[and target:IsValid()]] and target.components.combat) then return end
-                target.components.combat:GetAttacked(inst.attacker or inst, 0, data and data.weapon, nil,
-                    { erosion = 2.5 })
-            end)
-        else
-            inst.components.timer:StopTimer("buffover")
-        end
-    end,
-    extend = function(inst, target, followsymbol, followoffset, data)
-        AttachFX("erosion_fx_loop", inst, target, followsymbol, followoffset)
-        if data and data.attacker then
-            inst.attacker = data.attacker
-        end
-    end,
-    detach = function(inst, target, ...)
-        CancelTask(inst, "_erosion_task")
-    end,
-    duration = 10,
-    nospeech = true,
-}
-BUFF_DEFS.freeze = {
-    attach = function(inst, target, followsymbol, followoffset, data)
-        if target.Physics ~= nil then
-            inst.physactive = target.Physics:IsActive()
-            target.Physics:SetActive(false)
-        end
-        if target.AnimState ~= nil then
-            target.AnimState:Pause()
-        end
-        if target.sg ~= nil then
-            target.sg:Stop()
-        end
-        if target.components.inventoryitem ~= nil then
-            inst.canbepickedup, target.components.inventoryitem.canbepickedup =
-                target.components.inventoryitem.canbepickedup,
-                true
-        end
-        target:StopBrain("freezed")
-        SpawnAt("fx_book_sleep", target)
-        if data ~= nil then
-            if data.doer ~= nil then
-            end
-        end
-    end,
-    detach = function(inst, target, followsymbol, followoffset, data)
-        if target:IsInLimbo() then return end
-        if target.Physics ~= nil then
-            target.Physics:SetActive(true)
-        end
-        if target.AnimState ~= nil then
-            target.AnimState:Resume()
-        end
-        if target.sg ~= nil then
-            target.sg:Start()
-        end
-        if target.components.inventoryitem ~= nil then
-            target.components.inventoryitem.canbepickedup = inst.canbepickedup
-        end
-        target:RestartBrain("freezed")
-    end,
-    duration = 10,
-    nospeech = true,
-}
 local function docurse(inst, target, data)
     inst._curse_count = (inst._curse_count or 0) + 1
     if target and target.components.combat ~= nil and target.components.combat.AddBonusModifier ~= nil then
@@ -112,38 +36,137 @@ local function docurse(inst, target, data)
         doer.components.combat:AddBonusModifier("buff_curse_doer", inst._curse_count * .1, inst)
     end
 end
-BUFF_DEFS.curse = {
-    attach = function(inst, target, followsymbol, followoffset, data)
-        inst._doer = data and data.doer
-        inst._attach_task = target and target.components.combat ~= nil and
-        inst:DoPeriodicTask(1, docurse, nil, target, data) or nil
-    end,
-    detach = function(inst, target, followsymbol, followoffset, data)
-        CancelTask(inst, "_attach_task")
-        if not (data and data.persist) then
-            target.components.combat:RemoveBonusModifier("buff_curse", inst)
-            if inst._doer ~= nil and inst._doer.components.combat ~= nil then
-                inst._doer.components.combat:RemoveBonusModifier("buff_curse_doer", inst)
+
+local function dodecreasepenalty(inst, target)
+    if not (target and target:IsValid() and target.components.health) then return end
+    target.components.health:DeltaPenalty(-inst._regenval or 0)
+    inst._regentick = (inst._regentick or 0) - 1
+    if inst._regentick <= 0 then inst:PushEvent("timerdone", { name = "buffover" }) end
+end
+
+---@type table<string, buffdef>
+local BUFF_DEFS = {
+    erosion = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            CancelTask(inst, "_erosion_task")
+            if target.components.combat then
+                AttachFX("erosion_fx_loop", inst, target, followsymbol, followoffset)
+                inst.attacker = data and data.attacker or inst
+                inst._erosion_task = inst:DoPeriodicTask(1, function()
+                    if not (target --[[and target:IsValid()]] and target.components.combat) then return end
+                    target.components.combat:GetAttacked(inst.attacker or inst, 0, data and data.weapon, nil,
+                        { erosion = 2.5 })
+                end)
+            else
+                inst.components.timer:StopTimer("buffover")
             end
-        end
-    end,
-    nospeech = true,
-    onsave = function(inst, data)
-        data.curse_count = inst._curse_count
-    end,
-    onload = function(inst, data)
-        inst._curse_count = data.curse_count
-    end,
-}
-BUFF_DEFS.stronggravity = {
-    attach = function(inst, target, followsymbol, followoffset, data)
+        end,
+        extend = function(inst, target, followsymbol, followoffset, data)
+            AttachFX("erosion_fx_loop", inst, target, followsymbol, followoffset)
+            if data and data.attacker then
+                inst.attacker = data.attacker
+            end
+        end,
+        detach = function(inst, target, ...)
+            CancelTask(inst, "_erosion_task")
+        end,
+        duration = 10,
+        nospeech = true,
+    },
+    freeze = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            if target.Physics ~= nil then
+                inst.physactive = target.Physics:IsActive()
+                target.Physics:SetActive(false)
+            end
+            if target.AnimState ~= nil then
+                target.AnimState:Pause()
+            end
+            if target.sg ~= nil then
+                target.sg:Stop()
+            end
+            if target.components.inventoryitem ~= nil then
+                inst.canbepickedup, target.components.inventoryitem.canbepickedup =
+                    target.components.inventoryitem.canbepickedup,
+                    true
+            end
+            target:StopBrain("freezed")
+            SpawnAt("fx_book_sleep", target)
+            if data ~= nil then
+                if data.doer ~= nil then
+                end
+            end
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
+            if target:IsInLimbo() then return end
+            if target.Physics ~= nil then
+                target.Physics:SetActive(true)
+            end
+            if target.AnimState ~= nil then
+                target.AnimState:Resume()
+            end
+            if target.sg ~= nil then
+                target.sg:Start()
+            end
+            if target.components.inventoryitem ~= nil then
+                target.components.inventoryitem.canbepickedup = inst.canbepickedup
+            end
+            target:RestartBrain("freezed")
+        end,
+        duration = 10,
+        nospeech = true,
+    },
+    curse = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            inst._doer = data and data.doer
+            inst._attach_task = target and target.components.combat ~= nil and
+                inst:DoPeriodicTask(1, docurse, nil, target, data) or nil
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
+            CancelTask(inst, "_attach_task")
+            if not (data and data.persist or inst.persists ~= false) then
+                target.components.combat:RemoveBonusModifier("buff_curse", inst)
+                if inst._doer ~= nil and inst._doer.components.combat ~= nil then
+                    inst._doer.components.combat:RemoveBonusModifier("buff_curse_doer", inst)
+                end
+            end
+        end,
+        nospeech = true,
+        onsave = function(inst, data)
+            data.curse_count = inst._curse_count
+        end,
+        onload = function(inst, data)
+            inst._curse_count = data.curse_count
+        end,
+    },
+    health_penalty_reduction = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            inst._regentick = data and data.regentick or inst._regentick or 0
+            inst._regenval = data and data.regenval or inst._regenval or 0
+            inst._regentask = inst:DoPeriodicTask(1, dodecreasepenalty, nil, target)
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
+            CancelTask(inst, "_regentask")
+        end,
+        onsave = function(inst, data)
+            data.regentick = inst._regentick or nil
+            data.regenval = inst._regenval or nil
+        end,
+        onload = function(inst, data)
+            inst._regentick = data.regentick or 0
+            inst._regenval = data.regenval or 0
+        end,
+    },
+    stronggravity = {
+        attach = function(inst, target, followsymbol, followoffset, data)
 
-    end,
-    detach = function(inst, target, followsymbol, followoffset, data)
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
 
-    end,
-    duration = 10,
-    nospeech = true,
+        end,
+        duration = 10,
+        nospeech = true,
+    },
 }
 
 local function OnTimerDone(inst, data)

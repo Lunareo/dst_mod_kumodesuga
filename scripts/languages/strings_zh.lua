@@ -16,6 +16,8 @@ return {
         KUMO_OVERSATURATE = "吃撑了",
         BUFF_EROSION = "腐蚀",
         BUFF_FREEZE = "冻结",
+        BUFF_CURSE = "诅咒",
+        BUFF_CURSE_REGEN = "再生",
         EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>",
@@ -79,6 +81,13 @@ return {
                 KURIKUTA_DRIED = "比起有毒魔物的肉, 这个已经非常不错了。",
                 SILK_ROBE = "由千锤百炼的织丝技能制作而成, 比一般的布料耐用得多。",
             },
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "魔导大师也需要一些冷却时间。",
+                },
+            },
+            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复...",
+            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "我感觉好多了.",
         },
         WAKABA = {
             DESCRIBE = {
@@ -87,6 +96,11 @@ return {
                 HELHEIM_BEYONDER = nil,
                 SPIDERSCYTHE = "希望她喜欢这个礼物。",
                 CHIPS = "不必担心发胖，这个身躯是完美的。",
+            },
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "稍作限制能让游戏变得更有趣。",
+                },
             },
         },
         GENERIC = {

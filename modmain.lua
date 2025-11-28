@@ -1,4 +1,6 @@
+---Tier 1
 modimport "main/envutil"
+---Tier 2
 modimport "main/assets"
 modimport "main/prefabfiles"
 modimport "main/derives"
@@ -6,11 +8,13 @@ modimport "main/language"
 modimport "main/skins"
 modimport "main/tuning"
 modimport "main/constants"
+modimport "main/skill2cmp"
+---Tier 3
 modimport "main/preparedfoods"
 modimport "main/recipes"
 modimport "main/postinit"
+modimport "main/fx"
 modimport "main/actions"
-modimport "main/skill2cmp"
 modimport "main/componentactions"
 modimport "main/characters"
 modimport "main/networkrpc"
