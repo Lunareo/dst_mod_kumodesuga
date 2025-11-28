@@ -8,6 +8,7 @@ AssetATLAS = function(atlas, ...)
     atlas = softresolvefilepath(atlas)
     for _, imagename in ipairs{...} do
         RegisterInventoryItemAtlas(atlas, imagename .. ".tex")
+        RegisterInventoryItemAtlas(atlas, hash(imagename .. ".tex"))
     end
 end
 

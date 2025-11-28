@@ -9,14 +9,6 @@ local function isNightVisionActivated()
     return ThePlayer and ThePlayer.components.nightvision and ThePlayer.components.nightvision.update:value()
 end
 
-local function decreasepenalty(params)
-    local inst, penalty = params.inst, params.penalty
-    if not (inst and inst:IsValid() and penalty) then return end
-    for t = 0, 30 do
-        Sleep(1)
-        inst.components.health:DeltaPenalty(-penalty / 30)
-    end
-end
 local SPELL_FNS = {
     freeze = function(target, doer)
         target:AddDebuff("freeze", "buff_freeze", { doer = doer })
@@ -33,8 +25,11 @@ local SPELL_FNS = {
         local penalty = doer.components.health.penalty or 0
         doer.components.health:DeltaPenalty(doer.components.health:GetMaxWithPenalty() * .9)
         penalty = doer.components.health.penalty - penalty
-        doer._recover_from_destruction = StartThread(decreasepenalty, doer.GUID, { inst = doer, penalty = penalty })
-    end
+        doer:AddDebuff("health_penalty_reduction", "buff_health_penalty_reduction", { regentick = 30, regenval = penalty / 30 })
+    end,
+    curse = function(target, doer)
+        target:AddDebuff("curse", "buff_curse", { doer = doer })
+    end,
 }
 
 return {
@@ -42,11 +37,6 @@ return {
         label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
             inst.components.spellbook.closeonexecute = false
-            --if TheWorld.ismastersim then -- useless, maybe
-            --    if inst.components.spellbookcooldowns ~= nil then
-            --        inst.components.spellbookcooldowns:RestartSpellCooldown("togglenightvision", 5)
-            --    end
-            --end
         end,
         execute = function(inst)
             SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
@@ -61,18 +51,14 @@ return {
         },
         widget_scale = ICON_SCALE,
         postinit = AutoToggleWidget(isNightVisionActivated),
-        checkcooldown = function(user)
-            --client safe
-            return user
-                and user.components.spellbookcooldowns
-                and user.components.spellbookcooldowns:GetSpellCooldownPercent("togglenightvision")
-                or nil
-        end,
-        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
     },
     AbsorbSingleTargetSkill {
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
+    },
+    AbsorbSingleTargetSkill {
+        name = "curse",
+        spellfn = SPELL_FNS.curse,
     },
     --{
     --    label = STRINGS.SPELLS.GRAVITY,

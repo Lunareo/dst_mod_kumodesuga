@@ -16,6 +16,8 @@ return {
         KUMO_OVERSATURATE = "Stuffed",
         BUFF_EROSION = "Erosion",
         BUFF_FREEZE = "Freeze",
+        BUFF_CURSE = "Curse",
+        BUFF_CURSE_REGEN = "Regen",
         EROSIONDAMAGE = "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
         ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
@@ -84,6 +86,8 @@ return {
                     SPELL_ON_COOLDOWN = "Waiting for skill's cooldown is necessary.",
                 },
             },
+            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "That caused a huge damage to my eyes, I need some time to recover...",
+            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "I feel better now.",
         },
         WAKABA = {
             DESCRIBE = {
