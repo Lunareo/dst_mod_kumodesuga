@@ -74,12 +74,12 @@ return {
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
     },
-    {
-        label = STRINGS.SPELLS.GRAVITY,
-        onselect = function(inst)
-            inst.components.spellbook.closeonexecute = false
-        end,
-    },
+    --{
+    --    label = STRINGS.SPELLS.GRAVITY,
+    --    onselect = function(inst)
+    --        inst.components.spellbook.closeonexecute = false
+    --    end,
+    --},
     AbsorbSingleTargetSkill {
         name = "destruction",
         spellfn = SPELL_FNS.destruction,

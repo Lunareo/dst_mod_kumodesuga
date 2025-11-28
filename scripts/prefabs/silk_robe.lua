@@ -54,6 +54,9 @@ local function fn()
     inst.AnimState:SetBuild("silk_robe")
     inst.AnimState:PlayAnimation("idle")
 
+    MakeInventoryPhysics(inst)
+    MakeInventoryFloatable(inst, "small", 0.1, 0.8)
+
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then

@@ -54,12 +54,15 @@ hookimport = function(module, ...)
     end
 end
 
----@param cmp string
----@param fn fun(inst:ent):any
-AddPlayerPostInitByComponent = function(cmp, fn)
-    AddComponentPostInit(cmp, function(self)
-        fn(self.inst)
-    end)
+---@param common fun(inst:ent)|nil
+---@param master fun(inst:ent)|nil
+AddPlayerPostInit_Soft = function(common, master)
+    if common ~= nil then
+        AddComponentPostInit("avengingghost", function(self) common(self.inst) end)
+    end
+    if master ~= nil then
+        AddComponentPostInit("experiencecollector", function(self) master(self.inst) end)
+    end
 end
 
 
@@ -146,8 +149,8 @@ getsetter = function(t, k)
 end
 GLOBAL.getsetter = getsetter
 
-local tracestack = function()
-    print("\n[Trace stack]")
+tracestack = function()
+    local str = "[Trace stack]"
     local level = 2
 
     while true do
@@ -163,10 +166,13 @@ local tracestack = function()
         local line = info.currentline or 0
         local func_type = info.what
 
-        print(string.format("[#%d] %20s:%3d in function '%s' (%s)", level - 1, source, line, func_name, func_type))
+        str = str ..
+            "\n        " ..
+            string.format("[#%d] %20s:%3d in function '%s' (%s)", level - 1, source, line, func_name, func_type)
 
         level = level + 1
     end
+    print(str)
 end
 GLOBAL.tracestack = tracestack
 
@@ -204,6 +210,17 @@ FindClosestEntityInPoint = function(pos, radius, ignoreheight, musttags, canttag
 end
 GLOBAL.FindClosestEntityInPoint = FindClosestEntityInPoint
 
+Round2Quarter = function(n)
+    local int_part = math.floor(n)
+    local frac_part = n - int_part
+    local rounded_frac = math.floor(frac_part * 4 + 0.5) / 4
+    if rounded_frac >= 1 then
+        return int_part + 1
+    else
+        return int_part + rounded_frac
+    end
+end
+GLOBAL.Round2Quarter = Round2Quarter
 ---------------------------------------------
 ---              DEPRECATED               ---
 ---------------------------------------------
