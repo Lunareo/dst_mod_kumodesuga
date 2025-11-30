@@ -76,12 +76,17 @@ function Rusher:OnUpdate(dt) -- won't check whether components are exist or not,
     if self.isrunning then
         self.runtime = self.runtime + dt
         self.speedmult = math.min(self.maxspeedmult,
-            self.speedmult + FunctionOrValue(self.accelerate, self.runtime, self.speedmult, self.maxspeedmult) * self.externalaccelerate:Get() * dt)
+            self.speedmult +
+            FunctionOrValue(self.accelerate, self.runtime, self.speedmult, self.maxspeedmult) *
+            self.externalaccelerate:Get() * dt)
         local spdsq = math.sqrt(math.max(1, self.speedmult))
         self.inst.AnimState:SetDeltaTimeMultiplier(spdsq)
         self.inst.components.locomotor:SetExternalSpeedMultiplier(self, self.name, self.speedmult)
         self.inst.components.hunger.burnratemodifiers:SetModifier(self, self.speedmult * spdsq, self.name)
         self.inst:AddTag("wonkey_run")
+        ---@class inst:ent
+        local fx = SpawnPrefab("echo_shadow_fx")
+        fx:AttachFXOwner(self.inst)
     else
         self.runtime = 0
         self.speedmult = 1

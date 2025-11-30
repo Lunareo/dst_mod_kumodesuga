@@ -3,9 +3,10 @@ PrefabFiles = {
     "erosion_fx",
     "helheim_beyonder",
     "reticule_kmds",
+    "silk_robe",
+    "spell_item",
     "spiderscythe",
     "storing_space",
-    "spell_item",
     "strong_gravity_creep",
-    "silk_robe",
+    "unique_fx",
 }

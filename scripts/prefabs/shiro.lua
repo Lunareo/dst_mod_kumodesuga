@@ -6,6 +6,7 @@ local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
     Asset("ANIM", "anim/" .. avatar_name .. ".zip"),
     Asset("ANIM", "anim/ghost_" .. avatar_name .. "_build.zip"),
+    Asset("SCRIPT", "scripts/prefabs/skilltree_shiro.lua"),
 }
 
 local prefabs = {

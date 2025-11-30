@@ -50,6 +50,10 @@ return {
             DESTRUCTION = "Erosion Glare",
         },
     },
+    SKILLTREE = {
+        SHIRO = {
+        },
+    },
     CHARACTER_TITLES = {
         shiro = "Goddess' standin",
         wakaba = "Goddess' avatar",
