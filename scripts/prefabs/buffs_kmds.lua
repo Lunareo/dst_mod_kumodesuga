@@ -263,6 +263,8 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         inst.components.debuff:SetExtendedFn(OnExtended)
         inst.components.debuff.keepondespawn = true
 
+        inst:AddComponent("updatelooper")
+
         inst:AddComponent("timer")
         if type(duration) == "number" then
             inst.components.timer:StartTimer("buffover", duration)
