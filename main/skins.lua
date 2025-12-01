@@ -7,7 +7,8 @@ modimport "main/skinutil"
 ---@param config table|nil
 ---@param notfree boolean|nil
 local function AddCharacterSkin(basename, skinbuild, rarity, config, notfree)
-    table.insert(Assets, Asset("ANIM", "anim/" .. (skinbuild or basename) .. ".zip"))
+    table.insert(Assets, Asset("DYNAMIC_ANIM", "anim/dynamic/" .. (skinbuild or basename) .. ".zip"))
+    table.insert(Assets, Asset("PKGREF", "anim/dynamic/" .. (skinbuild or basename) .. ".dyn"))
     table.insert(Assets, Asset("ANIM", "anim/ghost_" .. basename .. "_build.zip"))
     rarity = rarity or "Character"
     config = config or {}
