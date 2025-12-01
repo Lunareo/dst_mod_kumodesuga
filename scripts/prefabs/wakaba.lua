@@ -4,9 +4,9 @@ local WakabaAgeBadge = require "widgets/wakabaagebadge"
 local avatar_name = "wakaba"
 
 local assets = {
+    Asset("DYNAMIC_ANIM", "anim/dynamic/wakaba.zip"),
+    Asset("PKGREF", "anim/dynamic/wakaba.dyn"),
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
-    Asset("ANIM", "anim/" .. avatar_name .. ".zip"),
-    Asset("ANIM", "anim/ghost_" .. avatar_name .. "_build.zip"),
 }
 
 local prefabs = {}

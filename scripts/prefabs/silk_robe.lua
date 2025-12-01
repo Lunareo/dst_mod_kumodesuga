@@ -15,8 +15,8 @@ params.silk_robe = {
 }
 
 local assets = {
-    Asset("ANIM", "anim/shiro.zip"),
-    Asset("ANIM", "anim/silk_robe.zip"),
+    Asset("DYNAMIC_ANIM", "anim/dynamic/silk_robe.zip"),
+    Asset("PKGREF", "anim/dynamic/silk_robe.dyn"),
 }
 
 local symbols = {
