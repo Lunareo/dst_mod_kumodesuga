@@ -1,16 +1,10 @@
 local assets = {
     Asset("ANIM", "anim/helheim_beyonder_fx.zip"),
+    Asset("ANIM", "anim/blast_wave.zip"),
 }
 
 local tag = "wakaba"
-
-local TUNE = {
-    BASE_DMG = TUNING.BASE_SURVIVOR_ATTACK * 1.5,
-    GENERAL_DMG_MIN = TUNING.BASE_SURVIVOR_ATTACK / 2,
-    GENERAL_DMG_MAX = TUNING.BASE_SURVIVOR_ATTACK,
-    USES = 200,
-    RANGE = 10,
-}
+local LAUNCH_OFFSET_Y = .75
 
 local function SetFXOwner(inst, owner)
     if inst._fxowner ~= nil and inst._fxowner.components.colouradder ~= nil then
@@ -30,39 +24,6 @@ local function SetFXOwner(inst, owner)
     end
 end
 
-local function DmgFn(inst, attacker, target)
-    local dmg = TUNE.BASE_DMG
-    if not attacker then
-        attacker = inst and inst.components.inventoryitem:GetGrandOwner()
-    end
-    local abyssredi = 0
-    if attacker and attacker.components.sanity then
-        local sanity = attacker.components.sanity
-        local modifier = math.max(0, -(sanity.current - sanity.max) / TUNING.WAKABA_SANITY)
-        dmg = TUNE.GENERAL_DMG_MAX * (1 - (math.min(1, modifier / 4)) ^ .5)
-        abyssredi = (TUNE.BASE_DMG - dmg) * (modifier + 1)
-        inst.components.abyssdamage.externalbonuses:SetModifier(inst, abyssredi, "dmgfromsan")
-    end
-    return (target or rawget(_G, "Insight")) and dmg or (dmg + abyssredi)
-end
-
-local function OnAttack(inst, attacker, target)
-    if not (attacker and attacker:IsValid()) then return end
-    target:AddDebuff("erosion", "buff_erosion", {
-        attacker = attacker, weapon = inst
-    })
-    if attacker.components.sanity then
-        local sanitydelta = math.max(10,
-            attacker.components.sanity:GetPercent() * attacker.components.sanity.current * .1)
-        inst._sanityaward_data.value = (inst._sanityaward_data.value or 0) + sanitydelta
-        inst.components.timer:StopTimer("sanityaward")
-        inst.components.timer:StartTimer("sanityaward", 5)
-        inst._sanityaward_data.attacker = attacker
-        attacker.components.sanity:DoDelta(-sanitydelta)
-    end
-    SpawnAt("helheim_beyonder_atk_fx", target)
-end
-
 local function Equip(inst, owner)
     owner.AnimState:ClearOverrideSymbol("swap_object")
     owner.AnimState:Show("arm_carry")
@@ -76,13 +37,16 @@ local function UnEquip(inst, owner)
     SetFXOwner(inst, nil)
 end
 
-local function OnTimeDone(inst, data)
-    if not data then return end
-    if data.name == "sanityaward" and inst._sanityaward_data and inst._sanityaward_data.attacker then
-        inst._sanityaward_data.attacker.components.sanity:DoDelta(inst._sanityaward_data.value, 5)
-        inst._sanityaward_data.attacker = nil
-        inst._sanityaward_data.value = 0
-    end
+local function OnProjectileLaunched(inst, attacker, target)
+    inst.components.finiteuses:Use(1)
+end
+
+local function OnProjHit(inst, attacker, target)
+    if not (attacker and attacker:IsValid() and target) then return end
+    target:AddDebuff("erosion", "buff_erosion", {
+        attacker = attacker, weapon = attacker.components.inventory and attacker.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    })
+    inst:Remove()
 end
 
 local function fn()
@@ -100,6 +64,7 @@ local function fn()
     MakeInventoryPhysics(inst)
 
     inst:AddTag("weapon")
+    inst:AddTag("rangedweapon")
     inst:AddTag("thrown")
     inst:AddTag("lighterweapon")
 
@@ -117,16 +82,17 @@ local function fn()
     SetFXOwner(inst, nil)
 
     local weapon = inst:AddComponent("weapon")
-    weapon:SetRange(TUNE.RANGE)
-    weapon:SetDamage(DmgFn)
-    weapon:SetOnAttack(OnAttack)
+    weapon:SetOnProjectileLaunched(OnProjectileLaunched)
+    weapon:SetProjectile("helheim_beyonder_proj")
+    weapon:SetRange(TUNING.BEYONDER_RANGE)
+    weapon:SetDamage(TUNING.BEYONDER_BASE_DMG)
 
-    local abyssdamage = inst:AddComponent("abyssdamage")
-    abyssdamage:SetBaseDamage(0)
+    inst:AddComponent("abyssdamage")
+    inst.components.abyssdamage:SetBaseDamage(TUNING.BEYONDER_EROSION_DMG)
 
     local finiteuses = inst:AddComponent("finiteuses")
-    finiteuses:SetMaxUses(TUNE.USES)
-    finiteuses:SetUses(TUNE.USES)
+    finiteuses:SetMaxUses(TUNING.BEYONDER_USES)
+    finiteuses:SetUses(TUNING.BEYONDER_USES)
     finiteuses:SetOnFinished(inst.Remove)
 
     inst:AddComponent("inspectable")
@@ -137,10 +103,6 @@ local function fn()
     equippable.restrictedtag = tag
     equippable:SetOnEquip(Equip)
     equippable:SetOnUnequip(UnEquip)
-
-    inst:AddComponent("timer")
-    inst._sanityaward_data = { attacker = nil, value = 0 }
-    inst:ListenForEvent("timerdone", OnTimeDone)
 
     MakeHauntableLaunch(inst)
 
@@ -176,21 +138,24 @@ local function followfx()
     return inst
 end
 
-local function atkfx()
+local function proj()
     local inst = CreateEntity()
-
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
-    inst:AddTag("FX")
+    MakeProjectilePhysics(inst)
 
-    inst.AnimState:SetBank("helheim_beyonder_fx")
-    inst.AnimState:SetBuild("helheim_beyonder_fx")
-    inst.AnimState:PlayAnimation("pre")
-    inst.AnimState:PushAnimation("pst")
+    inst.AnimState:SetBank("blast_wave")
+    inst.AnimState:SetBuild("blast_wave")
+    inst.AnimState:PlayAnimation("idle", true)
+    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
 
-    inst:AddComponent("highlightchild")
+    inst:AddTag("weapon")
+    inst:AddTag("projectile")
+    inst:AddTag("NOCLICK")
+    inst:AddTag("NOBLOCK")
 
     inst.entity:SetPristine()
 
@@ -198,11 +163,23 @@ local function atkfx()
         return inst
     end
 
-    inst:AddComponent("colouradder")
-
-    inst:ListenForEvent("animqueueover", inst.Remove)
-
     inst.persists = false
+
+    inst:AddComponent("weapon")
+    inst.components.weapon:SetDamage(TUNING.BEYONDER_BASE_DMG)
+
+    inst:AddComponent("abyssdamage")
+    inst.components.abyssdamage:SetBaseDamage(TUNING.BEYONDER_EROSION_DMG)
+
+    inst:AddComponent("projectile")
+    inst.components.projectile:SetSpeed(50)
+    inst.components.projectile:SetHoming(false)
+    inst.components.projectile:SetOnHitFn(OnProjHit)
+    inst.components.projectile:SetHitDist(1.5)
+    inst.components.projectile:SetLaunchOffset(Vector3(2.5, LAUNCH_OFFSET_Y, 2.5))
+    inst.components.projectile:SetOnMissFn(inst.Remove)
+    inst.components.projectile.range = 30
+    inst.components.projectile.has_damage_set = true
 
     return inst
 end
@@ -216,7 +193,7 @@ local function thegrasp(inst)
     inst.components.inventoryitem:ChangeImageName("helheim_beyonder")
 end
 
-return Prefab("helheim_beyonder", fn, assets),
-    Prefab("helheim_beyonder_equip_fx", followfx, assets),
-    Prefab("helheim_beyonder_atk_fx", atkfx, assets),
-    Derive("helheim_beyonder", "thegrasp", thegrasp, assets)
+return Prefab("helheim_beyonder",             fn,       assets),
+       Prefab("helheim_beyonder_equip_fx",    followfx, assets),
+       Prefab("helheim_beyonder_proj",        proj,     assets),
+       Derive("helheim_beyonder", "thegrasp", thegrasp, assets)
