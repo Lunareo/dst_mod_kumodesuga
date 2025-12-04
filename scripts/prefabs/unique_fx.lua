@@ -19,6 +19,8 @@ local function ghost()
     inst.AnimState:SetMultColour(0, 0, 0, 0)
 
     inst:AddTag("FX")
+	inst:AddTag("NOCLICK")
+	inst:AddTag("notarget")
 
     inst.entity:SetPristine()
 
