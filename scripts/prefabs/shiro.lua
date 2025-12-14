@@ -20,7 +20,12 @@ end
 
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
+local function hide_backpack(inst)
+    inst.AnimState:SetSymbolExchange("hair", "swap_body")
+end
+
 local common_postinit = function(inst)
+    inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")

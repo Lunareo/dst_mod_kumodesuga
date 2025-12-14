@@ -1,4 +1,4 @@
-return {
+STRINGS = {
     NAMES = {
         SHIRO = "白织",
         WAKABA = "若叶姬色",
@@ -143,3 +143,6 @@ return {
         shiro_classic = "我的那些能力都去哪了?",
     },
 }
+local strs = env.STRINGS
+rawset(env, "STRINGS", nil)
+return strs

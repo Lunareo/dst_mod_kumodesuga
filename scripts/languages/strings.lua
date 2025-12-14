@@ -1,4 +1,4 @@
-return {
+STRINGS = {
     NAMES = {
         SHIRO = "Shiraori",
         WAKABA = "Wakaba",
@@ -36,7 +36,7 @@ return {
             SPIDERSCYTHE = "Sweep",
         },
         USESPELLBOOK = {
-            CASTSPELL = STRINGS.ACTIONS.CASTSPELL.GENERIC,
+            CASTSPELL = GLOBAL.STRINGS.ACTIONS.CASTSPELL.GENERIC,
         },
     },
     SPELLS = {
@@ -72,8 +72,8 @@ return {
         wakaba = "...",
     },
     CHARACTER_SURVIVABILITY = {
-        shiro = STRINGS.CHARACTER_SURVIVABILITY.wilson,
-        wakaba = STRINGS.CHARACTER_SURVIVABILITY.wanda,
+        shiro = GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.wilson,
+        wakaba = GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.wanda,
     },
     CHARACTERS = {
         SHIRO = {
@@ -147,3 +147,6 @@ return {
         shiro_classic = "I need more power.",
     },
 }
+local strs = env.STRINGS
+rawset(env, "STRINGS", nil)
+return strs
