@@ -1,4 +1,5 @@
 PrefabFiles = {
+    "aramasa",
     "buffs_kmds",
     "erosion_fx",
     "helheim_beyonder",

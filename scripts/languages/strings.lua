@@ -1,35 +1,4 @@
 STRINGS = {
-    NAMES = {
-        SHIRO = "Shiraori",
-        WAKABA = "Wakaba",
-        HELHEIM_BEYONDER = "Helheim Beyonder",
-        KURIKUTA_DRIED = "Dried Kurikuta Fruit",
-        SPIDERSCYTHE = "Arachne",
-        SPIDERSCYTHE_SHIRO = "Spider Scythe",
-        STORING_SPACE = "Storing Space",
-        STORING_SPACE_DTOR = "Remove Storing Space",
-        CHIPS = "Chips",
-        EROSION = "Erosion",
-        ARACHNECURSE = "Curse of Arachne",
-        DECREASE_HUNGER = "Hunger",
-        KUMO_SATURATE = "Satiete",
-        KUMO_OVERSATURATE = "Stuffed",
-        BUFF_EROSION = "Erosion",
-        BUFF_FREEZE = "Freeze",
-        BUFF_CURSE = "Curse",
-        BUFF_CURSE_REGEN = "Regen",
-        EROSIONDAMAGE = "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>",
-        EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
-        ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
-        ABYSSDEFENSE = "<color=#221356>Abyss Defense</color>: <color=#221356>%2.1d</color>",
-        SILK_ROBE = "Silk Rope",
-    },
-    RECIPE_DESC = {
-        HELHEIM_BEYONDER = "",
-        SPIDERSCYTHE = "An ominous weapon made from the leg of an ominous spider-monster.",
-        STORING_SPACE = "Applycation of space magic.",
-        SILK_SHIRO = "The signature skill of spider-type monsters.",
-    },
     ACTIONS = {
         PARRY = "Parry",
         CASTAOE = {
@@ -39,33 +8,56 @@ STRINGS = {
             CASTSPELL = GLOBAL.STRINGS.ACTIONS.CASTSPELL.GENERIC,
         },
     },
-    SPELLS = {
-        TOGGLENIGHTVISION = "Spider Vision",
-        EVIL_EYES = {
-            FREEZE = "Freeze Stare",
-            CURSE = "Curse Stare",
-            EROSION = "Erosion Glance",
-            TWIST = "Twist Glance",
-            GRAVITY = "Gravitation Glance",
-            DESTRUCTION = "Erosion Glare",
+    CHARACTERS = {
+        GENERIC = {
+            DESCRIBE = {
+                CHIPS = "Crispy snack.",
+                KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
+                SHIRO = "Quiet beauty.",
+                SILK_ROBE = "",
+                WAKABA = "Quiet beauty.",
+            },
         },
-    },
-    SKILLTREE = {
         SHIRO = {
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "Waiting for skill's cooldown is necessary.",
+                },
+            },
+            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "That caused a huge damage to my eyes, I need some time to recover...",
+            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "I feel better now.",
+            DESCRIBE = {
+                CHIPS = "I need more.",
+                KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
+                SHIRO = "%s, are you my standin?",
+                SILK_ROBE = "",
+                SPIDERSCYTHE = "...It gives a sense of closeness and reassurance.",
+                WAKABA = "",
+            },
         },
-    },
-    CHARACTER_TITLES = {
-        shiro = "Goddess' standin",
-        wakaba = "Goddess' avatar",
-    },
-    CHARACTER_NAMES = {
-        shiro = "White Weaver",
-        wakaba = "Hiiro Wakaba",
+        WAKABA = {
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_ON_COOLDOWN = "Adding limit to my power makes game more interesting.",
+                },
+            },
+            DESCRIBE = {
+                CHIPS = "Don't worry about getting fat, this is a perfect body.",
+                HELHEIM_BEYONDER = "...",
+                SHIRO = "",
+                SPIDERSCYTHE = "Hope she likes this gift.",
+                WAKABA = "Despicable imitator.",
+            },
+        },
     },
     CHARACTER_DESCRIPTIONS = {
         shiro = "*A girl with a mysterious identity\n*Bad at expressing\n*Cannot hold the liquor",
         wakaba =
         "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\"",
+    },
+    CHARACTER_NAMES = {
+        shiro = "White Weaver",
+        wakaba = "Hiiro Wakaba",
     },
     CHARACTER_QUOTES = {
         shiro = "...",
@@ -75,76 +67,84 @@ STRINGS = {
         shiro = GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.wilson,
         wakaba = GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.wanda,
     },
-    CHARACTERS = {
-        SHIRO = {
-            DESCRIBE = {
-                SHIRO = "%s, are you my standin?",
-                WAKABA = "",
-                SPIDERSCYTHE = "...It gives a sense of closeness and reassurance.",
-                CHIPS = "I need more.",
-                KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
-                SILK_ROBE = "",
-            },
-            ACTIONFAIL = {
-                CASTAOE = {
-                    SPELL_ON_COOLDOWN = "Waiting for skill's cooldown is necessary.",
-                },
-            },
-            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "That caused a huge damage to my eyes, I need some time to recover...",
-            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "I feel better now.",
-        },
-        WAKABA = {
-            DESCRIBE = {
-                SHIRO = "",
-                WAKABA = "Despicable imitator.",
-                HELHEIM_BEYONDER = "...",
-                SPIDERSCYTHE = "Hope she likes this gift.",
-                CHIPS = "Don't worry about getting fat, this is a perfect body.",
-            },
-            ACTIONFAIL = {
-                CASTAOE = {
-                    SPELL_ON_COOLDOWN = "Adding limit to my power makes game more interesting.",
-                },
-            },
-        },
-        GENERIC = {
-            DESCRIBE = {
-                SHIRO = "Quiet beauty.",
-                WAKABA = "Quiet beauty.",
-                CHIPS = "Crispy snack.",
-                KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
-                SILK_ROBE = "",
-            },
+    CHARACTER_TITLES = {
+        shiro = "Goddess' standin",
+        wakaba = "Goddess' avatar",
+    },
+    NAMES = {
+        ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
+        ABYSSDEFENSE = "<color=#221356>Abyss Defense</color>: <color=#221356>%2.1d</color>",
+        ARACHNECURSE = "Curse of Arachne",
+        ARAMASA = "Aramasa",
+        BUFF_CURSE = "Curse",
+        BUFF_CURSE_REGEN = "Regen",
+        BUFF_EROSION = "Erosion",
+        BUFF_FREEZE = "Freeze",
+        CHIPS = "Chips",
+        DECREASE_HUNGER = "Hunger",
+        EROSION = "Erosion",
+        EROSIONDAMAGE = "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>",
+        EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
+        HELHEIM_BEYONDER = "Helheim Beyonder",
+        KUMO_OVERSATURATE = "Stuffed",
+        KUMO_SATURATE = "Satiete",
+        KURIKUTA_DRIED = "Dried Kurikuta Fruit",
+        SHIRO = "Shiraori",
+        SILK_ROBE = "Silk Rope",
+        SPIDERSCYTHE = "Arachne",
+        SPIDERSCYTHE_SHIRO = "Spider Scythe",
+        STORING_SPACE = "Storing Space",
+        STORING_SPACE_DTOR = "Remove Storing Space",
+        WAKABA = "Wakaba",
+    },
+    RECIPE_DESC = {
+        HELHEIM_BEYONDER = "",
+        SILK_SHIRO = "The signature skill of spider-type monsters.",
+        SPIDERSCYTHE = "An ominous weapon made from the leg of an ominous spider-monster.",
+        STORING_SPACE = "Applycation of space magic.",
+    },
+    SKILLTREE = {
+        SHIRO = {},
+    },
+    SKIN_DES = {
+        shiro = "She might looks would be blown down by wind.\nYet she's the storm that blows everything down.",
+        shiro_classic = "Initial version from mod \"Kumoko\"",
+        shiro_jk = "\"She must be wakaba.\"",
+        wakaba = "God made puppet.",
+    },
+    SKIN_NAMES = {
+        shiro = "Death White",
+        shiro_classic = "Kumoko",
+        shiro_jk = "School Days",
+        wakaba = "Goddess' role playing",
+    },
+    SKIN_QUOTES = {
+        shiro = "\"...\"",
+        shiro_classic = "I need more power.",
+        shiro_jk = "I was in my memories, but it's fake.",
+        wakaba = "\"...\"",
+    },
+    SPELLS = {
+        TOGGLENIGHTVISION = "Spider Vision",
+        EVIL_EYES = {
+            CURSE = "Curse Stare",
+            DESTRUCTION = "Erosion Glare",
+            EROSION = "Erosion Glance",
+            FREEZE = "Freeze Stare",
+            GRAVITY = "Gravitation Glance",
+            TWIST = "Twist Glance",
         },
     },
     UI = {
         HUD = {
             DEATH_ANNOUNCEMENT_WAKABA = {
-                "The role-playing game of %s is over! Her body was destroyed.",
-                "The role-playing game of %s is over! Her body returned to the netherworld.",
+                [1] = "The role-playing game of %s is over! Her body returned to the netherworld.",
+                [2] = "The role-playing game of %s is over! Her body was destroyed.",
             },
             REZ_ANNOUNCEMENT_WAKABA = {
-                "By the hand of %s, %s was able to descend upon the Constant once again."
+                [1] = "By the hand of %s, %s was able to descend upon the Constant once again."
             },
         },
-    },
-    SKIN_NAMES = {
-        shiro = "Death White",
-        wakaba = "Goddess' role playing",
-        shiro_jk = "School Days",
-        shiro_classic = "Kumoko",
-    },
-    SKIN_DES = {
-        shiro = "She might looks would be blown down by wind.\nYet she's the storm that blows everything down.",
-        wakaba = "God made puppet.",
-        shiro_jk = "\"She must be wakaba.\"",
-        shiro_classic = "Initial version from mod \"Kumoko\"",
-    },
-    SKIN_QUOTES = {
-        shiro = "\"...\"",
-        wakaba = "\"...\"",
-        shiro_jk = "I was in my memories, but it's fake.",
-        shiro_classic = "I need more power.",
     },
 }
 local strs = env.STRINGS
