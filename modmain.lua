@@ -20,3 +20,4 @@ modimport "main/characters"
 modimport "main/networkrpc"
 ---Tier 4
 modimport "main/debugcommands"
+modimport "main/scrapbook_kmds"
