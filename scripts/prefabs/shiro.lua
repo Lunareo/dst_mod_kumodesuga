@@ -20,6 +20,16 @@ end
 
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
+--[[
+local skilldefs = require "prefabs/skilltree_defs"
+local BuildSkillsData = require "prefabs/skilltree_shiro"
+local skill_data = BuildSkillsData(skilldefs.FN)
+skilldefs.CreateSkillTreeFor(avatar_name, skill_data.SKILLS)
+skilldefs.SKILLTREE_ORDERS[avatar_name] = skill_data.ORDERS
+skilldefs.SKILLTREE_METAINFO[avatar_name].BACKGROUND_SETTINGS = skill_data.BACKGROUND_SETTINGS
+skilldefs.CUSTOM_FUNCTIONS[avatar_name] = skill_data.CUSTOM_FUNCTIONS
+]]
+
 local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
