@@ -1,4 +1,4 @@
----@class replica
+---@class replica_components
 ---@field accela replica_accela
 
 local Base = require "components/scorebase_replica"

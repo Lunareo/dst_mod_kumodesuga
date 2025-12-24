@@ -1,4 +1,4 @@
----@class replica
+---@class replica_components
 ---@field stamina replica_stamina
 
 local Base = require "components/scorebase_replica"
