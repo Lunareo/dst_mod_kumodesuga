@@ -8,3 +8,6 @@ local function RegisterSkillComponent(cmp)
 end
 RegisterSkillComponent "nightvision"
 RegisterSkillComponent "rusher"
+RegisterSkillComponent "rusher_replica"
+
+AddReplicableComponent "rusher"

@@ -1,4 +1,4 @@
----@class replica
+---@class replica_components
 ---@field magicpoint replica_magicpoint
 
 local Base = require "components/scorebase_replica"
