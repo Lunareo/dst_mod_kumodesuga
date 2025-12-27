@@ -1,15 +1,18 @@
 Assets = {}
 
 ---@param atlas string
----@param ... string # image
-AssetATLAS = function(atlas, ...)
+LoadAtlas = function(atlas)
     table.insert(Assets, Asset("ATLAS", atlas))
     table.insert(Assets, Asset("ATLAS_BUILD", atlas, 256))
     atlas = softresolvefilepath(atlas)
-    for _, imagename in ipairs{...} do
-        RegisterInventoryItemAtlas(atlas, imagename .. ".tex")
-        RegisterInventoryItemAtlas(atlas, hash(imagename .. ".tex"))
+    local file = io.open(atlas, "r")
+    if file == nil then return end
+    local str = file:read("*a"):gsub("%s+", "")
+    file:close()
+    for tex in string.gmatch(str, [[Elementname="(.-)"]]) do
+        RegisterInventoryItemAtlas(atlas, tex)
+        RegisterInventoryItemAtlas(atlas, hash(tex))
     end
 end
 
-AssetATLAS("images/inventoryimage_kmds.xml", "chips", "helheim_beyonder", "helheim_beyonder_hide", "kurikuta_dried", "silk_robe", "spiderscythe")
+LoadAtlas("images/inventoryimage_kmds.xml")

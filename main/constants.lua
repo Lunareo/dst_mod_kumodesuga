@@ -4,6 +4,11 @@ setfenv(1, _tenv)
 EQUIPSLOTS = {
     SPELL = "spell",
 }
+
+CHARACTER_INGREDIENT = {
+    HUNGER = "decrease_hunger",
+    MAX_SANITY_VAL = "max_sanity_val",
+}
 ------------
 _env.merge(_GLOBAL, _tenv)
 _GLOBAL.setfenv(1, _env)

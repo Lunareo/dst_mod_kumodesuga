@@ -221,6 +221,39 @@ Round2Quarter = function(n)
     end
 end
 GLOBAL.Round2Quarter = Round2Quarter
+
+pairs_v = function(t)
+    local function iter(tbl, key)
+        local k, v = next(tbl, key)
+        if k == nil then return nil end
+        if type(v) == "table" and v.entity and not GLOBAL.Entity.IsValid(v.entity) then
+            tbl[k] = nil
+            return iter(tbl, k)
+        end
+        return k, v
+    end
+    return iter, t, nil
+end
+GLOBAL.pairs_v = pairs_v
+
+ipairs_v = function(t)
+    local wptr = 1
+    local n = #t
+    for rptr = 1, n do
+        local v = t[rptr]
+        if type(v) == "table" and v.entity and not GLOBAL.Entity.IsValid(v.entity) then
+            if wptr ~= rptr then
+                t[wptr] = v
+            end
+            wptr = wptr + 1
+        end
+    end
+    for i = wptr, n do
+        t[i] = nil
+    end
+    return ipairs(t)
+end
+GLOBAL.ipairs_v = ipairs_v
 ---------------------------------------------
 ---              DEPRECATED               ---
 ---------------------------------------------
