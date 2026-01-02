@@ -1,11 +1,27 @@
+local containers = require "containers"
+containers.params.storing_space = {
+    widget = {
+        animbank = "ui_chest_3x1",
+        animbuild = "ui_chest_3x1",
+        slotpos = {
+            Vector3(-(64 + 12), 0, 0),
+            Vector3(0, 0, 0),
+            Vector3(64 + 12, 0, 0),
+        },
+        slotbg = {},
+        pos = Vector3(-82, 89, 0),
+    },
+    type = "side_inv_behind",
+}
+
 local function OnDropped(inst)
     inst.components.container:DropEverything()
     inst:Remove()
 end
 
 local function ModiSpaceState(player, isconstruct)
-    player:AddOrRemoveTag("canbuildspcontainer", not isconstruct)
-    player:AddOrRemoveTag("canremovespcontainer", isconstruct)
+    player:AddOrRemoveTag("__storing_space", not isconstruct)
+    player:AddOrRemoveTag("_storing_space", isconstruct)
     -- local cur = inst.components.sanity:GetPercentWithPenalty()
     if isconstruct then
         player.components.sanity:AddSanityPenaltyVal("spcont", 100)

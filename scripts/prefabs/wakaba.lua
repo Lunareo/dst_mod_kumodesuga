@@ -55,7 +55,7 @@ local common_postinit = function(inst)
     inst:AddTag(avatar_name)
     inst:AddTag("D_spirit")
     inst:AddTag("reader")
-    inst:AddTag("canbuildspcontainer")
+    inst:AddTag("__storing_space")
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
 

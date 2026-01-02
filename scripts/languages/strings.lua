@@ -85,6 +85,7 @@ STRINGS = {
         EROSION = "Erosion",
         EROSIONDAMAGE = "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>",
+        HALF_SANITY_VAL = GLOBAL.STRINGS.NAMES.HALF_SANITY,
         HELHEIM_BEYONDER = "Helheim Beyonder",
         KUMO_OVERSATURATE = "Stuffed",
         KUMO_SATURATE = "Satiete",

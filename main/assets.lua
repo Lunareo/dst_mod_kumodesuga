@@ -16,3 +16,4 @@ LoadAtlas = function(atlas)
 end
 
 LoadAtlas("images/inventoryimage_kmds.xml")
+LoadAtlas("images/charactor_ingredients.xml")

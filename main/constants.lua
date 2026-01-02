@@ -7,7 +7,7 @@ EQUIPSLOTS = {
 
 CHARACTER_INGREDIENT = {
     HUNGER = "decrease_hunger",
-    MAX_SANITY_VAL = "max_sanity_val",
+    MAX_SANITY_VAL = "half_sanity_val",
 }
 ------------
 _env.merge(_GLOBAL, _tenv)
