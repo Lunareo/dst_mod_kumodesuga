@@ -85,6 +85,7 @@ STRINGS = {
         EROSION = "腐蚀",
         EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
+        HALF_SANITY_VAL = nil,
         HELHEIM_BEYONDER = "超越冥界",
         KUMO_OVERSATURATE = "吃撑了",
         KUMO_SATURATE = "饱足",
