@@ -176,7 +176,7 @@ local function proj()
     inst.components.projectile:SetHoming(false)
     inst.components.projectile:SetOnHitFn(OnProjHit)
     inst.components.projectile:SetHitDist(1.5)
-    inst.components.projectile:SetLaunchOffset(Vector3(2.5, LAUNCH_OFFSET_Y, 2.5))
+    inst.components.projectile:SetLaunchOffset(Vector3(0, LAUNCH_OFFSET_Y, 0))
     inst.components.projectile:SetOnMissFn(inst.Remove)
     inst.components.projectile.range = 30
     inst.components.projectile.has_damage_set = true
