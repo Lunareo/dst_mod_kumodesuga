@@ -11,7 +11,7 @@ end
 local function ATTACK_dest_post(rets, inst, action)
     if #rets > 0 and rets[1] == "attack" then
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        if weapon:HasTag("aramasa") then
+        if weapon and weapon:HasTag("aramasa") then
             rets[1] = "aramasa_pre"
         end
     end

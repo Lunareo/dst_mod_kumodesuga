@@ -1,8 +1,8 @@
 ---@diagnostic disable: lowercase-global
 local function en_zh(en, zh) return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en end
 
-name = en_zh("Kumodesuga, nanika?", "转生成为蜘蛛") .. ": Alpha"
-version = "1.0.0"
+name = en_zh("Kumodesuga, nanika?", "我是蜘蛛又怎样?!") .. "(Beta)"
+version = "1.1.2"
 description = ""
 author = "Runar"
 
