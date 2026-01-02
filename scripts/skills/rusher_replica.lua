@@ -18,20 +18,18 @@ function Rusher:Enable(enable)
     self.enabledshadow:set(enable)
 end
 
-local function spawnshadow(owner)
-    ---@class echo_shadow_fx_client: ent
-    local fx = SpawnPrefab("echo_shadow_fx_client")
-    fx:AttachFXOwner(owner)
-    return fx
-end
-
 function Rusher:EnableShadow(enable)
     if enable then
-        self.shadowtask = self.inst:DoPeriodicTask(0, spawnshadow)
-    elseif self.shadowtask ~= nil then
-        self.shadowtask:Cancel()
-        self.shadowtask = nil
+        self.inst:StartUpdatingComponent(self)
+    else
+        self.inst:StopUpdatingComponent(self)
     end
+end
+
+function Rusher:OnUpdate(dt)
+    ---@class echo_shadow_fx_client: ent
+    local fx = SpawnPrefab("echo_shadow_fx_client")
+    fx:AttachFXOwner(self.inst)
 end
 
 return Rusher

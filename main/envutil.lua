@@ -70,7 +70,7 @@ end
 UTIL = {}
 
 ---@param obj table
----@param key string
+---@param key string|integer
 ---@param prefn fun(...):(table|nil,boolean|nil,table|nil)|nil
 ---@param pstfn fun(table, ...):(any)|nil
 ---@param isSkipOld boolean|nil
@@ -254,6 +254,14 @@ ipairs_v = function(t)
     return ipairs(t)
 end
 GLOBAL.ipairs_v = ipairs_v
+
+rebuildsetter = function(t, k, prefn, pstfn, isSkipOld)
+    local _ = rawget(t, "_")
+    assert(_ ~= nil, "Class does not support property setters")
+    if not _[k] then _[k] = {} end
+    UTIL.FnExtend(_[k], 2, prefn, pstfn, isSkipOld)
+end
+GLOBAL.rebuildsetter = rebuildsetter
 ---------------------------------------------
 ---              DEPRECATED               ---
 ---------------------------------------------

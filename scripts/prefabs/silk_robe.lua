@@ -54,6 +54,8 @@ local function fn()
     inst.AnimState:SetBuild("silk_robe")
     inst.AnimState:PlayAnimation("idle")
 
+    inst:AddTag("clothing")
+
     MakeInventoryPhysics(inst)
     MakeInventoryFloatable(inst, "small", 0.1, 0.8)
 
@@ -67,7 +69,7 @@ local function fn()
     inst.components.container:WidgetSetup("silk_robe")
 
     inst:AddComponent("equippable")
-    inst.components.equippable.equipslot = EQUIPSLOTS.BODY
+    inst.components.equippable.equipslot = EQUIPSLOTS.WAIST or EQUIPSLOTS.BODY
     inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
