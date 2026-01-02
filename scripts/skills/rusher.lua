@@ -84,9 +84,6 @@ function Rusher:OnUpdate(dt) -- won't check whether components are exist or not,
         self.inst.components.locomotor:SetExternalSpeedMultiplier(self.inst, self.name, self.speedmult)
         self.inst.components.hunger.burnratemodifiers:SetModifier(self.inst, self.speedmult * spdsq, self.name)
         self.inst:AddTag("wonkey_run")
-        if self.inst.replica.rusher ~= nil then
-            self.inst.replica.rusher:Enable(self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
-        end
     else
         self.runtime = 0
         self.speedmult = 1
@@ -95,6 +92,9 @@ function Rusher:OnUpdate(dt) -- won't check whether components are exist or not,
         self.inst.components.hunger.burnratemodifiers:RemoveModifier(self, self.name)
         self.inst:RemoveTag("wonkey_run")
         self.inst:StopUpdatingComponent(self)
+    end
+    if self.inst.replica.rusher ~= nil then
+        self.inst.replica.rusher:Enable(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
     end
 end
 
