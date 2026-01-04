@@ -271,8 +271,8 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         end
         inst:ListenForEvent("timerdone", OnTimerDone)
 
-        if TUNING.FUNCTIONAL_MEDAL_IS_OPEN then
-        end
+        --if TUNING.FUNCTIONAL_MEDAL_IS_OPEN then
+        --end
 
         inst.OnSave = onsave
         inst.OnLoad = onload

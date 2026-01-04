@@ -34,6 +34,18 @@ local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
+local function onstarve(inst)
+    inst:AddTag("groggy")
+    inst.components.locomotor:SetExternalSpeedMultiplier(inst, "onstarving", TUNING.SHIRO_HUNGERY_SPEED_MULT)
+end
+
+local function stopstarve(inst)
+    if not (inst.components.grogginess and inst.components.grogginess:IsGroggy()) then
+        inst:RemoveTag("groggy")
+    end
+    inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "onstarving")
+end
+
 local common_postinit = function(inst)
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
@@ -66,6 +78,9 @@ local master_postinit = function(inst)
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"])
 
     inst.components.locomotor:SetTriggersCreep(false)
+
+    inst:ListenForEvent("startstarving", onstarve)
+    inst:ListenForEvent("stopstarving", stopstarve)
 end
 
 return MakePlayerCharactor(avatar_name, prefabs, assets, common_postinit, master_postinit)

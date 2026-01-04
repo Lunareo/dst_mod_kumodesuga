@@ -10,12 +10,13 @@ STRINGS = {
     },
     CHARACTERS = {
         GENERIC = {
+            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = nil,
             DESCRIBE = {
                 CHIPS = "酥脆可口的小零食。",
-                KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
-                SHIRO = "Quiet beauty.",
+                KURIKUTA_DRIED = "味道很好的干果。",
+                SHIRO = "她真好看。",
                 SILK_ROBE = "坚韧但不厚重, 丝滑但不透凉。",
-                WAKABA = "Quiet beauty.",
+                WAKABA = "她真好看。",
             },
         },
         SHIRO = {
@@ -24,8 +25,8 @@ STRINGS = {
                     SPELL_ON_COOLDOWN = "魔导大师也需要一些冷却时间。",
                 },
             },
-            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复...",
-            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "我感觉好多了.",
+            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复...",
+            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "我感觉好多了.",
             DESCRIBE = {
                 CHIPS = "没想到在这里也能吃到这个。",
                 KURIKUTA_DRIED = "比起有毒魔物的肉, 这个已经非常不错了。",
@@ -51,9 +52,8 @@ STRINGS = {
         },
     },
     CHARACTER_DESCRIPTIONS = {
-        shiro = "*A girl with a mysterious identity\n*Bad at expressing\n*Cannot hold the liquor",
-        wakaba =
-        "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\"",
+        shiro = "*身份神秘的少女\n*不善于表达\n*不要让她接触酒精",
+        wakaba = "*沉默寡言的JK\n*没有共情的能力\n*很擅长电子游戏\n*(这也是游戏的一部分)",
     },
     CHARACTER_NAMES = {
         shiro = "白",
@@ -101,17 +101,17 @@ STRINGS = {
     RECIPE_DESC = {
         HELHEIM_BEYONDER = nil,
         SILK_SHIRO = "蜘蛛型魔物的基本功。",
-        SPIDERSCYTHE = "An ominous weapon made from the leg of an ominous spider-monster.",
+        SPIDERSCYTHE = "传说级蜘蛛魔物的前腿制作的武器。",
         STORING_SPACE = "对空间魔术的娴熟应用。",
     },
     SKILLTREE = {
         SHIRO = {},
     },
-    SKIN_DES = {
-        shiro = "She might looks would be blown down by wind.\nYet she's the storm that blows everything down.",
+    SKIN_DESCRIPTIONS = {
+        shiro = "她看似弱不禁风\n实则拥有摧枯拉朽的力量。",
         shiro_classic = "来自“蜘蛛子”模组的第一版。",
-        shiro_jk = "\"She must be wakaba.\"",
-        wakaba = "God made puppet.",
+        shiro_jk = "",
+        wakaba = "神造人偶。",
     },
     SKIN_NAMES = {
         shiro = "白色死神",

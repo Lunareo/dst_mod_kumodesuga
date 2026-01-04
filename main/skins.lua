@@ -16,7 +16,7 @@ local function AddCharacterSkin(basename, skinbuild, rarity, config, notfree)
     skinbuild = skinbuild or basename
     MakeCharacterSkin(basename, skinname, merge(config, {
         name = STRINGS.SKIN_NAMES[skinbuild],
-        des = STRINGS.SKIN_DES[skinbuild],
+        des = STRINGS.SKIN_DESCRIPTIONS[skinbuild],
         quotes = STRINGS.SKIN_QUOTES[skinbuild],
         rarity = STRINGS.UI.RARITY[rarity],
         rarityorder = RARITY_ORDER[rarity],

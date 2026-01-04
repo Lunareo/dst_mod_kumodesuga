@@ -10,6 +10,7 @@ STRINGS = {
     },
     CHARACTERS = {
         GENERIC = {
+            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
             DESCRIBE = {
                 CHIPS = "Crispy snack.",
                 KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
@@ -24,8 +25,8 @@ STRINGS = {
                     SPELL_ON_COOLDOWN = "Waiting for skill's cooldown is necessary.",
                 },
             },
-            ANNOUNCE_ATTACH_BUFF_EROSION_REGEN = "That caused a huge damage to my eyes, I need some time to recover...",
-            ANNOUNCE_DETACH_BUFF_EROSION_REGEN = "I feel better now.",
+            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "That caused a huge damage to my eyes, I need some time to recover...",
+            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "I feel better now.",
             DESCRIBE = {
                 CHIPS = "I need more.",
                 KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
@@ -52,8 +53,7 @@ STRINGS = {
     },
     CHARACTER_DESCRIPTIONS = {
         shiro = "*A girl with a mysterious identity\n*Bad at expressing\n*Cannot hold the liquor",
-        wakaba =
-        "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\"",
+        wakaba = "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\"",
     },
     CHARACTER_NAMES = {
         shiro = "White Weaver",
@@ -107,7 +107,7 @@ STRINGS = {
     SKILLTREE = {
         SHIRO = {},
     },
-    SKIN_DES = {
+    SKIN_DESCRIPTIONS = {
         shiro = "She might looks would be blown down by wind.\nYet she's the storm that blows everything down.",
         shiro_classic = "Initial version from mod \"Kumoko\"",
         shiro_jk = "\"She must be wakaba.\"",
