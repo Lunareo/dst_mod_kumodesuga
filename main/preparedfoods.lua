@@ -37,6 +37,27 @@ local foods = {
 
 require "spicedfoods"
 local SPICES = UTIL.GetUpvalue(GenerateSpicedFoods, "SPICES")
+if SPICES == nil then
+    local function oneaten_garlic(inst, eater)
+        eater:AddDebuff("buff_playerabsorption", "buff_playerabsorption")
+    end
+
+    local function oneaten_sugar(inst, eater)
+        eater:AddDebuff("buff_workeffectiveness", "buff_workeffectiveness")
+    end
+
+    local function oneaten_chili(inst, eater)
+        eater:AddDebuff("buff_attack", "buff_attack")
+    end
+
+    SPICES =
+    {
+        SPICE_GARLIC = { oneatenfn = oneaten_garlic, prefabs = { "buff_playerabsorption" } },
+        SPICE_SUGAR  = { oneatenfn = oneaten_sugar, prefabs = { "buff_workeffectiveness" } },
+        SPICE_CHILI  = { oneatenfn = oneaten_chili, prefabs = { "buff_attack" } },
+        SPICE_SALT   = {},
+    }
+end
 local spicefoods = {}
 
 for k, v in pairs(foods) do

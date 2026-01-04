@@ -40,6 +40,8 @@ local Rusher = Class(function(self, inst, root)
     self.runtime = 0
     self.externalaccelerate = SourceModifierList(self.inst)
     self.inst:ListenForEvent("locomote", onlocomote)
+    self.inst:ListenForEvent("startstarving", function() self:Enable(false) end)
+    self.inst:ListenForEvent("stopstarving", function() self:Enable(true) end)
     makereadonly(self, "name")
 end, nil, {
     disable = ondisable,
@@ -49,6 +51,9 @@ end, nil, {
 ---@param enable boolean|nil
 function Rusher:Enable(enable)
     self.disable = not enable or nil
+    if self.disable then
+        self:Stop()
+    end
 end
 
 function Rusher:RunForward()
@@ -88,8 +93,8 @@ function Rusher:OnUpdate(dt) -- won't check whether components are exist or not,
         self.runtime = 0
         self.speedmult = 1
         self.inst.AnimState:SetDeltaTimeMultiplier(1)
-        self.inst.components.locomotor:RemoveExternalSpeedMultiplier(self, self.name)
-        self.inst.components.hunger.burnratemodifiers:RemoveModifier(self, self.name)
+        self.inst.components.locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
+        self.inst.components.hunger.burnratemodifiers:RemoveModifier(self.inst, self.name)
         self.inst:RemoveTag("wonkey_run")
         self.inst:StopUpdatingComponent(self)
     end
