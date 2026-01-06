@@ -10,6 +10,11 @@ STRINGS = {
     },
     CHARACTERS = {
         GENERIC = {
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_NOT_ENOUGH_COST = "施放这个法术需要更多的魔力!",
+                },
+            },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = nil,
             DESCRIBE = {
                 CHIPS = "酥脆可口的小零食。",
@@ -128,12 +133,12 @@ STRINGS = {
     SPELLS = {
         TOGGLENIGHTVISION = "锐利目光",
         EVIL_EYES = {
-            CURSE = "诅咒之邪眼",
-            DESTRUCTION = "腐蚀之邪眼",
-            EROSION = "腐蚀之邪眼",
-            FREEZE = "静止之邪眼",
-            GRAVITY = "引斥之邪眼",
-            TWIST = "歪曲之邪眼",
+            CURSE = string.format("诅咒之邪眼(%d理智)", TUNING.SPELL_CURSE_COST),
+            DESTRUCTION = string.format("腐蚀之邪眼(%d理智)", TUNING.SPELL_DESTRUCTION_COST),
+            EROSION = string.format("腐蚀之邪眼(%d理智)", TUNING.SPELL_EROSION_COST),
+            FREEZE = string.format("静止之邪眼(%d理智)", TUNING.SPELL_FREEZE_COST),
+            GRAVITY = string.format("引斥之邪眼(%d理智)", TUNING.SPELL_GRAVITY_COST),
+            TWIST = string.format("歪曲之邪眼(%d理智)", TUNING.SPELL_TWIST_COST),
         },
     },
     UI = {

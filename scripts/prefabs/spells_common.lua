@@ -63,15 +63,29 @@ end
 ---@field build string|nil
 ---@field anims table|nil
 ---@field spellfn fun(target, doer)|(nil)
+---@field cost integer|nil
 
 local CREATURES_MUST = { "_combat" }
 local CREATURES_CAN  = { "monster", "smallcreature", "largecreature", "animal", "bigbernie", "character" }
 local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "noattack", "notarget" }
 
+local function TryConsumeCost(doer, cost)
+    if cost == nil then return true end
+    if doer.components.sanity and doer.components.sanity.current >= cost then
+        doer.components.sanity:DoDelta(-cost)
+        return true
+    else
+        return false
+    end
+end
+
 ---@param data skill_def_partial
 ---@return table
 local function AbsorbSingleTargetSkill(data)
     local spellfn = function(inst, doer, pos)
+        if not TryConsumeCost(doer, data and data.cost) then
+            return false, "SPELL_NOT_ENOUGH_COST"
+        end
         if doer.components.spellbookcooldowns ~= nil and doer.components.spellbookcooldowns:IsInCooldown(data.name) then
             return false, "SPELL_ON_COOLDOWN"
         end

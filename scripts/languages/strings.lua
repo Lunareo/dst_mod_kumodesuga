@@ -10,6 +10,11 @@ STRINGS = {
     },
     CHARACTERS = {
         GENERIC = {
+            ACTIONFAIL = {
+                CASTAOE = {
+                    SPELL_NOT_ENOUGH_COST = "Performing this spell requires more cost.",
+                },
+            },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
             DESCRIBE = {
                 CHIPS = "Crispy snack.",
@@ -128,12 +133,12 @@ STRINGS = {
     SPELLS = {
         TOGGLENIGHTVISION = "Spider Vision",
         EVIL_EYES = {
-            CURSE = "Curse Stare",
-            DESTRUCTION = "Erosion Glare",
-            EROSION = "Erosion Glance",
-            FREEZE = "Freeze Stare",
-            GRAVITY = "Gravitation Glance",
-            TWIST = "Twist Glance",
+            CURSE = string.format("Curse Stare(%d san)", TUNING.SPELL_CURSE_COST),
+            DESTRUCTION = string.format("Erosion Glare(%d san)", TUNING.SPELL_DESTRUCTION_COST),
+            EROSION = string.format("Erosion Glance(%d san)", TUNING.SPELL_EROSION_COST),
+            FREEZE = string.format("Freeze Stare(%d san)", TUNING.SPELL_FREEZE_COST),
+            GRAVITY = string.format("Gravitation Glance(%d san)", TUNING.SPELL_GRAVITY_COST),
+            TWIST = string.format("Twist Glance(%d san)", TUNING.SPELL_TWIST_COST),
         },
     },
     UI = {
