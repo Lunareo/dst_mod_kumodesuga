@@ -55,10 +55,12 @@ return {
     AbsorbSingleTargetSkill {
         name = "freeze",
         spellfn = SPELL_FNS.freeze,
+        cost = TUNING.SPELL_FREEZE_COST,
     },
     AbsorbSingleTargetSkill {
         name = "curse",
         spellfn = SPELL_FNS.curse,
+        cost = TUNING.SPELL_CURSE_COST,
     },
     --{
     --    label = STRINGS.SPELLS.GRAVITY,
@@ -69,5 +71,6 @@ return {
     AbsorbSingleTargetSkill {
         name = "destruction",
         spellfn = SPELL_FNS.destruction,
+        cost = TUNING.SPELL_DESTRUCTION_COST,
     },
 }
