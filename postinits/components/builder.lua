@@ -68,7 +68,7 @@ UTIL.FnExtend(Builder, "_ctor", function(_, inst)
     UTIL.FnExtend(Health, "DoDelta",
         function(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb, ...)
             if amount and amount < 0 and cause == nil then
-                return nil, nil, { self, cause, overtime, cause, nil, afflicter, nil, ... }
+                return nil, nil, { self, amount, overtime, cause, nil, afflicter, nil, ... }
             end
         end)
 end)
