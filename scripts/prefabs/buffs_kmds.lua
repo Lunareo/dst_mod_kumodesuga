@@ -31,7 +31,7 @@ local function docurse(inst, target, data)
     if target and target.components.combat ~= nil and target.components.combat.AddBonusModifier ~= nil then
         target.components.combat:AddBonusModifier("buff_curse", -inst._curse_count * .1, inst)
     end
-    local doer = inst._doer and inst._doer:IsValid() and inst._doer
+    local doer = inst._doer and inst._doer:IsValid() and inst._doer or nil
     if doer ~= nil and doer.components.combat ~= nil then
         doer.components.combat:AddBonusModifier("buff_curse_doer", inst._curse_count * .1, inst)
     end
