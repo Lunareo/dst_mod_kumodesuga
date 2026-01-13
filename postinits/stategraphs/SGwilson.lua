@@ -11,7 +11,7 @@ end
 local function ATTACK_dest_post(rets, inst, action)
     if #rets > 0 and rets[1] == "attack" then
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        if weapon and weapon:HasTag("aramasa") then
+        if weapon and weapon:HasTag("aramasa") and not weapon:HasTag("punch") then
             rets[1] = "aramasa_pre"
         end
     end
@@ -54,6 +54,8 @@ local states = {
         tags = { "thrusting", "doing", "busy", "nointerrupt", "nomorph", "pausepredict" },
         onenter = function(inst)
             inst.components.locomotor:Stop()
+            inst.AnimState:Show("ARM_carry")
+            inst.AnimState:Hide("ARM_normal")
             inst.AnimState:PlayAnimation("multithrust_yell")
 
             if inst.bufferedaction ~= nil and inst.bufferedaction.target ~= nil and inst.bufferedaction.target:IsValid() then
@@ -77,6 +79,8 @@ local states = {
         },
 
         onexit = function(inst)
+            inst.AnimState:Hide("ARM_carry")
+            inst.AnimState:Show("ARM_normal")
             if not inst.sg.statemem.thrusting then
                 inst.components.combat:SetTarget(nil)
             end
@@ -87,6 +91,8 @@ local states = {
         tags = { "thrusting", "doing", "busy", "nointerrupt", "nomorph", "pausepredict" },
         onenter = function(inst, target)
             inst.components.locomotor:Stop()
+            inst.AnimState:Show("ARM_carry")
+            inst.AnimState:Hide("ARM_normal")
             inst.AnimState:PlayAnimation("multithrust")
             inst.Transform:SetEightFaced()
 
@@ -138,6 +144,8 @@ local states = {
 
         onexit = function(inst)
             inst.components.combat:SetTarget(nil)
+            inst.AnimState:Hide("ARM_carry")
+            inst.AnimState:Show("ARM_normal")
             inst.Transform:SetFourFaced()
         end,
 

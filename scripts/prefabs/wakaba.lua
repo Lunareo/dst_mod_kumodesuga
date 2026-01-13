@@ -52,6 +52,7 @@ local heal_srcs = {
 }
 
 local common_postinit = function(inst)
+    inst.AnimState:SetHatOffset(0, 35)
     inst:AddTag(avatar_name)
     inst:AddTag("D_spirit")
     inst:AddTag("reader")

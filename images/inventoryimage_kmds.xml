@@ -2,12 +2,13 @@
 <Atlas>
     <Texture filename="inventoryimage_kmds.tex"/>
     <Elements>
-        <Element name="chips.tex" u1="0.00195313" u2="0.248047" v1="0.503906" v2="0.996094"/>
-        <Element name="helheim_beyonder.tex" u1="0.501953" u2="0.623047" v1="0.753906" v2="0.996094"/>
-        <Element name="helheim_beyonder_hide.tex" u1="0.501953" u2="0.623047" v1="0.503906" v2="0.746094"/>
-        <Element name="kurikuta_dried.tex" u1="0.00195313" u2="0.248047" v1="0.00390625" v2="0.496094"/>
-        <Element name="silk_robe.tex" u1="0.251953" u2="0.498047" v1="0.503906" v2="0.996094"/>
-        <Element name="spiderscythe.tex" u1="0.251953" u2="0.498047" v1="0.00390625" v2="0.496094"/>
+        <Element name="aramasa.tex" u1="0.00195313" u2="0.248047" v1="0.503906" v2="0.996094"/>
+        <Element name="chips.tex" u1="0.00195313" u2="0.248047" v1="0.00390625" v2="0.496094"/>
+        <Element name="helheim_beyonder.tex" u1="0.501953" u2="0.623047" v1="0.253906" v2="0.496094"/>
+        <Element name="helheim_beyonder_hide.tex" u1="0.501953" u2="0.623047" v1="0.00390625" v2="0.246094"/>
+        <Element name="kurikuta_dried.tex" u1="0.251953" u2="0.498047" v1="0.503906" v2="0.996094"/>
+        <Element name="silk_robe.tex" u1="0.251953" u2="0.498047" v1="0.00390625" v2="0.496094"/>
+        <Element name="spiderscythe.tex" u1="0.501953" u2="0.748047" v1="0.503906" v2="0.996094"/>
     </Elements>
     <StraightAlpha>false</StraightAlpha>
 </Atlas>
