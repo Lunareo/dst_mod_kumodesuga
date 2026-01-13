@@ -1,27 +1,42 @@
-local assets =
-{
+local assets = {
+    Asset("ANIM", "anim/aramasa.zip"),
 }
 
 local function onequip(inst, owner)
-    owner.AnimState:Show("ARM_carry")
-    owner.AnimState:Hide("ARM_normal")
+    owner.AnimState:OverrideSymbol("hand", "aramasa", "swap_hand")
+    owner.AnimState:ClearOverrideSymbol("swap_object")
+    owner.AnimState:Hide("ARM_carry")
+    owner.AnimState:Show("ARM_normal")
 end
 
 local function onunequip(inst, owner)
+    owner.AnimState:ClearOverrideSymbol("hand")
     owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
 end
 
 local function oncharged(inst)
+    inst:RemoveTag("punch")
     inst.components.finiteuses:SetPercent(1)
 end
 
 local function ondischarged(inst)
+    inst:AddTag("punch")
     --inst.components.finiteuses:SetPercent(inst.components.rechargeable:GetPercent())
 end
 
 local function onfinished(inst)
     inst.components.rechargeable:Discharge(10)
+end
+
+local function damagefn(inst, attacker, target)
+    if not inst:HasTag("punch") then
+        return TUNING.SPEAR_DAMAGE / 4
+    elseif attacker ~= nil and attacker:IsValid() and attacker.components.combat then
+        return attacker.components.combat.defaultdamage
+    else
+        return 0
+    end
 end
 
 local function fn()
@@ -33,8 +48,8 @@ local function fn()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
+    inst.AnimState:SetBank("aramasa")
+    inst.AnimState:SetBuild("aramasa")
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("sharp")
@@ -52,7 +67,7 @@ local function fn()
     end
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(TUNING.SPEAR_DAMAGE / 4)
+    inst.components.weapon:SetDamage(damagefn)
     -------
 
     inst:AddComponent("finiteuses")
@@ -69,7 +84,6 @@ local function fn()
     inst.components.rechargeable:SetOnDischargedFn(ondischarged)
 
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem:ChangeImageName("spear")
 
     inst:AddComponent("equippable")
     inst.components.equippable:SetOnEquip(onequip)

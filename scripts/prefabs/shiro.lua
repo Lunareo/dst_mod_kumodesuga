@@ -47,6 +47,7 @@ local function stopstarve(inst)
 end
 
 local common_postinit = function(inst)
+    inst.AnimState:SetHatOffset(2, 27)
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")

@@ -83,6 +83,7 @@ local BUFF_DEFS = {
                 target.AnimState:Pause()
             end
             if target.sg ~= nil then
+                target.sg:GoToState("frozen")
                 target.sg:Stop()
             end
             if target.components.inventoryitem ~= nil then
@@ -92,10 +93,10 @@ local BUFF_DEFS = {
             end
             target:StopBrain("freezed")
             SpawnAt("fx_book_sleep", target)
-            if data ~= nil then
-                if data.doer ~= nil then
-                end
-            end
+            --if data ~= nil then
+            --    if data.doer ~= nil then
+            --    end
+            --end
         end,
         detach = function(inst, target, followsymbol, followoffset, data)
             if target:IsInLimbo() then return end
