@@ -67,16 +67,14 @@ local states = {
             if inst.components.playercontroller ~= nil then
                 inst.components.playercontroller:RemotePausePrediction()
             end
+
+            inst.sg:SetTimeout(FRAMES * 3)
         end,
-        events =
-        {
-            EventHandler("animover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg.statemem.thrusting = true
-                    inst.sg:GoToState("aramasa", inst.sg.statemem.target)
-                end
-            end),
-        },
+
+        ontimeout = function(inst)
+            inst.sg.statemem.thrusting = true
+            inst.sg:GoToState("aramasa", inst.sg.statemem.target)
+        end,
 
         onexit = function(inst)
             inst.AnimState:Hide("ARM_carry")
@@ -88,7 +86,7 @@ local states = {
     },
     State {
         name = "aramasa",
-        tags = { "thrusting", "doing", "busy", "nointerrupt", "nomorph", "pausepredict" },
+        tags = { "thrusting", "attack", "notalking", "abouttoattack", "pausepredict" },
         onenter = function(inst, target)
             inst.components.locomotor:Stop()
             inst.AnimState:Show("ARM_carry")

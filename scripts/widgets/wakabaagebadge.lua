@@ -20,7 +20,7 @@ local function SetPercent(self, val, max, penaltypercent)
     self.active = active
 end
 
----@class widget_wakabaagebadge
+---@class widget_wakabaagebadge: widget_wandaagebadge
 local WakabaAgeBadge = Class(OldAgeBadge, function(self, ...)
     OldAgeBadge._ctor(self, ...)
     StartThread(function() -- To against Combined Status' postinit
@@ -30,5 +30,29 @@ local WakabaAgeBadge = Class(OldAgeBadge, function(self, ...)
         self:SetPercent()
     end)
 end)
+
+function WakabaAgeBadge:OnUpdate(dt)
+    if TheNet:IsServerPaused() then return end
+
+    local player_classified = self.owner.player_classified
+    if player_classified == nil then
+        return
+    end
+
+    local year_percent = player_classified.oldager_yearpercent:value()
+
+    -- client prediction for the oldager component
+    if not TheWorld.ismastersim then
+        local dps_rate = player_classified:GetOldagerRate()
+
+        year_percent = year_percent - (1 / 40 + dps_rate * 0.9) * dt
+        if dps_rate == 0 then
+            year_percent = math.min(1, year_percent) -- if we are going at the normal rate, then wait for the game to say we have aged a year before progressing
+        end
+        player_classified.oldager_yearpercent:set_local(year_percent)
+    end
+
+    self.days_hand:SetRotation(Lerp(0, 360, year_percent))
+end
 
 return WakabaAgeBadge

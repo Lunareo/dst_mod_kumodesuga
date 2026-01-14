@@ -17,6 +17,7 @@ STRINGS = {
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = nil,
             DESCRIBE = {
+                ARAMASA = nil,
                 CHIPS = "酥脆可口的小零食。",
                 KURIKUTA_DRIED = "味道很好的干果。",
                 SHIRO = "她真好看。",
@@ -104,6 +105,7 @@ STRINGS = {
         WAKABA = "若叶姬色",
     },
     RECIPE_DESC = {
+        ARAMASA = "一位创世者的手套的仿品。",
         HELHEIM_BEYONDER = nil,
         SILK_SHIRO = "蜘蛛型魔物的基本功。",
         SPIDERSCYTHE = "传说级蜘蛛魔物的前腿制作的武器。",
