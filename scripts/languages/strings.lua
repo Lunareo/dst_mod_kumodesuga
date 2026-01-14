@@ -17,6 +17,7 @@ STRINGS = {
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
             DESCRIBE = {
+                ARAMASA = "",
                 CHIPS = "Crispy snack.",
                 KURIKUTA_DRIED = "Some kind of dried fruit with a very sweet taste.",
                 SHIRO = "Quiet beauty.",
@@ -104,6 +105,7 @@ STRINGS = {
         WAKABA = "Wakaba",
     },
     RECIPE_DESC = {
+        ARAMASA = "A replica of a creator's glove.",
         HELHEIM_BEYONDER = "",
         SILK_SHIRO = "The signature skill of spider-type monsters.",
         SPIDERSCYTHE = "An ominous weapon made from the leg of an ominous spider-monster.",

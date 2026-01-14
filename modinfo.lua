@@ -2,7 +2,7 @@
 local function en_zh(en, zh) return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en end
 
 name = en_zh("Kumodesuga, nanika?", "我是蜘蛛又怎样?!") .. "(Beta)"
-version = "1.1.7"
+version = "1.1.14"
 description = ""
 author = "Runar"
 

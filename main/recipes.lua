@@ -26,4 +26,4 @@ AddRecipe2("spiderscythe_wakaba", { Ingredient(CHARACTER_INGREDIENT.HEALTH, CHAR
 AddRecipe2("helheim_beyonder", { Ingredient("purplegem", 1), Ingredient("livinglog", 2), Ingredient("nightmarefuel", 3) }, TECH.NONE, { builder_tag = "wakaba" }, { "CHARACTER", "WEAPONS" })
 AddRecipe2("storing_space", { Ingredient(CHARACTER_INGREDIENT.MAX_SANITY_VAL, 100) }, TECH.NONE, { builder_tag = "__storing_space", image = "equip_slot_hud.tex", atlas = GetInventoryItemAtlas("equip_slot_hud.tex"), sg_state = "spawn_mutated_creature" }, { "CHARACTER", "CONTAINERS" })
 AddRecipe2("storing_space_dtor", { Ingredient(CHARACTER_INGREDIENT.SANITY, 0) }, TECH.NONE, { builder_tag = "_storing_space", image = "equip_slot_hud.tex", atlas = GetInventoryItemAtlas("equip_slot_hud.tex") }, { "CHARACTER", "CONTAINERS" })
--- silk_shiro
+AddRecipe2("aramasa", { Ingredient("bluegem", 2), Ingredient("gears", 2), Ingredient("pigskin", 4)}, TECH.MAGIC_THREE, { builder_tag = "wakaba" }, { "CHARACTER", "WEAPONS", "MAGIC" })

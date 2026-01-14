@@ -5,18 +5,6 @@ local assets = {
 
 local TAG_CAN_USE = "D_spirit"
 
-local TUNE = {
-    BASE_DMG = TUNING.BASE_SURVIVOR_ATTACK * 1.25,
-    EROSION_DMG = TUNING.BASE_SURVIVOR_ATTACK * .25,
-    USES = 200,
-    THRON_DMG = -.5,
-    HP_DT = 2.5,
-    SP_DT = -1,
-    DAPPER = TUNING.CRAZINESS_MED,
-    RANGE = 1,
-    FIX_RATE = 0.7,
-}
-
 local function OnKilledOther(attacker, eventdata)
     if attacker and attacker:IsValid() and attacker:HasTag(TAG_CAN_USE) and eventdata and eventdata.victim and eventdata.victim.components.health and
         attacker.components.inventory then
@@ -24,7 +12,7 @@ local function OnKilledOther(attacker, eventdata)
         if touch and touch.prefab == "spiderscythe" then
             touch.components.finiteuses:SetUses(math.min(
                 touch.components.finiteuses:GetUses() +
-                math.ceil(eventdata.victim.components.health:GetMaxWithPenalty() / TUNE.BASE_DMG * TUNE.FIX_RATE),
+                math.ceil(eventdata.victim.components.health:GetMaxWithPenalty() / TUNING.SPIDER_SCYTHE_BASE_DMG * TUNING.SPIDER_SCYTHE_REPAIR_RT),
                 touch.components.finiteuses.total))
         end
     end
@@ -39,7 +27,7 @@ local function Equip(inst, owner)
         inst._thron_task = nil
     end
     inst._thron_task = owner and owner:IsValid() and not owner:HasTag(TAG_CAN_USE) and owner.components.health and
-        inst:DoPeriodicTask(1, function() owner.components.health:DoDelta(TUNE.THRON_DMG, nil, "arachnecurse") end)
+        inst:DoPeriodicTask(1, function() owner.components.health:DoDelta(TUNING.SPIDER_SCYTHE_THN_DMG, nil, "arachnecurse") end)
     if inst._owner then
         inst:RemoveEventCallback("killed", OnKilledOther, inst._owner)
     end
@@ -60,7 +48,7 @@ local function UnEquip(inst, owner)
 end
 
 local function DmgFn(inst, attacker, target)
-    return TUNE.BASE_DMG + ((target or rawget(_G, "Insight")) and 0 or TUNE.EROSION_DMG)
+    return TUNING.SPIDER_SCYTHE_BASE_DMG + ((target or rawget(_G, "Insight")) and 0 or TUNING.SPIDER_SCYTHE_EROSION_DMG)
 end
 
 local function OnAttack(inst, attacker, target)
@@ -72,16 +60,16 @@ local function OnAttack(inst, attacker, target)
     end
     if attacker:HasTag(TAG_CAN_USE) then
         if attacker.components.health then
-            attacker.components.health:DoDelta(TUNE.HP_DT, nil, "hemophagia")
+            attacker.components.health:DoDelta(TUNING.SPIDER_SCYTHE_HP_DRAIN_RT, nil, "hemophagia")
         end
         if attacker.components.hunger then
-            attacker.components.hunger:DoDelta(TUNE.SP_DT)
+            attacker.components.hunger:DoDelta(TUNING.SPIDER_SCYTHE_SP_COST_RT)
         end
     end
 end
 
 local function Dapper(inst, owner)
-    return owner and not owner:HasTag(TAG_CAN_USE) and TUNE.DAPPER or 0
+    return owner and not owner:HasTag(TAG_CAN_USE) and TUNING.SPIDER_SCYTHE_DAPPER or 0
 end
 
 local function ReticuleMouseTargetFn(inst, mousepos)
@@ -190,7 +178,7 @@ local function SpellFn(inst, doer, pos)
     local virtual = CreateEntity()
     local doerpos = doer:GetPosition()
     local vpos = pos - doerpos
-    vpos = vpos * ((TUNE.RANGE + 2) / vpos:Length()) + doerpos
+    vpos = vpos * ((TUNING.SPIDER_SCYTHE_ATK_RANGE + 2) / vpos:Length()) + doerpos
     virtual.entity:AddTransform():SetPosition(vpos:Get())
     DoAoE(inst, doer, virtual)
     virtual:Remove()
@@ -255,8 +243,8 @@ local function fn()
     end
 
     inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(TUNE.USES)
-    inst.components.finiteuses:SetUses(TUNE.USES)
+    inst.components.finiteuses:SetMaxUses(TUNING.SPIDER_SCYTHE_USES)
+    inst.components.finiteuses:SetUses(TUNING.SPIDER_SCYTHE_USES)
     inst.components.finiteuses:SetOnFinished(inst.Remove)
 
     inst:AddComponent("equippable")
@@ -266,11 +254,11 @@ local function fn()
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(DmgFn)
-    inst.components.weapon:SetRange(TUNE.RANGE, TUNE.RANGE + 1)
+    inst.components.weapon:SetRange(TUNING.SPIDER_SCYTHE_ATK_RANGE, TUNING.SPIDER_SCYTHE_ATK_RANGE + 1)
     inst.components.weapon:SetOnAttack(OnAttack)
 
     inst:AddComponent("erosiondamage")
-    inst.components.erosiondamage:SetBaseDamage(TUNE.EROSION_DMG)
+    inst.components.erosiondamage:SetBaseDamage(TUNING.SPIDER_SCYTHE_EROSION_DMG)
 
     inst:AddComponent("aoespell")
     inst.components.aoespell:SetSpellFn(SpellFn)
@@ -286,14 +274,4 @@ local function fn()
     return inst
 end
 
-local function arachne(inst)
-    inst:SetPrefabName("spiderscythe")
-    if not TheWorld.ismastersim then
-        return
-    end
-    inst.components.inventoryitem.atlasname = GetInventoryItemAtlas("spiderscythe.tex")
-    inst.components.inventoryitem:ChangeImageName("spiderscythe")
-end
-
-return Prefab("spiderscythe", fn, assets),
-    Derive("spiderscythe", "nightmare_touch", arachne, assets)
+return Prefab("spiderscythe", fn, assets)

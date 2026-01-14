@@ -39,6 +39,7 @@ end
 
 local function OnProjectileLaunched(inst, attacker, target)
     inst.components.finiteuses:Use(1)
+    inst.components.fueled:SetPercent(inst.components.finiteuses:GetPercent())
 end
 
 local function OnProjHit(inst, attacker, target)
@@ -47,6 +48,10 @@ local function OnProjHit(inst, attacker, target)
         attacker = attacker, weapon = attacker.components.inventory and attacker.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
     })
     inst:Remove()
+end
+
+local function ontakefuel(inst, item)
+    inst.components.finiteuses:SetUses(math.ceil(inst.components.finiteuses.total * inst.components.fueled:GetPercent()))
 end
 
 local function fn()
@@ -94,6 +99,12 @@ local function fn()
     finiteuses:SetMaxUses(TUNING.BEYONDER_USES)
     finiteuses:SetUses(TUNING.BEYONDER_USES)
     finiteuses:SetOnFinished(inst.Remove)
+
+    local fueled = inst:AddComponent("fueled")
+    fueled.fueltype = FUELTYPE.NIGHTMARE
+    fueled:InitializeFuelLevel(TUNING.LARGE_FUEL * 3)
+    fueled:SetTakeFuelFn(ontakefuel)
+    fueled.accepting = true
 
     inst:AddComponent("inspectable")
 
@@ -184,16 +195,6 @@ local function proj()
     return inst
 end
 
-local function thegrasp(inst)
-    inst:SetPrefabName("helheim_beyonder")
-    if not TheWorld.ismastersim then
-        return
-    end
-    inst.components.inventoryitem.atlasname = GetInventoryItemAtlas("helheim_beyonder.tex")
-    inst.components.inventoryitem:ChangeImageName("helheim_beyonder")
-end
-
-return Prefab("helheim_beyonder",             fn,       assets),
-       Prefab("helheim_beyonder_equip_fx",    followfx, assets),
-       Prefab("helheim_beyonder_proj",        proj,     assets),
-       Derive("helheim_beyonder", "thegrasp", thegrasp, assets)
+return Prefab("helheim_beyonder",          fn,       assets),
+       Prefab("helheim_beyonder_equip_fx", followfx, assets),
+       Prefab("helheim_beyonder_proj",     proj,     assets)
