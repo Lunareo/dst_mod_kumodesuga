@@ -21,7 +21,8 @@ prefabs = FlattenTree({ prefabs, start_inv }, true)
 local function GetPointSpecialActions(inst, pos, useitem, right)
     if right and useitem == nil then
         local rider = inst.replica.rider
-        if rider ~= nil and not rider:IsRiding() or rider == nil then
+        local hands = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        if (rider ~= nil and not rider:IsRiding() or rider == nil) and not (hands and hands.components.aoetargeting) then
             return { ACTIONS.PARRY }
         end
     end

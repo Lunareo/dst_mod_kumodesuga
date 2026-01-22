@@ -1,4 +1,7 @@
 TUNING = {
+    BUFF = {
+        CURSE_ATK_STEAL_MULT = .5,
+    },
     SHIRO_HEALTH = 120,
     SHIRO_HUNGER = 180,
     SHIRO_SANITY = 150,

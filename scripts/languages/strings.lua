@@ -94,6 +94,7 @@ STRINGS = {
         HALF_SANITY_VAL = GLOBAL.STRINGS.NAMES.HALF_SANITY,
         HELHEIM_BEYONDER = "Helheim Beyonder",
         KUMO_OVERSATURATE = "Stuffed",
+        KUMO_ATK_STEALER = "ATK Stolen",
         KUMO_SATURATE = "Satiete",
         KURIKUTA_DRIED = "Dried Kurikuta Fruit",
         SHIRO = "Shiraori",

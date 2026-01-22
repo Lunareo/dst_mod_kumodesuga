@@ -25,16 +25,18 @@ end
 ---@field nospeech boolean|nil
 ---@field onsave fun(inst:ent, data:table):(nil)|nil
 ---@field onload fun(inst:ent, data:table):(nil)|nil
+---@field postfn fun(inst:ent):(nil)|nil
 
 local function docurse(inst, target, data)
-    inst._curse_count = (inst._curse_count or 0) + 1
+    inst.buff_layer = (inst.buff_layer or 0) + 1 -- compatible to f_medal
     if target and target.components.combat ~= nil and target.components.combat.AddBonusModifier ~= nil then
-        target.components.combat:AddBonusModifier("buff_curse", -inst._curse_count * .1, inst)
+        target.components.combat:AddBonusModifier("buff_curse", -inst.buff_layer * TUNING.BUFF.CURSE_ATK_STEAL_MULT, inst)
     end
-    local doer = inst._doer and inst._doer:IsValid() and inst._doer or nil
+    -- Reserve for multi-mind
+    --[[local doer = inst._doer and inst._doer:IsValid() and inst._doer or nil
     if doer ~= nil and doer.components.combat ~= nil then
-        doer.components.combat:AddBonusModifier("buff_curse_doer", inst._curse_count * .1, inst)
-    end
+        doer.components.combat:AddBonusModifier("buff_curse_doer", inst.buff_layer * .1, inst)
+    end]]
 end
 
 local function dodecreasepenalty(inst, target)
@@ -134,10 +136,10 @@ local BUFF_DEFS = {
         end,
         nospeech = true,
         onsave = function(inst, data)
-            data.curse_count = inst._curse_count
+            data.curse_count = inst.buff_layer
         end,
         onload = function(inst, data)
-            inst._curse_count = data.curse_count
+            inst.buff_layer = data.curse_count
         end,
     },
     health_penalty_reduction = {
@@ -184,11 +186,9 @@ end
 ---@param priority integer|nil
 ---@param prefabs table|nil
 ---@param nospeech boolean|nil
----@param onsave function|nil
----@param onload function|nil
+---@param extradata buffdef
 ---@return Prefab
-local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration, priority, prefabs, nospeech, onsave,
-                        onload)
+local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration, priority, prefabs, nospeech, extradata)
     local ATTACH_BUFF_DATA = {
         buff = (not nospeech and "ANNOUNCE_ATTACH_BUFF_" .. string.upper(name)) or nil,
         priority = priority
@@ -275,8 +275,12 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         --if TUNING.FUNCTIONAL_MEDAL_IS_OPEN then
         --end
 
-        inst.OnSave = onsave
-        inst.OnLoad = onload
+        inst.OnSave = extradata.onsave
+        inst.OnLoad = extradata.onload
+
+        if extradata.postfn then
+            extradata.postfn(inst)
+        end
 
         return inst
     end
@@ -287,6 +291,6 @@ end
 local buffs = {}
 for k, v in pairs(BUFF_DEFS) do
     table.insert(buffs,
-        MakeBuff(k, v.attach, v.extend, v.detach, v.duration, v.priority, v.prefabs, v.nospeech, v.onsave, v.onload))
+        MakeBuff(k, v.attach, v.extend, v.detach, v.duration, v.priority, v.prefabs, v.nospeech, v))
 end
 return unpack(buffs)
