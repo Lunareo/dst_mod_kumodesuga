@@ -93,6 +93,7 @@ STRINGS = {
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
         HALF_SANITY_VAL = nil,
         HELHEIM_BEYONDER = "超越冥界",
+        KUMO_ATK_STEALER = "攻击窃取",
         KUMO_OVERSATURATE = "吃撑了",
         KUMO_SATURATE = "饱足",
         KURIKUTA_DRIED = "干燥库利库塔果实",

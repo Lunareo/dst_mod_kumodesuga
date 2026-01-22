@@ -4,5 +4,9 @@
             "path": "."
         }
     ],
-    "settings": {}
+    "settings": {
+        "workbench.editor.customLabels.patterns": {
+            "**/**/*.lua": "${filename} @ ${dirname}"
+        }
+    },
 }

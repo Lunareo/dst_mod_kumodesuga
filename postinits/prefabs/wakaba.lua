@@ -43,7 +43,7 @@ AddPrefabPostInit("wakaba", function(inst)
     end)
     local Combat = inst.components.combat
     UTIL.FnExtend(Combat, "GetAttacked", function(self, ...)
-        local dodge = self.inst and self.inst.components.kumo_dodge
+        local dodge = self.inst and self.inst.components.parryable
         return { true }, dodge and dodge:GetAttacked(...)
     end)
 end)
