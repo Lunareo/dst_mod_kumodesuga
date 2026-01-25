@@ -1,12 +1,5 @@
 local Builder = require "components/builder"
 
-local function getglandamount(inst, healthneed)
-    local health = (inst.components.health and inst.components.health.currenthealth or 0)
-    local glandneed = math.ceil(math.max(0, healthneed - health) / TUNING.HEALING_MEDSMALL)
-    healthneed = healthneed - glandneed * TUNING.HEALING_MEDSMALL
-    return healthneed, glandneed
-end
-
 UTIL.FnExtend(Builder, "HasCharacterIngredient", function(self, ingredient)
     if ingredient.type == CHARACTER_INGREDIENT.MAX_SANITY_VAL then
         local sanity = self.inst.components.sanity
@@ -24,10 +17,12 @@ UTIL.FnExtend(Builder, "HasCharacterIngredient", function(self, ingredient)
     end
 end, function(rets, self, ingredient)
     if self.inst.prefab == "wakaba" and ingredient.type == CHARACTER_INGREDIENT.HEALTH then
-        local retamount = rets and #rets >= 2 and rets[2] or nil
-        local _, glandamount = getglandamount(self.inst, ingredient.amount)
-        local enough, gland = self.inst.components.inventory:Has("spidergland", glandamount, true)
-        rets = { enough, (retamount or 0) + gland * TUNING.HEALING_MEDSMALL }
+        ---@class component_health
+        local health = self.inst.components.health
+        if health ~= nil then
+            local cur = (health.currenthealth or 0) / TUNING.WAKABA_HEALTH_SCALE
+            rets = { cur > ingredient.amount, cur }
+        end
     end
     return rets
 end)
@@ -41,24 +36,9 @@ UTIL.FnExtend(Builder, "RemoveIngredients", function(self, ingredients, recname)
         for _, v in pairs(recipe.character_ingredients) do
             if v.type == CHARACTER_INGREDIENT.HUNGER then
                 self.inst.components.hunger:DoDelta(-v.amount)
-            elseif self.inst.prefab == "wakaba" and v.type == CHARACTER_INGREDIENT.HEALTH then
-                local amount, glandamount = getglandamount(self.inst, v.amount)
-                self._glandashealth = glandamount
-                local oldamount = v.amount
-                v.amount = amount
-                StartThread(function()
-                    Yield()
-                    v.amount = oldamount
-                end)
             end
         end
     end
-end, function(rets, self, ingredients, recname)
-    if self.freebuildmode or not self._glandashealth then
-        return
-    end
-    self.inst.components.inventory:ConsumeByName("spidergland", self._glandashealth)
-    self._glandashealth = nil
 end)
 
 -- Sourceless real damage restrictor

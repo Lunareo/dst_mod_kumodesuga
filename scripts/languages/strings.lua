@@ -77,6 +77,9 @@ STRINGS = {
         shiro = "Goddess' standin",
         wakaba = "Goddess' avatar",
     },
+    INSIGHT_DESC = {
+        ARAMASA = "Cause 8 times dmg per atk",
+    },
     NAMES = {
         ABYSSDAMAGE = "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>",
         ABYSSDEFENSE = "<color=#221356>Abyss Defense</color>: <color=#221356>%2.1d</color>",

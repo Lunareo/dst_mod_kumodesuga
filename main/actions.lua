@@ -1,3 +1,8 @@
+---@class ACTIONS
+---@field PARRY actiondata
+---@field SPELL actiondata
+---@field UNSPELL actiondata
+
 local Parry = AddAction(
     "PARRY",
     STRINGS.ACTIONS.PARRY,

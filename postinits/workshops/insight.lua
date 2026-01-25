@@ -40,4 +40,12 @@ AddSimPostInit(function()
             }
         end,
     }
+    Insight.prefab_descriptors.aramasa = {
+        Describe = function (inst, player_context)
+            return {
+                priority = 0,
+                description = STRINGS.INSIGHT_DESC.ARAMASA,
+            }
+        end,
+    }
 end)

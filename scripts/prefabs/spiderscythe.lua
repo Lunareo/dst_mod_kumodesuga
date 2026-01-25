@@ -202,7 +202,7 @@ local function OnCharged(inst)
 end
 
 local function fn()
-    ---@class inst:ent
+    ---@class spiderscythe: ent --//Prefab:添加工具与采集功能
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -221,7 +221,7 @@ local function fn()
 
     MakeInventoryFloatable(inst, "med", 0.05)
 
-    local aoetargeting = inst:AddComponent("aoetargeting")
+    local aoetargeting = inst:AddComponent("aoetargeting") --//BUG:同时呼出技能与武器指示器将使技能指示器永久失效
     aoetargeting:SetAlwaysValid(true)
     aoetargeting:SetEnabled(false)
     aoetargeting:SetAllowRiding(false)

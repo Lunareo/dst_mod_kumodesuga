@@ -9,3 +9,10 @@ AddComponentAction("SCENE", "magiccaster", function(inst, doer, actions, right)
         end
     end
 end)
+
+AddComponentAction("SCENE", "parryable", function (inst, doer, actions, right)
+    local hands = inst == doer and right and inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
+    if hands and hands.components.aoetargeting then
+        table.insert(actions, ACTIONS.PARRY)
+    end
+end)

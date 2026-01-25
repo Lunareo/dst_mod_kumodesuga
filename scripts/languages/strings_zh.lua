@@ -77,6 +77,9 @@ STRINGS = {
         shiro = "神之替身",
         wakaba = "神之化身",
     },
+    INSIGHT_DESC = {
+        ARAMASA = "攻击造成8次伤害",
+    },
     NAMES = {
         ABYSSDAMAGE = "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>",
         ABYSSDEFENSE = "<color=#221356>外道抗性</color>: <color=#221356>%2.1d</color>",
