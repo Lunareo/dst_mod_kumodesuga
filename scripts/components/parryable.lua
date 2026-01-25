@@ -9,6 +9,7 @@ local Parryable = Class(function(self, inst)
     self.delta = FRAMES * 10
     self.cooldown = 0
 
+    inst:AddTag("parryable")
 end)
 
 function Parryable:Parry()
