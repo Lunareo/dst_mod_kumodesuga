@@ -89,6 +89,7 @@ STRINGS = {
         BUFF_CURSE_REGEN = "Regen",
         BUFF_EROSION = "Erosion",
         BUFF_FREEZE = "Freeze",
+        BUFF_MIGHTY_STRIKE = "Mighty Strike",
         CHIPS = "Chips",
         DECREASE_HUNGER = "Hunger",
         EROSION = "Erosion",

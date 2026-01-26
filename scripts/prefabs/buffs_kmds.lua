@@ -43,7 +43,7 @@ local function dodecreasepenalty(inst, target)
     if not (target and target:IsValid() and target.components.health) then return end
     target.components.health:DeltaPenalty(-inst._regenval or 0)
     inst._regentick = (inst._regentick or 0) - 1
-    if inst._regentick <= 0 then inst:PushEvent("timerdone", { name = "buffover" }) end
+    if inst._regentick <= 0 then inst.components.debuff:Stop() end
 end
 
 ---@type table<string, buffdef>
@@ -60,7 +60,7 @@ local BUFF_DEFS = {
                         { erosion = 2.5 })
                 end)
             else
-                inst.components.timer:StopTimer("buffover")
+                inst.components.debuff:Stop()
             end
         end,
         extend = function(inst, target, followsymbol, followoffset, data)
@@ -170,10 +170,29 @@ local BUFF_DEFS = {
         duration = 10,
         nospeech = true,
     },
+    mighty_strike = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            if not target.components.combat then return inst:Remove() end
+            target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.MIGHTY_STRIKE_MULT)
+            inst:ListenForEvent("onhitother", function(attacker, eventdata)
+                if not (attacker and attacker:IsValid()) then return inst.components.debuff:Stop() end
+                if attacker.components.combat and attacker.components.combat.externaldamagemultipliers:CalculateModifierFromSource(inst) > 0 then
+                    SpawnAt("planar_hit_fx", eventdata and eventdata.target or Vector3(0, 0, 0))
+                    inst.components.debuff:Stop()
+                end
+            end, target)
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
+            if not target.components.combat then return end
+            target.components.combat.externaldamagemultipliers:RemoveModifier(inst)
+        end,
+        duration = 5,
+        nospeech = true,
+    },
 }
 
 local function OnTimerDone(inst, data)
-    if data.name == "buffover" then
+    if data and data.name == "buffover" then
         inst.components.debuff:Stop()
     end
 end

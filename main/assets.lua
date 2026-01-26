@@ -1,4 +1,7 @@
-Assets = {}
+Assets = {
+    Asset("SOUNDPACKAGE", "sound/kumodesuga.fev"),
+    Asset("SOUND", "sound/kumodesuga.fsb"),
+}
 
 ---@param atlas string
 LoadAtlas = function(atlas)

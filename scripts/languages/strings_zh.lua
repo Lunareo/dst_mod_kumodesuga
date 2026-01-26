@@ -89,6 +89,7 @@ STRINGS = {
         BUFF_CURSE_REGEN = "再生",
         BUFF_EROSION = "腐蚀",
         BUFF_FREEZE = "冻结",
+        BUFF_MIGHTY_STRIKE = "强力一击",
         CHIPS = "薯片",
         DECREASE_HUNGER = "饥饿度",
         EROSION = "腐蚀",

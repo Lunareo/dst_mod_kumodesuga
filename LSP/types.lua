@@ -50,6 +50,7 @@
 ---| "buff_erosion"
 ---| "buff_freeze"
 ---| "buff_health_penalty_reduction" # 腐蚀再生
+---| "buff_mighty_strike"
 ---| "helheim_beyonder"
 ---| "shiro"
 ---| "silk_robe"

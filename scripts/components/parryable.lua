@@ -1,7 +1,11 @@
 ---@class components
 ---@field parryable component_parryable
----@class component_parryable
 
+---@class component_parryable: component_base
+---@field time number
+---@field delta number
+---@field cooldown number
+---@field enabled boolean
 local Parryable = Class(function(self, inst)
     self.inst = inst
 
@@ -21,6 +25,7 @@ function Parryable:GetAttacked(attacker, damage, weapon, stimuli, spdamage, ...)
     if GetTime() - self.time <= self.delta and stimuli ~= "darkness" then
         if self.enabled then
             self.inst.sg:GoToState("knockbacklanded", { knocker = attacker, radius = .5, strengthmult = 2 })
+            self.inst:AddDebuff("mighty_strike", "buff_mighty_strike")
             if attacker.sg then
                 attacker.sg:GoToState("knockback", { knocker = self.inst, radius = .5, strengthmult = 2 })
             end
