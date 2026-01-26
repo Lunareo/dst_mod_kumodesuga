@@ -26,7 +26,7 @@ UTIL.FnExtend(Combat, "_ctor", function(self)
 end)
 
 UTIL.FnExtend(Combat, "CalcDamage", nil, function(rets, self)
-    if #rets > 0 and rets[1] > 0 then
+    if rets and #rets > 0 and rets[1] > 0 then
         rets[1] = math.max(0, rets[1] + self.damagebonuslist:Get())
     end
     return rets

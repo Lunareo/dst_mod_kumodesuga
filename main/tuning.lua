@@ -27,6 +27,7 @@ TUNING = {
             WAKABA = { "helheim_beyonder" },
         },
     },
+    MIGHTY_STRIKE_MULT = 3,
     SPIDER_SCYTHE_ATK_RANGE = 1,
     SPIDER_SCYTHE_BASE_DMG = 34,
     SPIDER_SCYTHE_DAPPER = GLOBAL.TUNING.CRAZINESS_MED,

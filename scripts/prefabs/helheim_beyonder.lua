@@ -165,6 +165,7 @@ local function proj()
 
     inst:AddTag("weapon")
     inst:AddTag("projectile")
+    inst:AddTag("lighterweapon")
     inst:AddTag("NOCLICK")
     inst:AddTag("NOBLOCK")
 
