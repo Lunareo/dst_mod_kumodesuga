@@ -34,6 +34,20 @@ local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
+---@param inst ent 
+---@param food ent 
+---@param feeder ent 
+local function oneat(inst, food, feeder)
+    local fooddisplayname = food and food:GetBasicDisplayName() or nil
+    if fooddisplayname ~= nil then
+    for _, word in ipairs(TUNING.DRUNK_KEYS) do
+        if string.find(fooddisplayname, word) then
+            inst:AddDebuff("drunken", "buff_drunken")
+        end
+    end
+end
+end
+
 local function onstarve(inst)
     inst:AddTag("groggy")
     inst.components.locomotor:SetExternalSpeedMultiplier(inst, "onstarving", TUNING.SHIRO_HUNGERY_SPEED_MULT)
@@ -71,6 +85,7 @@ local master_postinit = function(inst)
     inst.components.eater:SetStrongStomach(true)
     inst.components.eater:SetCanEatRawMeat(true)
     inst.components.eater:SetIgnoresSpoilage(true)
+    inst.components.eater:SetOnEatFn(oneat)
 
     inst.components.foodaffinity:AddPrefabAffinity("kurikuta_dried", TUNING.AFFINITY_15_CALORIES_MED)
 
@@ -79,6 +94,8 @@ local master_postinit = function(inst)
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"])
 
     inst.components.locomotor:SetTriggersCreep(false)
+
+    inst.components.slipperyfeet.StartSlipperySource = function () end
 
     inst:ListenForEvent("startstarving", onstarve)
     inst:ListenForEvent("stopstarving", stopstarve)

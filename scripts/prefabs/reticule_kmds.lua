@@ -1,6 +1,7 @@
 local assets         = {
     Asset("ANIM", "anim/reticuleaoe.zip"),
     Asset("ANIM", "anim/shiro_targeting.zip"),
+    Asset("SHADER", "shaders/revelio.ksh"),
 }
 local prefabs        = { "reticulemultitargetsub" }
 
@@ -15,6 +16,10 @@ local function onremove(inst)
         end
     end
     inst._targets = nil
+    if inst._pretar and inst._pretar:IsValid() then
+        inst._pretar.AnimState:ClearBloomEffectHandle()
+    end
+    inst._pretar = nil
 end
 
 local function OnUpdateNearestTarget(inst, dt)
@@ -22,10 +27,18 @@ local function OnUpdateNearestTarget(inst, dt)
         inst._targets = { SpawnAt("reticulemultitargetsub", inst) }
     end
     local target = FindClosestEntity(inst, 4, nil, CREATURES_MUST, CREATURES_CANT)
+    if inst._pretar and not inst._pretar:IsValid() then
+        inst._pretar = nil
+    end
+    if inst._pretar and inst._pretar ~= target then
+        inst._pretar.AnimState:ClearBloomEffectHandle()
+    end
     if target then
         inst.AnimState:PlayAnimation("_")
         inst._targets[1]:ReturnToScene()
         inst._targets[1].Transform:SetPosition(target.Transform:GetWorldPosition())
+        target.AnimState:SetBloomEffectHandle(resolvefilepath"shaders/revelio.ksh")
+        inst._pretar = target
     else
         inst.AnimState:PlayAnimation("idle_target_1")
         inst._targets[1]:RemoveFromScene()

@@ -16,6 +16,9 @@ STRINGS = {
                 },
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
+            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
+            ANNOUNCE_ATTACH_BUFF_DRUNKEN = "only_used_by_shiro",
+            ANNOUNCE_DETACH_BUFF_DRUNKEN = "only_used_by_shiro",
             DESCRIBE = {
                 ARAMASA = "",
                 CHIPS = "Crispy snack.",
@@ -33,6 +36,8 @@ STRINGS = {
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "That caused a huge damage to my eyes, I need some time to recover...",
             ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "I feel better now.",
+            ANNOUNCE_ATTACH_BUFF_DRUNKEN = "Ow!",
+            ANNOUNCE_DETACH_BUFF_DRUNKEN = "",
             DESCRIBE = {
                 CHIPS = "I need more.",
                 KURIKUTA_DRIED = "Although it's not fresh, it's much better than the monster's meat.",
@@ -87,6 +92,7 @@ STRINGS = {
         ARAMASA = "Aramasa",
         BUFF_CURSE = "Curse",
         BUFF_CURSE_REGEN = "Regen",
+        BUFF_DRUNKEN = "Drunken",
         BUFF_EROSION = "Erosion",
         BUFF_FREEZE = "Freeze",
         BUFF_MIGHTY_STRIKE = "Mighty Strike",

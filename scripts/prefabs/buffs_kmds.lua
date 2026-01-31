@@ -189,6 +189,23 @@ local BUFF_DEFS = {
         duration = 5,
         nospeech = true,
     },
+    drunken = {
+        attach = function (inst, target, followsymbol, followoffset, data)
+            inst.groggy = target:HasTag("groggy")
+            target:AddTag("groggy")
+            target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
+            target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
+        end,
+        detach = function (inst, target, followsymbol, followoffset, data)
+            target:AddOrRemoveTag("groggy", inst.groggy)
+            target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
+            target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
+            if not (data and data.nosleep) then
+                target.components.sleeper:AddSleepiness(4, 30)
+            end
+        end,
+        duration = 240,
+    },
 }
 
 local function OnTimerDone(inst, data)
