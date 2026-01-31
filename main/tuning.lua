@@ -2,6 +2,13 @@ TUNING = {
     BUFF = {
         CURSE_ATK_STEAL_MULT = .5,
     },
+    DRUNK_KEYS = {
+        "liquor", "wine", "酒",
+    },
+    DRUNKEN_MODI = {
+        COMBAT = 5,
+        SPEED = .2,
+    },
     SHIRO_HEALTH = 120,
     SHIRO_HUNGER = 180,
     SHIRO_SANITY = 150,

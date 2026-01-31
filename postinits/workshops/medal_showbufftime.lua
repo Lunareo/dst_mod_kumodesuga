@@ -1,6 +1,6 @@
 AddComponentPostInit("medal_showbufftime", function(ShowBuffTime)
     UTIL.FnExtend(ShowBuffTime, "getbuffinfofn", function(inst, buff_info)
-        local satura = inst.components.satura
+        local satura = inst.replica.satura
         if satura and satura:IsSaturated() then
             table.insert(buff_info, {
                 buffname = satura:IsHighsaturated() and "kumo_oversaturate" or "kumo_saturate",

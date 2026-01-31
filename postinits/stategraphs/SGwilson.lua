@@ -1,4 +1,4 @@
-local function CASTAOE_dest_post(inst, action)
+local function CASTAOE_dest_pre(inst, action)
     if action.invobject ~= nil then
         if action.invobject:HasTag("scythe") then
             return { "scythe" }, true
@@ -8,7 +8,7 @@ local function CASTAOE_dest_post(inst, action)
     end
 end
 
-local function ATTACK_dest_post(rets, inst, action)
+local function ATTACK_dest_pst(rets, inst, action)
     if #rets > 0 and rets[1] == "attack" then
         local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
         if weapon and weapon:HasTag("aramasa") and not weapon:HasTag("punch") then
@@ -18,13 +18,30 @@ local function ATTACK_dest_post(rets, inst, action)
     return rets
 end
 
+local function longacttion_enter_pre(inst, timeout)
+    if type(timeout) == "string" then
+        inst.sg.statemem.stateanimoverride = timeout
+    end
+    return nil, nil, { inst }
+end
+
+local function longacttion_enter_pst(rets, inst)
+    if inst.sg.statemem.stateanimoverride ~= nil then
+        inst.AnimState:PlayAnimation(inst.sg.statemem.stateanimoverride)
+        inst.sg.statemem.stateanimoverride = nil
+    end
+    return rets
+end
+
 AddStategraphPostInit("wilson", function(sg)
-    UTIL.FnExtend(sg.actionhandlers[ACTIONS.CASTAOE], "deststate", CASTAOE_dest_post)
-    UTIL.FnExtend(sg.actionhandlers[ACTIONS.ATTACK], "deststate", nil, ATTACK_dest_post)
+    UTIL.FnExtend(sg.actionhandlers[ACTIONS.CASTAOE], "deststate", CASTAOE_dest_pre)
+    UTIL.FnExtend(sg.actionhandlers[ACTIONS.ATTACK], "deststate", nil, ATTACK_dest_pst)
+    --UTIL.FnExtend(sg.states.dolongaction, "onenter", longacttion_enter_pre, longacttion_enter_pst)
 end)
 
 AddStategraphPostInit("wilson_client", function(sg)
-    UTIL.FnExtend(sg.actionhandlers[ACTIONS.CASTAOE], "deststate", CASTAOE_dest_post)
+    UTIL.FnExtend(sg.actionhandlers[ACTIONS.CASTAOE], "deststate", CASTAOE_dest_pre)
+    --UTIL.FnExtend(sg.states.dolongaction, "onenter", longacttion_enter_pre, longacttion_enter_pst)
 end)
 
 local function IsWeaponEquipped(inst, weapon)

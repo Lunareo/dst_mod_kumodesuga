@@ -16,6 +16,9 @@ STRINGS = {
                 },
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = nil,
+            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = nil,
+            ANNOUNCE_ATTACH_BUFF_DRUNKEN = nil,
+            ANNOUNCE_DETACH_BUFF_DRUNKEN = nil,
             DESCRIBE = {
                 ARAMASA = nil,
                 CHIPS = "酥脆可口的小零食。",
@@ -33,6 +36,8 @@ STRINGS = {
             },
             ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复...",
             ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "我感觉好多了.",
+            ANNOUNCE_ATTACH_BUFF_DRUNKEN = "呜哇!",
+            ANNOUNCE_DETACH_BUFF_DRUNKEN = nil,
             DESCRIBE = {
                 CHIPS = "没想到在这里也能吃到这个。",
                 KURIKUTA_DRIED = "比起有毒魔物的肉, 这个已经非常不错了。",
@@ -87,6 +92,7 @@ STRINGS = {
         ARAMASA = "天羽羽斩",
         BUFF_CURSE = "诅咒",
         BUFF_CURSE_REGEN = "再生",
+        BUFF_DRUNKEN = "耍酒疯",
         BUFF_EROSION = "腐蚀",
         BUFF_FREEZE = "冻结",
         BUFF_MIGHTY_STRIKE = "强力一击",

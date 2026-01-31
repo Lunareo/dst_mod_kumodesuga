@@ -58,5 +58,10 @@
 ---| "storing_space_dtor"
 ---| "storing_space"
 ---| "wakaba"
+---| "echo_shadow_fx_client"
+---| "bloom_fx_client"
 
 ---@alias eventID_mod string
+
+---@class Entity: ent_sys
+Entity = {}
