@@ -2,9 +2,9 @@ local SourceModifierList = require "util/sourcemodifierlist"
 
 local function onlocomote(inst, data)
     if data and data.dir then
-        inst.components.rusher:RunForward()
+        inst.components.skanda:RunForward()
     else
-        inst.components.rusher:Stop()
+        inst.components.skanda:Stop()
     end
 end
 
@@ -17,9 +17,9 @@ local function ondisable(self, disable, old)
 end
 
 ---@class components
----@field rusher component_rusher
+---@field skanda component_skanda
 
----@class component_rusher: component_base
+---@class component_skanda: component_base
 ---@field root component_skillscript
 ---@field name string
 ---@field isrunning boolean
@@ -29,10 +29,10 @@ end
 ---@field runtime number
 ---@field externalaccelerate SourceModifierList
 ---@field disable boolean|nil
-local Rusher = Class(function(self, inst, root)
+local Skanda = Class(function(self, inst, root)
     self.inst = inst
     self.root = root
-    self.name = "rusher" -- caution: before applying this component, set name
+    self.name = "skanda" -- caution: before applying this component, set name
     self.isrunning = false
     self.accelerate = 0.5
     self.speedmult = 1
@@ -49,35 +49,35 @@ end, nil, {
 
 -- reserve for rpc
 ---@param enable boolean|nil
-function Rusher:Enable(enable)
+function Skanda:Enable(enable)
     self.disable = not enable or nil
     if self.disable then
         self:Stop()
     end
 end
 
-function Rusher:RunForward()
+function Skanda:RunForward()
     if self.disable then return end
     self.isrunning = true
     self.inst:StartUpdatingComponent(self)
 end
 
-function Rusher:Stop()
+function Skanda:Stop()
     self.isrunning = false
 end
 
 ---@param acc function|number
-function Rusher:SetAccelerate(acc)
+function Skanda:SetAccelerate(acc)
     self.accelerate = acc
 end
 
 ---@param max number
-function Rusher:SetMaxSpeedMult(max)
+function Skanda:SetMaxSpeedMult(max)
     self.maxspeedmult = max
 end
 
 ---@param dt number
-function Rusher:OnUpdate(dt) -- won't check whether components are exist or not, just use them
+function Skanda:OnUpdate(dt) -- won't check whether components are exist or not, just use them
     if self.isrunning then
         self.runtime = self.runtime + dt
         self.speedmult = math.min(self.maxspeedmult,
@@ -98,13 +98,13 @@ function Rusher:OnUpdate(dt) -- won't check whether components are exist or not,
         self.inst:RemoveTag("wonkey_run")
         self.inst:StopUpdatingComponent(self)
     end
-    if self.inst.replica.rusher ~= nil then
-        self.inst.replica.rusher:Enable(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
+    if self.inst.replica.skanda ~= nil then
+        self.inst.replica.skanda:Enable(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
     end
 end
 
-function Rusher:GetDebugString()
+function Skanda:GetDebugString()
     return string.format("%.2f / %.2f", self.speedmult, self.maxspeedmult)
 end
 
-return Rusher
+return Skanda

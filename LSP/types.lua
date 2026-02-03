@@ -4,7 +4,7 @@
 ---@field title string|nil -- Can't be nil
 ---@field desc string|nil -- Can't be nil
 ---@field icon string|nil -- skill_node_only
----@field pos table<integer, integer>
+---@field pos number[]
 ---@field group string
 ---@field tags string[]|nil -- skill_node_only
 ---@field root boolean|nil
@@ -33,8 +33,8 @@
 ---| "magiccaster" # 魔术师
 ---| "nightvision" # 夜视
 ---| "parryable" # 闪避
----| "rusher" # 韦陀天
 ---| "satura" # 饱和
+---| "skanda" # 韦陀天
 
 ---@alias tagID_mod string
 ---| "__storing_space" # 未持有空间存储

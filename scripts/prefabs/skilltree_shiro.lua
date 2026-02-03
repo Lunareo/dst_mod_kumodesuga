@@ -1,87 +1,211 @@
----@type table<string, table<number, number>>[]
-local ORDERS =
-{
-    { "evolution",     { 0, 0 } },
-    { "endurance",     { 0, 0 } },
-    { "magicultimate", { 0, 0 } },
-    { "perception",    { 0, 0 } }, -- vision schizobulia
-    { "allegiance",    { 204, 176 + 30 } },
+---@type table<string, integer[]>
+local ORDERS_LIST = {
+    evolution = { 3, 70 },
+    dominator = { 3, 186 },
+    allegiance = { 184, 206 },
+    constmagic = { -160, 206 }
 }
 
+---@type { [1]: string, [2]: integer[] }[]
+local ORDERS = {}
+
+for group, pos in pairs(ORDERS_LIST) do
+    table.insert(ORDERS, { group, pos })
+end
+
+---@param group string
+---@param dx integer
+---@param dy integer
+---@return integer[]
+local function Coord(group, dx, dy)
+    return { ORDERS_LIST[group][1] + dx, ORDERS_LIST[group][2] - 30 + dy }
+end
+
+---@param SkillTreeFns SkillTreeFns
 local function BuildSkillData(SkillTreeFns)
     ---@type table<string, skill_def>
     local skills =
     {
-        --- evolution
-        shiro_evolution_1 = { -- small spider
-            icon     = "wilson_alchemy_1",
-            pos      = { -62, 176 },
-            group    = "evolution",
-            tags     = { "evolution" },
-            root     = true,
-            connects = {
-                "shiro_evolution_2",
-            },
+        --reincarnation = {
+        --    pos = Coord(),
+        --    group = "reincarnation",
+        --    tags = { "reincarnation" },
+        --    root = true,
+        --    connects = { "skanda" }
+        --},
+        spacemotor = {
+            pos = Coord("constmagic", -40, 0),
+            group = "constmagic",
+            tags = { "constmagic", "spacemotor" },
+            root = true,
         },
-        shiro_evolution_2 = { -- small poisonous spider
-            icon     = "wilson_alchemy_1",
-            pos      = { 12, 176 },
-            group    = "evolution",
-            tags     = { "evolution" },
-            connects = {
-                "shiro_evolution_3",
-            },
+        skanda = {
+            pos = Coord("constmagic", 0, 0),
+            group = "constmagic",
+            tags = { "constmagic", "skanda" },
+            root = true,
+            onactivate = function(inst, fromload)
+                inst:AddComponent("skanda")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst:RemoveComponent("skanda")
+            end
         },
-        shiro_evolution_3 = { -- death's scythe
-            icon     = "wilson_alchemy_1",
-            pos      = { 82, 176 },
-            group    = "evolution",
-            tags     = { "evolution" },
-            connects = {
-                "shiro_evolution_4",
-            },
+        vision_enhance = {
+            pos = Coord("constmagic", 0, -40),
+            group = "constmagic",
+            tags = { "constmagic", "vision", },
+            root = true,
+            connects = { "vision_overlook" },
         },
-        shiro_evolution_4 = { -- death's shadow
-            icon     = "wilson_alchemy_1",
-            pos      = { 152, 176 },
-            group    = "evolution",
-            tags     = { "evolution" },
-            connects = {
-                "shiro_evolution_5",
-            },
+        vision_overlook = {
+            pos = Coord("constmagic", 0, -80),
+            group = "constmagic",
+            tags = { "constmagic", "vision", },
         },
-        shiro_evolution_5 = { -- undying spider queen, undying
-            icon     = "wilson_alchemy_1",
-            pos      = { 212, 176 },
-            group    = "evolution",
-            tags     = { "evolution" },
-            connects = {
-                "shiro_evolution_6",
-            },
+        spacemagic_1 = {
+            pos = Coord("constmagic", 40, 0),
+            group = "constmagic",
+            tags = { "constmagic", "spacemagic" },
+            root = true,
+            connects = { "spacemagic_2" },
         },
-        shiro_evolution_6 = { -- apotheosis
-            icon  = "wilson_alchemy_1",
-            pos   = { 272, 176 },
-            group = "evolution",
-            tags  = { "evolution" },
+        spacemagic_2 = {
+            pos = Coord("constmagic", 40, -40),
+            group = "constmagic",
+            tags = { "constmagic", "spacemagic" },
+            connects = { "spacemagic_3" },
         },
-        --- endurance
-        --- magicultimate
-        --- allegiance
-        shiro_allegiance_lock_1 = {
-            pos = { 204, 176 + 30 },
-            group = "allegiance",
+        spacemagic_3 = {
+            pos = Coord("constmagic", 40, -80),
+            group = "constmagic",
+            tags = { "constmagic", "spacemagic" },
+        },
+        dominator_lock = {
+            pos = Coord("dominator", 0, 0),
+            group = "dominator",
+            tags = { "dominator", "lock" },
             root = true,
             lock_open = function(prefabname, activatedskills, readonly)
                 return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
             end,
-            connects = {
-                "shiro_allegiance_shadow",
-            },
+            connects = { "arrogans", "desidiae", "pati", "sapiens" },
+        },
+        arrogans = {
+            pos = Coord("dominator", -60, -20),
+            group = "dominator",
+            tags = { "dominator", "arrogans" },
+        },
+        desidiae = {
+            pos = Coord("dominator", -20, -40),
+            group = "dominator",
+            tags = { "dominator", "desidiae" },
+        },
+        pati = {
+            pos = Coord("dominator", 20, -40),
+            group = "dominator",
+            tags = { "dominator", "pati" },
+        },
+        sapiens = {
+            pos = Coord("dominator", 60, -20),
+            group = "dominator",
+            tags = { "dominator", "sapiens" },
+        },
+        shiro_evolution_tiny_spider_meter = {
+            pos = Coord("evolution", 0, 0),
+            infographic = true,
+            root = true,
+            defaultfocus = true,
+            group = "evolution",
+            tags = { "evolution", "lock" },
+        },
+        shiro_evolution_death_scythe_lock = {
+            pos = Coord("evolution", -40, 0),
+            group = "evolution",
+            tags = { "evolution", "lock" },
+            lock_open = function(prefabname, activatedskills, readonly)
+                return SkillTreeFns.CountTags(prefabname, "huge_spider", activatedskills) <= 0
+            end,
+            connects = { "shiro_evolution_death_scythe" },
+        },
+        shiro_evolution_death_scythe = {
+            pos = Coord("evolution", -80, -5),
+            group = "evolution",
+            tags = { "evolution", "small_spider" },
+            connects = { "shiro_evolution_undying_queen" },
+            onactivate = function(inst, fromload)
+                if inst.components.erosiondamage == nil then
+                    inst:AddComponent("erosiondamage")
+                end
+                inst.components.erosiondamage:AddBonus(inst, 5, "death_scythe")
+            end,
+            ondeactivate = function(inst, fromload)
+                if inst.components.erosiondamage then
+                    inst.components.erosiondamage:RemoveBonus(inst, "death_scythe")
+                end
+            end,
+        },
+        shiro_evolution_undying_queen = {
+            pos = Coord("evolution", -120, -15),
+            group = "evolution",
+            tags = { "evolution", "small_spider" },
+            connects = { "shiro_evolution_arachne" },
+        },
+        shiro_evolution_arachne = {
+            pos = Coord("evolution", -160, -30),
+            group = "evolution",
+            tags = { "evolution", "small_spider", "arachne" },
+        },
+        shiro_evolution_advance_spider_lock = {
+            pos = Coord("evolution", 40, 0),
+            group = "evolution",
+            tags = { "evolution", "huge_spider", "lock" },
+            connects = { "shiro_evolution_advance_spider" },
+            lock_open = function(prefabname, activatedskills, readonly)
+                return SkillTreeFns.CountTags(prefabname, "small_spider", activatedskills) <= 0
+            end,
+        },
+        shiro_evolution_advance_spider = {
+            pos = Coord("evolution", 80, -5),
+            group = "evolution",
+            tags = { "evolution", "huge_spider" },
+            connects = { "shiro_evolution_mega_spider" },
+        },
+        shiro_evolution_mega_spider = {
+            pos = Coord("evolution", 120, -15),
+            group = "evolution",
+            tags = { "evolution", "huge_spider" },
+            connects = { "shiro_evolution_queen_spider" },
+        },
+        shiro_evolution_queen_spider = {
+            pos = Coord("evolution", 160, -30),
+            group = "evolution",
+            tags = { "evolution", "huge_spider", "queenspider" },
+        },
+        shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
+        shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
+        shiro_allegiance_shadow = {
+            pos = Coord("allegiance", -20, -80),
+            group = "allegiance",
+            tags = { "allegiance", "shadow", "shadow_favor" },
+        },
+        shiro_allegiance_lunar_lock_1 = SkillTreeFns.MakeCelestialChampionLock({ pos = Coord("allegiance", 20, 0) }),
+        shiro_allegiance_lunar_lock_2 = SkillTreeFns.MakeNoShadowLock({ pos = Coord("allegiance", 20, -40), connects = { "shiro_allegiance_lunar" } }),
+        shiro_allegiance_lunar = {
+            pos = Coord("allegiance", 20, -80),
+            group = "allegiance",
+            tags = { "allegiance", "lunar", "lunar_favor" },
         },
     }
     for name, data in pairs(skills) do
-        data.title = data.title or STRINGS.SKILLTREE.SHIRO[string.upper(name) .. "_TITLE"]
+        if data.lock_open then
+            data.root = true
+        else
+            if not data.icon then
+                data.icon = "wilson_alchemy_1"
+            end
+            data.title = data.title or STRINGS.SKILLTREE.SHIRO[string.upper(name) .. "_TITLE"]
+        end
         data.desc = data.desc or STRINGS.SKILLTREE.SHIRO[string.upper(name) .. "_DESC"]
     end
 

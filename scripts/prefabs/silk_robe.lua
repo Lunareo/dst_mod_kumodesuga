@@ -1,12 +1,11 @@
-local params = require("containers").params
-params.silk_robe = {
+require "containers".params.silk_robe = {
     widget = {
         slotpos = {
-            Vector3(0, 20, 0),
-            Vector3(0, -52, 0),
+            Vector3(0, 35, 0),
+            Vector3(0, -37, 0),
         },
-        animbank = "ui_cookpot_1x2",
-        animbuild = "ui_cookpot_1x2",
+        animbank = "ui_chest_1x2",
+        animbuild = "ui_chest_1x2",
         pos = Vector3(-50, 0, 0),
     },
     issidewidget = true,
