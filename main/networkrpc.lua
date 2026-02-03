@@ -1,6 +1,6 @@
 local skillhashes = {
     [hash("nightvision")] = "nightvision",
-    [hash("rusher")] = "rusher",
+    [hash("skanda")] = "skanda",
 }
 
 AddModRPCHandler("kmds.skills", "skills.updating", function(player, skillhash, update)

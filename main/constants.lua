@@ -5,6 +5,8 @@ EQUIPSLOTS = {
     SPELL = "spell",
 }
 
+---@diagnostic disable-next-line: duplicate-doc-alias
+---@enum CHARACTER_INGREDIENT
 CHARACTER_INGREDIENT = {
     HUNGER = "decrease_hunger",
     MAX_SANITY_VAL = "half_sanity_val",
