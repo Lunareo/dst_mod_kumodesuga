@@ -20,7 +20,7 @@ end
 AddRecipe2("spiderscythe", { Ingredient(CHARACTER_INGREDIENT.HEALTH, CHARACTER_INGREDIENT_SEG * 20) }, TECH.NONE, { builder_tag = "shiro" }, { "CHARACTER", "WEAPONS" })
 AddRecipe2("silk_robe", { Ingredient(CHARACTER_INGREDIENT.HUNGER, CHARACTER_INGREDIENT_SEG * 20), Ingredient("silk", 10) }, TECH.NONE, { builder_tag = "shiro" }, { "CHARACTER", "ARMOUR", "CLOTHING", "CONTAINERS", "WINTER", "RAIN" })
 AddRecipe2("silk_shiro", { Ingredient(CHARACTER_INGREDIENT.HUNGER, CHARACTER_INGREDIENT_SEG * 2) }, TECH.NONE, { builder_tag = "shiro", product = "silk", description = "silk_shiro" }, { "CHARACTER", "REFINE" })
-AddRecipe2("spiderden_shiro", { Ingredient(CHARACTER_INGREDIENT.HUNGER, CHARACTER_INGREDIENT_SEG * 24), Ingredient("silk", 6) }, TECH.NONE, { builder_skill = "shiro_evolution_queen_spider", image = "spidereggsack.tex", product = "spiderden", placer = "spidereggsack_placer" }, { "CHARACTER" })
+AddRecipe2("spiderden_shiro", { Ingredient(CHARACTER_INGREDIENT.HUNGER, CHARACTER_INGREDIENT_SEG * 24), Ingredient("silk", 6) }, TECH.NONE, { builder_skill = "shiro_evolution_queen_spider", image = "spidereggsack.tex", description = "spidereggsack", product = "spiderden", placer = "spidereggsack_placer" }, { "CHARACTER" })
 
 --- WAKABA RECIPES
 AddRecipe2("spiderscythe_wakaba", { Ingredient(CHARACTER_INGREDIENT.HEALTH, CHARACTER_INGREDIENT_SEG), Ingredient("livinglog", 2), Ingredient("silk", 4) }, TECH.NONE, { product = "spiderscythe", builder_tag = "wakaba" }, { "CHARACTER", "WEAPONS" })

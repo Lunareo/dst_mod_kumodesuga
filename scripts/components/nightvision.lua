@@ -19,17 +19,16 @@ local NightVision = Class(function(self, inst, root)
     end
 end, nil, {})
 
--- reserve for rpc
-function NightVision:Enable(enable)
-    self:ToggleUpdate(enable)
-end
-
 function NightVision:ToggleUpdate(update)
     StartThread(function()
         Yield()
         self.update:set(update or not self.update:value())
+        self.inst.components.playervision:ForceGoggleVision(update)
     end, self.inst and self.inst.GUID)
 end
+
+-- reserve for rpc
+NightVision.Enable = NightVision.ToggleUpdate
 
 function NightVision:OnRemoveFromEntity()
     self:ToggleUpdate(false)

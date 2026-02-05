@@ -32,18 +32,18 @@ local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
----@param inst ent 
----@param food ent 
----@param feeder ent 
+---@param inst ent
+---@param food ent
+---@param feeder ent
 local function oneat(inst, food, feeder)
     local fooddisplayname = food and food:GetBasicDisplayName() or nil
     if fooddisplayname ~= nil then
-    for _, word in ipairs(TUNING.DRUNK_KEYS) do
-        if string.find(fooddisplayname, word) then
-            inst:AddDebuff("drunken", "buff_drunken")
+        for _, word in ipairs(TUNING.DRUNK_KEYS) do
+            if string.find(fooddisplayname, word) then
+                inst:AddDebuff("drunken", "buff_drunken")
+            end
         end
     end
-end
 end
 
 local function onstarve(inst)
@@ -93,7 +93,38 @@ local master_postinit = function(inst)
 
     inst.components.locomotor:SetTriggersCreep(false)
 
-    inst.components.slipperyfeet.StartSlipperySource = function () end
+    inst.components.slipperyfeet.StartSlipperySource = function() end
+
+    local OnDespawn = inst.OnDespawn
+    function inst:OnDespawn(migrationdata, ...)
+        if self._other_space ~= nil then
+            self._other_space_data = self._other_space:GetSaveRecord()
+            self:RemoveChild(self._other_space)
+            self._other_space.persists = false
+            self._other_space:Remove()
+            self._other_space = nil
+        end
+        return OnDespawn ~= nil and OnDespawn(self, migrationdata, ...)
+    end
+
+    local OnSave = inst.OnSave
+    function inst:OnSave(data, ...)
+        if self._other_space ~= nil then
+            self._other_space_data = self._other_space:GetSaveRecord()
+            self._other_space.persists = false
+        end
+        data._other_space, self._other_space_data = self._other_space_data, nil
+        return OnSave ~= nil and OnSave(self, data, ...)
+    end
+
+    local OnLoad = inst.OnLoad
+    function inst:OnLoad(data, ...)
+        if data._other_space and not self._other_space then
+            self._other_space = SpawnSaveRecord(data._other_space)
+            self:AddChild(self._other_space)
+        end
+        return OnLoad ~= nil and OnLoad(self, data, ...)
+    end
 
     inst:ListenForEvent("startstarving", onstarve)
     inst:ListenForEvent("stopstarving", stopstarve)
