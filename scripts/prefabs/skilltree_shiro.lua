@@ -21,10 +21,45 @@ local function Coord(group, dx, dy)
     return { ORDERS_LIST[group][1] + dx, ORDERS_LIST[group][2] - 30 + dy }
 end
 
+local function OnSpaceMagicUpdate(inst, fromload)
+    local count = inst.components.skilltreeupdater:CountSkillTag("spacemagic")
+    if count == 0 then
+        if inst._other_space ~= nil then
+            inst._other_space.components.container:DropEverything(inst:GetPosition())
+            inst:RemoveChild(inst._other_space)
+            inst._other_space:Remove()
+            inst._other_space = nil
+        end
+    else
+        local old = inst._other_space
+        inst._other_space = SpawnPrefab("other_space_3x" .. tostring(1 + math.clamp(count, 1, 3)))
+        inst:AddChild(inst._other_space)
+        if old ~= nil then
+            inst:RemoveChild(old)
+            for i = 1, old.components.container:GetNumSlots() do
+                local item = old.components.container:RemoveItemBySlot(i)
+                if item ~= nil then
+                    inst._other_space.components.container:GiveItem(item, i)
+                end
+            end
+            old.components.container:DropEverything(inst:GetPosition())
+            if old.components.container:IsOpenedBy(inst) then
+                local proxy = inst.components.inventory:GetOpenContainerProxyFor(old)
+                if proxy ~= nil then
+                    local new_proxy = SpawnAt(proxy.prefab, proxy)
+                    proxy.components.container_proxy:Close()
+                    new_proxy.components.container_proxy:Open(inst)
+                end
+            end
+            old:Remove()
+        end
+    end
+end
+
 ---@param SkillTreeFns SkillTreeFns
 local function BuildSkillData(SkillTreeFns)
     ---@type table<string, skill_def>
-    local skills =
+    local skills; skills =
     {
         --reincarnation = {
         --    pos = Coord(),
@@ -57,6 +92,16 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "constmagic", "vision", },
             root = true,
             connects = { "vision_overlook" },
+            onactivate = function(inst, fromload)
+                if inst.components.nightvision ~= nil then
+                    inst.components.nightvision:ToggleUpdate(true)
+                end
+            end,
+            ondeactivate = function(inst, fromload)
+                if inst.components.nightvision ~= nil then
+                    inst.components.nightvision:ToggleUpdate(false)
+                end
+            end,
         },
         vision_overlook = {
             pos = Coord("constmagic", 0, -80),
@@ -69,17 +114,23 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "constmagic", "spacemagic" },
             root = true,
             connects = { "spacemagic_2" },
+            onactivate = OnSpaceMagicUpdate,
+            ondeactivate = OnSpaceMagicUpdate,
         },
         spacemagic_2 = {
             pos = Coord("constmagic", 40, -40),
             group = "constmagic",
             tags = { "constmagic", "spacemagic" },
             connects = { "spacemagic_3" },
+            onactivate = OnSpaceMagicUpdate,
+            ondeactivate = OnSpaceMagicUpdate,
         },
         spacemagic_3 = {
             pos = Coord("constmagic", 40, -80),
             group = "constmagic",
             tags = { "constmagic", "spacemagic" },
+            onactivate = OnSpaceMagicUpdate,
+            ondeactivate = OnSpaceMagicUpdate,
         },
         dominator_lock = {
             pos = Coord("dominator", 0, 0),

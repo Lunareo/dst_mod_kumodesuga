@@ -1,3 +1,4 @@
+--[[
 local function RegisterSkillComponent(cmp)
     if package.preload["components/" .. cmp] == nil then
         package.preload["components/" .. cmp] = modrequire("skills/" .. cmp, GLOBAL)
@@ -9,5 +10,6 @@ end
 RegisterSkillComponent "nightvision"
 RegisterSkillComponent "skanda"
 RegisterSkillComponent "skanda_replica"
+]]
 
 AddReplicableComponent "skanda"
