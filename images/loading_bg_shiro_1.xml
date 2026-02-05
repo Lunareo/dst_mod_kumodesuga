@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="loading_bg_shiro_1.tex"/>
+    <Elements>
+        <Element name="loading_bg_shiro_1.tex" u1="0.000244141" u2="0.937256" v1="0.4729" v2="0.999756"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+
