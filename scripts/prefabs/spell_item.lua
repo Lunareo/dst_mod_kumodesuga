@@ -31,8 +31,71 @@ local function RemoveEquipTag(inst, tag)
     end
 end
 
+local function updatespells(inst, owner)
+    if owner ~= nil then
+        inst.components.spellbook:SetItems(require("prefabs/spells_" .. owner.prefab)(owner))
+    end
+end
+
+local function WatchSkillRefresh_Client(inst, owner)
+    if inst._owner then
+        inst:RemoveEventCallback("onactivateskill_client", inst._onskillrefresh_client, inst._owner)
+        inst:RemoveEventCallback("ondeactivateskill_client", inst._onskillrefresh_client, inst._owner)
+    end
+    inst._owner = owner
+    if owner then
+        inst:ListenForEvent("onactivateskill_client", inst._onskillrefresh_client, owner)
+        inst:ListenForEvent("ondeactivateskill_client", inst._onskillrefresh_client, owner)
+    end
+end
+
+local function WatchSkillRefresh_Server(inst, owner)
+    if inst._owner then
+        inst:RemoveEventCallback("onactivateskill_server", inst._onskillrefresh_server, inst._owner)
+        inst:RemoveEventCallback("ondeactivateskill_server", inst._onskillrefresh_server, inst._owner)
+    end
+    inst._owner = owner
+    if owner then
+        inst:ListenForEvent("onactivateskill_server", inst._onskillrefresh_server, owner)
+        inst:ListenForEvent("ondeactivateskill_server", inst._onskillrefresh_server, owner)
+    end
+end
+
+local function DoClientUpdateSpells(inst, force)
+    --V2C: inst.replica.inventoryitem:IsHeldBy(ThePlayer) won't work for new ember
+    --     spawned directly in pocket, because inventory preview won't have been
+    --     resolved yet.
+    --     Use IsHeld(), and assume it's ours, since this can only go into pockets
+    --     and not containers.
+    local owner = inst.replica.inventoryitem:IsHeld() and ThePlayer or nil
+    if owner ~= inst._owner then
+        if owner then
+            updatespells(inst, owner)
+        end
+        WatchSkillRefresh_Client(inst, owner)
+    elseif force and owner then
+        updatespells(inst, owner)
+    end
+end
+
+local function topocket(inst, owner)
+    if owner ~= inst._owner then
+        inst._updatespells:push()
+        updatespells(inst, owner)
+        WatchSkillRefresh_Server(inst, owner)
+    end
+end
+
+local function toground(inst)
+    if inst._owner then
+        WatchSkillRefresh_Server(inst, nil)
+        inst._updatespells:push()
+    end
+end
+
 local function fn()
     ---@class spell_item: ent
+    ---@field _updatespells net_event
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -55,9 +118,12 @@ local function fn()
     inst.components.spellbook:SetRadius(SPELLBOOK_RADIUS)
     inst.components.spellbook:SetFocusRadius(SPELLBOOK_RADIUS) --UIAnimButton don't use focus radius SPELLBOOK_FOCUS_RADIUS)
 
+    inst._updatespells = net_event(inst.GUID, "spell_item._updatespells")
+
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
+        inst._onskillrefresh_client = function(owner) DoClientUpdateSpells(inst, true) end
         return inst
     end
 
@@ -72,8 +138,13 @@ local function fn()
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.SPELL
 
+    inst:ListenForEvent("onputininventory", topocket)
+    inst:ListenForEvent("ondropped", toground)
+
     inst.AddEquipTag = AddEquipTag
     inst.RemoveEquipTag = RemoveEquipTag
+
+    inst._onskillrefresh_server = function(owner) updatespells(inst, owner) end
 
     inst.persists = false
 

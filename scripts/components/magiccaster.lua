@@ -41,7 +41,7 @@ function MagicCaster:SetUpSpell(custom_spells)
     if spell == nil then return end
     spell.components.spellbook:SetRadius(SPELLBOOK_RADIUS)
     spell.components.spellbook:SetFocusRadius(SPELLBOOK_RADIUS) --UIAnimButton don't use focus radius SPELLBOOK_FOCUS_RADIUS)
-    spell.components.spellbook:SetItems(custom_spells or require("prefabs/spells_" .. self.inst.prefab))
+    spell.components.spellbook:SetItems(custom_spells or require("prefabs/spells_" .. self.inst.prefab)(self.inst))
 end
 
 return MagicCaster

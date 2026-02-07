@@ -65,3 +65,8 @@
 
 ---@class Entity: ent_sys
 Entity = {}
+
+---@alias equiptype_mod string
+---|"spell"
+
+EQUIPSLOTS.SPELL = "spell"

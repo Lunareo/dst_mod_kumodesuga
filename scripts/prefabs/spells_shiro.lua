@@ -25,14 +25,15 @@ local SPELL_FNS = {
         local penalty = doer.components.health.penalty or 0
         doer.components.health:DeltaPenalty(doer.components.health:GetMaxWithPenalty() * .9)
         penalty = doer.components.health.penalty - penalty
-        doer:AddDebuff("health_penalty_reduction", "buff_health_penalty_reduction", { regentick = 30, regenval = penalty / 30 })
+        doer:AddDebuff("health_penalty_reduction", "buff_health_penalty_reduction",
+            { regentick = 30, regenval = penalty / 30 })
     end,
     curse = function(target, doer)
         target:AddDebuff("curse", "buff_curse", { doer = doer })
     end,
 }
 
-return {
+local allskills = {
     {
         label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
@@ -51,6 +52,9 @@ return {
         },
         widget_scale = ICON_SCALE,
         postinit = AutoToggleWidget(isNightVisionActivated),
+        _validtest = function(inst)
+            return inst and inst.components.skilltreeupdater:IsActivated("vision_enhance")
+        end,
     },
     AbsorbSingleTargetSkill {
         name = "freeze",
@@ -62,15 +66,19 @@ return {
         spellfn = SPELL_FNS.curse,
         cost = TUNING.SPELL_CURSE_COST,
     },
-    --{
-    --    label = STRINGS.SPELLS.GRAVITY,
-    --    onselect = function(inst)
-    --        inst.components.spellbook.closeonexecute = false
-    --    end,
-    --},
     AbsorbSingleTargetSkill {
         name = "destruction",
         spellfn = SPELL_FNS.destruction,
         cost = TUNING.SPELL_DESTRUCTION_COST,
     },
 }
+
+return function(inst)
+    local skills = {}
+    for k, v in ipairs(allskills) do
+        if not v._validtest or v._validtest(inst) then
+            skills[#skills + 1] = v
+        end
+    end
+    return skills
+end

@@ -133,7 +133,7 @@ local function proxy()
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
-    inst.Transform:SetScale(.075, .25, .25)
+    inst.Transform:SetScale(.25, .25, .25)
 
     inst.entity:AddAnimState()
     inst.AnimState:SetBank("quagmire_portal_fx")
