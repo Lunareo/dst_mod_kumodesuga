@@ -103,33 +103,27 @@ UTIL.FnExtend = function(obj, key, prefn, pstfn, isSkipOld)
     end
 end
 
----author: 绯世行
-local GetUpvalue = function(fn, upvalname)
+---The most fit version, but lower performance
+---@generic T: "number"|"string"|"boolean"|"table"|"function"|"thread"|"userdata"
+---@param fn function
+---@param vname string
+---@param vtype `T`|nil
+---@return T|nil, integer|nil, function|nil
+UTIL.GetUpvalue = function(fn, vname, vtype)
     local i = 1
-    while true do
-        local name, value = debug.getupvalue(fn, i)
-        if not name then break end
-        if name == upvalname then
-            return value, i
+    local n, v
+    repeat
+        n, v = debug.getupvalue(fn, i)
+        if n == vname and (not vtype or type(v) == vtype) then
+            return v, i, fn
+        elseif type(v) == "function" then
+            local r = { UTIL.GetUpvalue(v, vname, vtype) }
+            if r[1] ~= nil then
+                return unpack(r)
+            end
         end
         i = i + 1
-    end
-end
-
----@param fn function
----@param ... string
----@return any
----@return integer|nil
----@return function|nil
-UTIL.GetUpvalue = function(fn, ...)
-    local val, i, caller = fn, nil, nil
-    for _, name in ipairs { ... } do
-        caller, val, i = val, GetUpvalue(val, name)
-        if i == nil then
-            return nil
-        end
-    end
-    return val, i, caller
+    until not n
 end
 
 UTIL.VoidFn = function() end

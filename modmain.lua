@@ -8,7 +8,6 @@ modimport "main/tuning"
 modimport "main/language"
 modimport "main/skins"
 modimport "main/constants"
-modimport "main/skill2cmp"
 ---Tier 3
 modimport "main/preparedfoods"
 modimport "main/recipes"

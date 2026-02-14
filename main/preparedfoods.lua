@@ -36,7 +36,7 @@ local foods = {
 }
 
 require "spicedfoods"
-local SPICES = UTIL.GetUpvalue(GenerateSpicedFoods, "SPICES")
+local SPICES = UTIL.GetUpvalue(GenerateSpicedFoods, "SPICES", "table")
 if SPICES == nil then
     local function oneaten_garlic(inst, eater)
         eater:AddDebuff("buff_playerabsorption", "buff_playerabsorption")

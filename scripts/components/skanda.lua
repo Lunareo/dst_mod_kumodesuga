@@ -20,6 +20,7 @@ end
 ---@field skanda component_skanda
 
 ---@class component_skanda: component_base
+---@field inst avatar_shiro
 ---@field root component_skillscript
 ---@field name string
 ---@field isrunning boolean
@@ -53,6 +54,12 @@ function Skanda:Enable(enable)
     self.disable = not enable or nil
     if self.disable then
         self:Stop()
+    end
+end
+
+function Skanda:OnRemoveFromEntity()
+    if self.inst.enabledshadow then
+        self.inst.enabledshadow:set(false)
     end
 end
 
@@ -98,8 +105,8 @@ function Skanda:OnUpdate(dt) -- won't check whether components are exist or not,
         self.inst:RemoveTag("wonkey_run")
         self.inst:StopUpdatingComponent(self)
     end
-    if self.inst.replica.skanda ~= nil then
-        self.inst.replica.skanda:Enable(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
+    if self.inst and self.inst.enabledshadow then
+        self.inst.enabledshadow:set(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
     end
 end
 

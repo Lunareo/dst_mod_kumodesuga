@@ -28,11 +28,35 @@ skilldefs.SKILLTREE_ORDERS[avatar_name] = skill_data.ORDERS
 skilldefs.SKILLTREE_METAINFO[avatar_name].BACKGROUND_SETTINGS = skill_data.BACKGROUND_SETTINGS
 skilldefs.CUSTOM_FUNCTIONS[avatar_name] = skill_data.CUSTOM_FUNCTIONS
 
+---@class avatar_shiro: ent
+---@field _other_space ent|nil
+---@field _other_space_data table|nil
+---@field enabledshadow net_bool
+
 local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
----@param inst ent
+---@param inst avatar_shiro
+local function SpawnSkandaFX(inst)
+    ---@class echo_shadow_fx_client: ent
+    local fx = SpawnPrefab("echo_shadow_fx_client")
+    fx:AttachFXOwner(inst)
+end
+
+---@param inst avatar_shiro
+local function OnEnabledShadowDirty(inst)
+    if inst.enabledshadow and inst.enabledshadow:value() then
+        if not inst.components.updatelooper then
+            inst:AddComponent("updatelooper")
+        end
+        inst.components.updatelooper:AddOnUpdateFn(SpawnSkandaFX)
+    elseif inst.components.updatelooper then
+        inst.components.updatelooper:RemoveOnUpdateFn(SpawnSkandaFX)
+    end
+end
+
+---@param inst avatar_shiro
 ---@param food ent
 ---@param feeder ent
 local function oneat(inst, food, feeder)
@@ -58,14 +82,23 @@ local function stopstarve(inst)
     inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "onstarving")
 end
 
+---@param inst avatar_shiro
 local common_postinit = function(inst)
     inst.AnimState:SetHatOffset(2, 27)
+
+    inst.enabledshadow = net_bool(inst.GUID, "skill.skanda.enabledshadow", "skill.skanda.enabledshadowdirty")
+    inst.enabledshadow:set(false)
+
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
 
     inst:AddComponent("nightvision")
+
+    if not TheNet:IsDedicated() then
+        inst:ListenForEvent("skill.skanda.enabledshadowdirty", OnEnabledShadowDirty)
+    end
 
     local RemoveTag = inst.RemoveTag
     function inst:RemoveTag(tag)
@@ -76,6 +109,7 @@ local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
 end
 
+---@param inst avatar_shiro
 local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
     inst.soundsname = "wendy"
@@ -87,9 +121,9 @@ local master_postinit = function(inst)
 
     inst.components.foodaffinity:AddPrefabAffinity("kurikuta_dried", TUNING.AFFINITY_15_CALORIES_MED)
 
-    inst.components.health:SetMaxHealth(TUNING[string.upper(avatar_name) .. "_HEALTH"])
-    inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"])
-    inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"])
+    inst.components.health:SetMaxHealth(TUNING[string.upper(avatar_name) .. "_HEALTH"] --[[@as number]])
+    inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"] --[[@as number]])
+    inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
 
     inst.components.locomotor:SetTriggersCreep(false)
 

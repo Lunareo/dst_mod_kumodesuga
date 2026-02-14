@@ -13,9 +13,15 @@ params.storing_space = {
     },
     type = "side_inv_behind",
 }
-params.other_space_3x2 = params.sacred_chest
-params.other_space_3x3 = params.treasurechest
-params.other_space_3x4 = params.dragonflychest
+params.other_space_3x2 = shallowcopy(params.sacred_chest)
+params.other_space_3x3 = shallowcopy(params.treasurechest)
+params.other_space_3x4 = shallowcopy(params.dragonflychest)
+local function testfn(container, item, slot)
+    return not (item and item.replica.health)
+end
+params.other_space_3x2.itemtestfn = testfn
+params.other_space_3x3.itemtestfn = testfn
+params.other_space_3x4.itemtestfn = testfn
 
 local proxyassets = {
     Asset("ANIM", "anim/quagmire_portal_fx.zip"),

@@ -1,5 +1,5 @@
-local is_character_ingredient = UTIL.GetUpvalue(IsCharacterIngredient, "is_character_ingredient")
-if type(is_character_ingredient) == "table" then
+local is_character_ingredient = UTIL.GetUpvalue(IsCharacterIngredient, "is_character_ingredient", "table")
+if is_character_ingredient ~= nil then
     is_character_ingredient[CHARACTER_INGREDIENT.HUNGER] = true
     is_character_ingredient[CHARACTER_INGREDIENT.MAX_SANITY_VAL] = true
 else
