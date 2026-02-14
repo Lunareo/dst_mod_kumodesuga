@@ -66,7 +66,7 @@
 ---@class Entity: ent_sys
 Entity = {}
 
----@alias equiptype_mod string
----|"spell"
-
-EQUIPSLOTS.SPELL = "spell"
+---@enum equiptype_mod
+EQUIPSLOTS = {
+    SPELL = "spell",
+}

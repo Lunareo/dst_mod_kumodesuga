@@ -18,6 +18,7 @@ AddPrefabPostInit("wakaba", function(inst)
         end)
     local Sanity = inst.components.sanity
     UTIL.FnExtend(Sanity, "IsSane", function(self, getraw)
+---@diagnostic disable-next-line: redundant-parameter
         return { not (self:IsInsane(getraw) or self:IsEnlightened(getraw)) }, not getraw
     end)
     UTIL.FnExtend(Sanity, "IsInsane", nil, function(rets, self, getraw)
@@ -37,6 +38,7 @@ AddPrefabPostInit("wakaba", function(inst)
         return rets
     end)
     UTIL.FnExtend(Inventory, "RemoveItem", function(self)
+---@diagnostic disable-next-line: undefined-field
         if self.inst.flag_is_stealing_by_xl then
             return nil, true
         end

@@ -59,7 +59,7 @@ end
 ---@param SkillTreeFns SkillTreeFns
 local function BuildSkillData(SkillTreeFns)
     ---@type table<string, skill_def>
-    local skills; skills =
+    local skills =
     {
         --reincarnation = {
         --    pos = Coord(),
@@ -233,9 +233,25 @@ local function BuildSkillData(SkillTreeFns)
             group = "evolution",
             tags = { "evolution", "huge_spider", "queenspider" },
         },
+        evil_eyes_1 = {
+            pos = Coord("constmagic", 80, 0),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+        },
+        evil_eyes_2 = {
+            pos = Coord("constmagic", 80, -40),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+        },
+        evil_eyes_3 = {
+            pos = Coord("constmagic", 80, -80),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+        },
         shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
         shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
         shiro_allegiance_shadow = {
+            icon = "wilson_favor_shadow",
             pos = Coord("allegiance", -20, -80),
             group = "allegiance",
             tags = { "allegiance", "shadow", "shadow_favor" },
@@ -243,6 +259,7 @@ local function BuildSkillData(SkillTreeFns)
         shiro_allegiance_lunar_lock_1 = SkillTreeFns.MakeCelestialChampionLock({ pos = Coord("allegiance", 20, 0) }),
         shiro_allegiance_lunar_lock_2 = SkillTreeFns.MakeNoShadowLock({ pos = Coord("allegiance", 20, -40), connects = { "shiro_allegiance_lunar" } }),
         shiro_allegiance_lunar = {
+            icon = "wilson_favor_lunar",
             pos = Coord("allegiance", 20, -80),
             group = "allegiance",
             tags = { "allegiance", "lunar", "lunar_favor" },

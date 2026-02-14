@@ -12,6 +12,10 @@ local function ctor(self)
     end
 end
 
+---@class replica_components
+---@field satura replica_satura
+
+---@class replica_satura: replica_base
 local Satura = Class(function(self, inst)
     self.inst = inst
 

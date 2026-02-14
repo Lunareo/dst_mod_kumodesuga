@@ -18,6 +18,9 @@ end
 
 prefabs = FlattenTree({ prefabs, start_inv }, true)
 
+---@class avatar_wakaba: ent
+
+---@param inst avatar_wakaba
 local function GetPointSpecialActions(inst, pos, useitem, right)
     if right and useitem == nil then
         local rider = inst.replica.rider
@@ -29,17 +32,20 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     return {}
 end
 
+---@param inst avatar_wakaba
 local function OnSetOwner(inst)
     if inst.components.playeractionpicker ~= nil then
         inst.components.playeractionpicker.pointspecialactionsfn = GetPointSpecialActions
     end
 end
 
+---@param inst avatar_wakaba
 local function redirect_to_oldager(inst, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
     return inst.components.oldager ~= nil and
         inst.components.oldager:OnTakeDamage(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
 end
 
+---@param inst avatar_wakaba
 local function CustomDmg(inst, target, weapon, multiplier, mount)
     return weapon and weapon:HasTag("lighterweapon") and 1 or TUNING.WENDY_DAMAGE_MULT
 end
@@ -52,6 +58,7 @@ local heal_srcs = {
     "saturation",
 }
 
+---@param inst avatar_wakaba
 local common_postinit = function(inst)
     inst.AnimState:SetHatOffset(0, 35)
     inst:AddTag(avatar_name)
@@ -68,6 +75,7 @@ local common_postinit = function(inst)
     inst:ListenForEvent("setowner", OnSetOwner)
 end
 
+---@param inst avatar_wakaba
 local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
     inst.soundsname = "wendy"
@@ -77,15 +85,15 @@ local master_postinit = function(inst)
 
     inst.components.foodaffinity:AddPrefabAffinity("chips", TUNING.AFFINITY_15_CALORIES_MED)
 
-    inst.components.health:SetMaxHealth(TUNING[string.upper(avatar_name) .. "_OLDAGER"])
+    inst.components.health:SetMaxHealth(TUNING[string.upper(avatar_name) .. "_OLDAGER"] --[[@as number]])
     inst.components.health.redirect = redirect_to_oldager
     inst.components.health.disable_penalty = true
     inst.resurrect_multiplier = TUNING.WAKABA_HEALTH_SCALE
     --PostInit.wakaba.health(inst.components.health)
 
-    inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"])
+    inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"] --[[@as number]])
 
-    inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"])
+    inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
     inst.components.sanity.get_equippable_dappernessfn = function() return 0 end
     --PostInit.wakaba.sanity(inst.components.sanity)
 
@@ -117,11 +125,8 @@ local master_postinit = function(inst)
     end
 
     inst.components.combat.customdamagemultfn = CustomDmg
-    --PostInit.wakaba.combat(inst.components.combat)
 
     inst:AddComponent("parryable")
-
-    --PostInit.wakaba.inventory(inst.components.inventory)
 
     inst.skeleton_prefab = nil
 end

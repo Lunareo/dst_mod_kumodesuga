@@ -29,6 +29,10 @@ end
 
 ----------------------------------------------------------------------------------------------------
 
+---@class components
+---@field satura component_satura
+
+---@class component_satura: component_base
 local Satura = Class(function(self, inst)
         self.inst = inst
         self.max = 50

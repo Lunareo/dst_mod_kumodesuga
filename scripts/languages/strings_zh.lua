@@ -55,6 +55,7 @@ STRINGS = {
             },
             DESCRIBE = {
                 CHIPS = "不必担心发胖，这个身躯是完美的。",
+                GOLDNUGGET = "恒星的残骸。",
                 HELHEIM_BEYONDER = nil,
                 SHIRO = "",
                 SPIDERSCYTHE = "希望她喜欢这个礼物。",
@@ -126,6 +127,12 @@ STRINGS = {
         SHIRO = {
             ARROGANS_DESC = "加速战斗经验的成长, 但是会引起更多的仇恨。",
             ARROGANS_TITLE = "傲慢",
+            EVIL_EYES_1_DESC = "习得【麻痹之邪眼】。\n习得【恐怖之邪眼】。\n",
+            EVIL_EYES_1_TITLE = "邪眼I",
+            EVIL_EYES_2_DESC = "习得【催眠之邪眼】。\n习得【狂气之邪眼】。\n",
+            EVIL_EYES_2_TITLE = "邪眼II",
+            EVIL_EYES_3_DESC = "习得【石化之邪眼】。\n习得\n",
+            EVIL_EYES_3_TITLE = "邪眼III",
             DESIDIAE_DESC = "使被攻击的目标随着时间的推移, 损失更多的生命、饥饿和理智。",
             DESIDIAE_TITLE = "怠惰",
             DOMINATOR_LOCK_DESC = nil,
@@ -135,9 +142,9 @@ STRINGS = {
             REINCARNATION_TITLE = nil,
             SAPIENS_DESC = "降低MP的消耗, 大幅增加MP恢复速度, 提高魔法造成的伤害。",
             SAPIENS_TITLE = "睿智",
-            SHIRO_ALLEGIANCE_LUNAR_DESC = "以身入局, 非黑即白。",
+            SHIRO_ALLEGIANCE_LUNAR_DESC = "接受月光的洗礼并获得月亮祝福。",
             SHIRO_ALLEGIANCE_LUNAR_TITLE = "月光代理人",
-            SHIRO_ALLEGIANCE_SHADOW_DESC = "以身入局, 非白即黑。",
+            SHIRO_ALLEGIANCE_SHADOW_DESC = "使用暗影之力。",
             SHIRO_ALLEGIANCE_SHADOW_TITLE = "暗影军团长",
             SHIRO_EVOLUTION_ADVANCE_SPIDER_DESC = "中幅提高血量上限及防御。",
             SHIRO_EVOLUTION_ADVANCE_SPIDER_LOCK_DESC = "没有进化为死神之镰。",
@@ -208,11 +215,11 @@ STRINGS = {
     UI = {
         HUD = {
             DEATH_ANNOUNCEMENT_WAKABA = {
-                [1] = "%s 的扮演游戏结束了! 她的躯体回归了冥界.",
-                [2] = "%s 的扮演游戏结束了! 她的躯体被摧毁了.",
+                "%s 的扮演游戏结束了! 她的躯体回归了冥界.",
+                "%s 的扮演游戏结束了! 她的躯体被摧毁了.",
             },
             REZ_ANNOUNCEMENT_WAKABA = {
-                [1] = "借由 %s 之手, %s 得以再次降临永恒领域."
+                "借由 %s 之手, %s 得以再次降临永恒领域."
             },
         },
     },
