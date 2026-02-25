@@ -42,6 +42,7 @@ configuration_options = {
         label = en_zh("Dodge hot key", "闪避热键"),
         hover = en_zh("While press this key, wakaba will try dodge", "按下此键时, 若叶姬色将尝试进行闪避"),
         options = key_option,
+        client = true,
         default = "KEY_R",
     },
     -- {

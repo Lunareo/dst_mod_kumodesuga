@@ -221,12 +221,32 @@ local function BuildSkillData(SkillTreeFns)
             group = "evolution",
             tags = { "evolution", "huge_spider" },
             connects = { "shiro_evolution_mega_spider" },
+            onactivate = function(inst, fromload)
+                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health:ForceUpdateHUD(true)
+                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health:ForceUpdateHUD(true)
+                inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "advance_spider_evoluted")
+            end
         },
         shiro_evolution_mega_spider = {
             pos = Coord("evolution", 120, -15),
             group = "evolution",
             tags = { "evolution", "huge_spider" },
             connects = { "shiro_evolution_queen_spider" },
+            onactivate = function(inst, fromload)
+                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health:ForceUpdateHUD(true)
+                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "mega_spider_evoluted")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health:ForceUpdateHUD(true)
+                inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "mega_spider_evoluted")
+            end
         },
         shiro_evolution_queen_spider = {
             pos = Coord("evolution", 160, -30),
@@ -269,9 +289,7 @@ local function BuildSkillData(SkillTreeFns)
         if data.lock_open then
             data.root = true
         else
-            if not data.icon then
-                data.icon = "wilson_alchemy_1"
-            end
+            data.icon = data.icon or name
             data.title = data.title or STRINGS.SKILLTREE.SHIRO[string.upper(name) .. "_TITLE"]
         end
         data.desc = data.desc or STRINGS.SKILLTREE.SHIRO[string.upper(name) .. "_DESC"]

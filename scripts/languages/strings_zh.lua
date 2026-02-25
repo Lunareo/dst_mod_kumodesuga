@@ -177,6 +177,12 @@ STRINGS = {
             VISION_OVERLOOK_DESC = "习得【远眺】: 可以观察更远的地方。",
             VISION_OVERLOOK_TITLE = "远眺",
         },
+        WAKABA = {
+            CONCENTRATION_DESC = "连续攻击同一个目标从而进入专心致志状态。\n专心致志: 专注于攻击一个目标。提高100%对该目标的伤害, 但是会导致对其他可攻击目标的失焦。",
+            CONCENTRATION_TITLE = "专心致志",
+            HEARTFLOW_DESC = "专心致志状态下时, 减少来自非关注目标的30%伤害。",
+            HEARTFLOW_TITLE = "心流",
+        },
         PANELS = {
             CONSTMAGIC = "预构筑魔术",
             DOMINATOR = "支配者",
