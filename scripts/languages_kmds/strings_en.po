@@ -1,0 +1,675 @@
+msgid ""
+msgstr ""
+"Application: Dont' Starve\n"
+"POT Version: 2.0\n"
+
+#. STRINGS.ACTIONS.CASTAOE.SPIDERSCYTHE
+msgctxt "STRINGS.ACTIONS.CASTAOE.SPIDERSCYTHE"
+msgid "横扫"
+msgstr "Sweep"
+
+#. STRINGS.ACTIONS.PARRY
+msgctxt "STRINGS.ACTIONS.PARRY"
+msgid "闪避"
+msgstr "Parry"
+
+#. STRINGS.CHARACTERS.GENERIC.ACTIONFAIL.CASTAOE.SPELL_NOT_ENOUGH_COST
+msgctxt "STRINGS.CHARACTERS.GENERIC.ACTIONFAIL.CASTAOE.SPELL_NOT_ENOUGH_COST"
+msgid "施放这个法术需要更多的魔力!"
+msgstr "Performing this spell requires more cost."
+
+#. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_DRUNKEN
+msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_DRUNKEN"
+msgid "only_used_by_shiro"
+msgstr "only_used_by_shiro"
+
+#. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION
+msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION"
+msgid "only_used_by_shiro"
+msgstr "only_used_by_shiro"
+
+#. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_DETACH_BUFF_DRUNKEN
+msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_DETACH_BUFF_DRUNKEN"
+msgid "only_used_by_shiro"
+msgstr "only_used_by_shiro"
+
+#. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION
+msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION"
+msgid "only_used_by_shiro"
+msgstr "only_used_by_shiro"
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.CHIPS
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.CHIPS"
+msgid "酥脆可口的小零食。"
+msgstr "Crispy snack."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.KURIKUTA_DRIED
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.KURIKUTA_DRIED"
+msgid "味道很好的干果。"
+msgstr "Some kind of dried fruit with a very sweet taste."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.SHIRO
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.SHIRO"
+msgid "她真好看。"
+msgstr "Quiet beauty."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.SILK_ROBE
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.SILK_ROBE"
+msgid "坚韧但不厚重, 丝滑但不透凉。"
+msgstr ""
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.WAKABA
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.WAKABA"
+msgid "她真好看。"
+msgstr "Quiet beauty."
+
+#. STRINGS.CHARACTERS.SHIRO.ACTIONFAIL.CASTAOE.SPELL_ON_COOLDOWN
+msgctxt "STRINGS.CHARACTERS.SHIRO.ACTIONFAIL.CASTAOE.SPELL_ON_COOLDOWN"
+msgid "魔导大师也需要一些冷却时间。"
+msgstr "Waiting for skill's cooldown is necessary."
+
+#. STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATTACH_BUFF_DRUNKEN
+msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATTACH_BUFF_DRUNKEN"
+msgid "呜哇!"
+msgstr "Ow!"
+
+#. STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION
+msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION"
+msgid "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复..."
+msgstr "That caused a huge damage to my eyes, I need some time to recover..."
+
+#. STRINGS.CHARACTERS.SHIRO.ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION
+msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION"
+msgid "我感觉好多了."
+msgstr "I feel better now."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.CHIPS
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.CHIPS"
+msgid "没想到在这里也能吃到这个。"
+msgstr "I need more."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.KURIKUTA_DRIED
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.KURIKUTA_DRIED"
+msgid "比起有毒魔物的肉, 这个已经非常不错了。"
+msgstr "Although it's not fresh, it's much better than the monster's meat."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.SHIRO
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.SHIRO"
+msgid "%s, 你是我的替身吗?"
+msgstr "%s, are you my standin?"
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.SILK_ROBE
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.SILK_ROBE"
+msgid "由千锤百炼的织丝技能制作而成, 比一般的布料耐用得多。"
+msgstr ""
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.SPIDERSCYTHE
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.SPIDERSCYTHE"
+msgid "有一种亲近的感觉。"
+msgstr "...It gives a sense of closeness and reassurance."
+
+#. STRINGS.CHARACTERS.WAKABA.ACTIONFAIL.CASTAOE.SPELL_ON_COOLDOWN
+msgctxt "STRINGS.CHARACTERS.WAKABA.ACTIONFAIL.CASTAOE.SPELL_ON_COOLDOWN"
+msgid "稍作限制能让游戏变得更有趣。"
+msgstr "Adding limit to my power makes game more interesting."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.CHIPS
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.CHIPS"
+msgid "不必担心发胖，这个身躯是完美的。"
+msgstr "Don't worry about getting fat, this is a perfect body."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.GOLDNUGGET
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.GOLDNUGGET"
+msgid "恒星的残骸。"
+msgstr "The remnants of a star."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.SPIDERSCYTHE
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.SPIDERSCYTHE"
+msgid "希望她喜欢这个礼物。"
+msgstr "Hope she likes this gift."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.WAKABA
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.WAKABA"
+msgid "拙劣的模仿。"
+msgstr "Despicable imitator."
+
+#. STRINGS.CHARACTER_DESCRIPTIONS.shiro
+msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.shiro"
+msgid "*身份神秘的少女\n*不善于表达\n*不要让她接触酒精"
+msgstr "*A girl with a mysterious identity\n*Bad at expressing\n*Cannot hold the liquor"
+
+#. STRINGS.CHARACTER_DESCRIPTIONS.wakaba
+msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.wakaba"
+msgid "*沉默寡言的JK\n*没有共情的能力\n*很擅长电子游戏\n*(这也是游戏的一部分)"
+msgstr "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\""
+
+#. STRINGS.CHARACTER_NAMES.shiro
+msgctxt "STRINGS.CHARACTER_NAMES.shiro"
+msgid "白"
+msgstr "White Weaver"
+
+#. STRINGS.CHARACTER_NAMES.wakaba
+msgctxt "STRINGS.CHARACTER_NAMES.wakaba"
+msgid "若叶姬色"
+msgstr "Hiiro Wakaba"
+
+#. STRINGS.CHARACTER_QUOTES.shiro
+msgctxt "STRINGS.CHARACTER_QUOTES.shiro"
+msgid "..."
+msgstr "..."
+
+#. STRINGS.CHARACTER_QUOTES.wakaba
+msgctxt "STRINGS.CHARACTER_QUOTES.wakaba"
+msgid "..."
+msgstr "..."
+
+#. STRINGS.CHARACTER_TITLES.shiro
+msgctxt "STRINGS.CHARACTER_TITLES.shiro"
+msgid "神之替身"
+msgstr "Goddess' standin"
+
+#. STRINGS.CHARACTER_TITLES.wakaba
+msgctxt "STRINGS.CHARACTER_TITLES.wakaba"
+msgid "神之化身"
+msgstr "Goddess' avatar"
+
+#. STRINGS.INSIGHT_DESC.ARAMASA
+msgctxt "STRINGS.INSIGHT_DESC.ARAMASA"
+msgid "攻击造成8次伤害"
+msgstr "Cause 8 times dmg per atk"
+
+#. STRINGS.NAMES.ABYSSDAMAGE
+msgctxt "STRINGS.NAMES.ABYSSDAMAGE"
+msgid "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>"
+msgstr "<color=#221356>Abyss Damage</color>: <color=#221356>%2.1d</color>"
+
+#. STRINGS.NAMES.ABYSSDEFENSE
+msgctxt "STRINGS.NAMES.ABYSSDEFENSE"
+msgid "<color=#221356>外道抗性</color>: <color=#221356>%2.1d</color>"
+msgstr "<color=#221356>Abyss Defense</color>: <color=#221356>%2.1d</color>"
+
+#. STRINGS.NAMES.ARACHNECURSE
+msgctxt "STRINGS.NAMES.ARACHNECURSE"
+msgid "蜘蛛女郎的诅咒"
+msgstr "Curse of Arachne"
+
+#. STRINGS.NAMES.ARAMASA
+msgctxt "STRINGS.NAMES.ARAMASA"
+msgid "天羽羽斩"
+msgstr "Aramasa"
+
+#. STRINGS.NAMES.BUFF_CURSE
+msgctxt "STRINGS.NAMES.BUFF_CURSE"
+msgid "诅咒"
+msgstr "Curse"
+
+#. STRINGS.NAMES.BUFF_CURSE_REGEN
+msgctxt "STRINGS.NAMES.BUFF_CURSE_REGEN"
+msgid "再生"
+msgstr "Regen"
+
+#. STRINGS.NAMES.BUFF_DRUNKEN
+msgctxt "STRINGS.NAMES.BUFF_DRUNKEN"
+msgid "耍酒疯"
+msgstr "Drunken"
+
+#. STRINGS.NAMES.BUFF_EROSION
+msgctxt "STRINGS.NAMES.BUFF_EROSION"
+msgid "腐蚀"
+msgstr "Erosion"
+
+#. STRINGS.NAMES.BUFF_FREEZE
+msgctxt "STRINGS.NAMES.BUFF_FREEZE"
+msgid "冻结"
+msgstr "Freeze"
+
+#. STRINGS.NAMES.BUFF_MIGHTY_STRIKE
+msgctxt "STRINGS.NAMES.BUFF_MIGHTY_STRIKE"
+msgid "强力一击"
+msgstr "Mighty Strike"
+
+#. STRINGS.NAMES.CHIPS
+msgctxt "STRINGS.NAMES.CHIPS"
+msgid "薯片"
+msgstr "Chips"
+
+#. STRINGS.NAMES.DECREASE_HUNGER
+msgctxt "STRINGS.NAMES.DECREASE_HUNGER"
+msgid "饥饿度"
+msgstr "Hunger"
+
+#. STRINGS.NAMES.EROSION
+msgctxt "STRINGS.NAMES.EROSION"
+msgid "腐蚀"
+msgstr "Erosion"
+
+#. STRINGS.NAMES.EROSIONDAMAGE
+msgctxt "STRINGS.NAMES.EROSIONDAMAGE"
+msgid "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>"
+msgstr "<color=#451758>Erosion Damage</color>: <color=#451758>%2.1d</color>"
+
+#. STRINGS.NAMES.EROSIONDEFENSE
+msgctxt "STRINGS.NAMES.EROSIONDEFENSE"
+msgid "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>"
+msgstr "<color=#451758>Erosion Defense</color>: <color=#451758>%2.1d</color>"
+
+#. STRINGS.NAMES.HELHEIM_BEYONDER
+msgctxt "STRINGS.NAMES.HELHEIM_BEYONDER"
+msgid "超越冥界"
+msgstr "Helheim Beyonder"
+
+#. STRINGS.NAMES.KUMO_ATK_STEALER
+msgctxt "STRINGS.NAMES.KUMO_ATK_STEALER"
+msgid "攻击窃取"
+msgstr "ATK Stolen"
+
+#. STRINGS.NAMES.KUMO_OVERSATURATE
+msgctxt "STRINGS.NAMES.KUMO_OVERSATURATE"
+msgid "吃撑了"
+msgstr "Stuffed"
+
+#. STRINGS.NAMES.KUMO_SATURATE
+msgctxt "STRINGS.NAMES.KUMO_SATURATE"
+msgid "饱足"
+msgstr "Satiete"
+
+#. STRINGS.NAMES.KURIKUTA_DRIED
+msgctxt "STRINGS.NAMES.KURIKUTA_DRIED"
+msgid "干燥库利库塔果实"
+msgstr "Dried Kurikuta Fruit"
+
+#. STRINGS.NAMES.SHIRO
+msgctxt "STRINGS.NAMES.SHIRO"
+msgid "白织"
+msgstr "Shiraori"
+
+#. STRINGS.NAMES.SILK_ROBE
+msgctxt "STRINGS.NAMES.SILK_ROBE"
+msgid "丝质长袍"
+msgstr "Silk Rope"
+
+#. STRINGS.NAMES.SPIDERSCYTHE
+msgctxt "STRINGS.NAMES.SPIDERSCYTHE"
+msgid "阿剌克涅"
+msgstr "Arachne"
+
+#. STRINGS.NAMES.SPIDERSCYTHE_SHIRO
+msgctxt "STRINGS.NAMES.SPIDERSCYTHE_SHIRO"
+msgid "蜘蛛大镰刀"
+msgstr "Spider Scythe"
+
+#. STRINGS.NAMES.STORING_SPACE
+msgctxt "STRINGS.NAMES.STORING_SPACE"
+msgid "储物空间"
+msgstr "Storing Space"
+
+#. STRINGS.NAMES.STORING_SPACE_DTOR
+msgctxt "STRINGS.NAMES.STORING_SPACE_DTOR"
+msgid "解除储物空间"
+msgstr "Remove Storing Space"
+
+#. STRINGS.NAMES.WAKABA
+msgctxt "STRINGS.NAMES.WAKABA"
+msgid "若叶姬色"
+msgstr "Wakaba"
+
+#. STRINGS.RECIPE_DESC.ARAMASA
+msgctxt "STRINGS.RECIPE_DESC.ARAMASA"
+msgid "一位创世者的手套的仿品。"
+msgstr "A replica of a creator's glove."
+
+#. STRINGS.RECIPE_DESC.SILK_SHIRO
+msgctxt "STRINGS.RECIPE_DESC.SILK_SHIRO"
+msgid "蜘蛛型魔物的基本功。"
+msgstr "The signature skill of spider-type monsters."
+
+#. STRINGS.RECIPE_DESC.SPIDERSCYTHE
+msgctxt "STRINGS.RECIPE_DESC.SPIDERSCYTHE"
+msgid "传说级蜘蛛魔物的前腿制作的武器。"
+msgstr "An ominous weapon made from the leg of an ominous spider-monster."
+
+#. STRINGS.RECIPE_DESC.STORING_SPACE
+msgctxt "STRINGS.RECIPE_DESC.STORING_SPACE"
+msgid "对空间魔术的娴熟应用。"
+msgstr "Applycation of space magic."
+
+#. STRINGS.SKILLTREE.PANELS.CONSTMAGIC
+msgctxt "STRINGS.SKILLTREE.PANELS.CONSTMAGIC"
+msgid "预构筑魔术"
+msgstr "Pre-constructed magics"
+
+#. STRINGS.SKILLTREE.PANELS.DOMINATOR
+msgctxt "STRINGS.SKILLTREE.PANELS.DOMINATOR"
+msgid "支配者"
+msgstr "Dominator"
+
+#. STRINGS.SKILLTREE.PANELS.EVOLUTION
+msgctxt "STRINGS.SKILLTREE.PANELS.EVOLUTION"
+msgid "进化"
+msgstr "Evolution"
+
+#. STRINGS.SKILLTREE.SHIRO.ARROGANS_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.ARROGANS_DESC"
+msgid "加速战斗经验的成长, 但是会引起更多的仇恨。"
+msgstr "加速战斗经验的成长, 但是会引起更多的仇恨。"
+
+#. STRINGS.SKILLTREE.SHIRO.ARROGANS_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.ARROGANS_TITLE"
+msgid "傲慢"
+msgstr "Arrogans"
+
+#. STRINGS.SKILLTREE.SHIRO.DESIDIAE_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.DESIDIAE_DESC"
+msgid "使被攻击的目标随着时间的推移, 损失更多的生命、饥饿和理智。"
+msgstr "使被攻击的目标随着时间的推移, 损失更多的生命、饥饿和理智。"
+
+#. STRINGS.SKILLTREE.SHIRO.DESIDIAE_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.DESIDIAE_TITLE"
+msgid "怠惰"
+msgstr "Desidiae"
+
+#. STRINGS.SKILLTREE.SHIRO.PATI_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.PATI_DESC"
+msgid "在MP耗尽之前, 无论如何都能以HP值1存活。\n并根据忍耐的等级获得伤害减免, 且使HP的损失变为线性。"
+msgstr "在MP耗尽之前, 无论如何都能以HP值1存活。\n并根据忍耐的等级获得伤害减免, 且使HP的损失变为线性。"
+
+#. STRINGS.SKILLTREE.SHIRO.PATI_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.PATI_TITLE"
+msgid "忍耐"
+msgstr "Pati"
+
+#. STRINGS.SKILLTREE.SHIRO.SAPIENS_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SAPIENS_DESC"
+msgid "降低MP的消耗, 大幅增加MP恢复速度, 提高魔法造成的伤害。"
+msgstr "降低MP的消耗, 大幅增加MP恢复速度, 提高魔法造成的伤害。"
+
+#. STRINGS.SKILLTREE.SHIRO.SAPIENS_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SAPIENS_TITLE"
+msgid "睿智"
+msgstr "Sapiens"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_LUNAR_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_LUNAR_DESC"
+msgid "接受月光的洗礼并获得月亮祝福。"
+msgstr "以身入局, 非黑即白。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_LUNAR_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_LUNAR_TITLE"
+msgid "月光代理人"
+msgstr "月光代理人"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_SHADOW_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_SHADOW_DESC"
+msgid "使用暗影之力。"
+msgstr "以身入局, 非白即黑。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_SHADOW_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_ALLEGIANCE_SHADOW_TITLE"
+msgid "暗影军团长"
+msgstr "暗影军团长"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_DESC"
+msgid "中幅提高血量上限及防御。"
+msgstr "中幅提高血量上限及防御。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_LOCK_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_LOCK_DESC"
+msgid "没有进化为死神之镰。"
+msgstr "没有进化为死神之镰。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ADVANCE_SPIDER_TITLE"
+msgid "上级蜘蛛怪"
+msgstr "Advance Spider"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ARACHNE_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ARACHNE_DESC"
+msgid "得益于拥有两个脑袋, 通过身体协同使得一次攻击造成两次伤害, \n并在每次重生后的第一次死亡时逃脱并恢复到最大HP。"
+msgstr "得益于拥有两个脑袋, 通过身体协同使得一次攻击造成两次伤害, \n并在每次重生后的第一次死亡时逃脱并恢复到最大HP。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ARACHNE_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_ARACHNE_TITLE"
+msgid "女郎蜘蛛"
+msgstr "Arachne"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_DESC"
+msgid "习得【腐蚀攻击】: 使用近战武器造成伤害时附带腐蚀伤害。"
+msgstr "习得【腐蚀攻击】: 使用近战武器造成伤害时附带腐蚀伤害。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_LOCK_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_LOCK_DESC"
+msgid "没有进化为上级蜘蛛怪。"
+msgstr "没有进化为上级蜘蛛怪。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_DEATH_SCYTHE_TITLE"
+msgid "死神之镰"
+msgstr "Death's Scythe"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_MEGA_SPIDER_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_MEGA_SPIDER_DESC"
+msgid "大幅提高血量上限及防御。"
+msgstr "大幅提高血量上限及防御。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_MEGA_SPIDER_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_MEGA_SPIDER_TITLE"
+msgid "超级蜘蛛怪"
+msgstr "Mega Spider"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_QUEEN_SPIDER_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_QUEEN_SPIDER_DESC"
+msgid "可以制作蜘蛛卵, 并被视为蜘蛛女王+1, 可以徒手雇佣无仇恨的蜘蛛。\n习得【产卵】: 消耗体力制作随机蜘蛛。"
+msgstr "可以制作蜘蛛卵, 并被视为蜘蛛女王+1, 可以徒手雇佣无仇恨的蜘蛛。\n习得【产卵】: 消耗体力制作随机蜘蛛。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_QUEEN_SPIDER_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_QUEEN_SPIDER_TITLE"
+msgid "女王蜘蛛怪"
+msgstr "Queen Spider"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_TINY_SPIDER_METER_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_TINY_SPIDER_METER_DESC"
+msgid "习得【丝线制造】: 可以消耗SP制作蜘蛛丝。"
+msgstr "习得【丝线制造】: 可以消耗SP制作蜘蛛丝。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_TINY_SPIDER_METER_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_TINY_SPIDER_METER_TITLE"
+msgid "小型蜘蛛怪"
+msgstr "Tiny Spider"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_UNDYING_QUEEN_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_UNDYING_QUEEN_DESC"
+msgid "习得【不死】: HP归零时, 可以选择尝试在原地恢复HP, 并在HP恢复到最大时复活。"
+msgstr "习得【不死】: HP归零时, 可以选择尝试在原地恢复HP, 并在HP恢复到最大时复活。"
+
+#. STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_UNDYING_QUEEN_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SHIRO_EVOLUTION_UNDYING_QUEEN_TITLE"
+msgid "不死蛛后"
+msgstr "Undying Queen Spider"
+
+#. STRINGS.SKILLTREE.SHIRO.SKANDA_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SKANDA_DESC"
+msgid "奔跑时会逐渐加速, 饥饿/体力的消耗也会相应地增加。"
+msgstr "奔跑时会逐渐加速, 饥饿/体力的消耗也会相应地增加。"
+
+#. STRINGS.SKILLTREE.SHIRO.SKANDA_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SKANDA_TITLE"
+msgid "韦陀天"
+msgstr "Skanda"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_1_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_1_DESC"
+msgid "开辟一块用于存储物品的空间。"
+msgstr "开辟一块用于存储物品的空间。"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_1_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_1_TITLE"
+msgid "空间魔法I"
+msgstr "Space Magic I"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_2_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_2_DESC"
+msgid "获得更大的储物空间。\n学会进行短距离的空间跳跃。"
+msgstr "获得更大的储物空间。\n学会进行短距离的空间跳跃。"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_2_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_2_TITLE"
+msgid "空间魔法II"
+msgstr "Space Magic II"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_3_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_3_DESC"
+msgid "获得更大的储物空间, 并可以直接将沉重的物品收纳到储物空间中。\n学会进行长距离的空间跳跃。"
+msgstr "获得更大的储物空间, 并可以直接将沉重的物品收纳到储物空间中。\n学会进行长距离的空间跳跃。"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_3_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMAGIC_3_TITLE"
+msgid "空间魔法III"
+msgstr "Space Magic III"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMOTOR_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMOTOR_DESC"
+msgid "在没有地面的地方站稳脚跟。"
+msgstr "在没有地面的地方站稳脚跟。"
+
+#. STRINGS.SKILLTREE.SHIRO.SPACEMOTOR_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.SPACEMOTOR_TITLE"
+msgid "空间机动"
+msgstr "Space Motor"
+
+#. STRINGS.SKILLTREE.SHIRO.VISION_ENHANCE_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.VISION_ENHANCE_DESC"
+msgid "强化视觉, 获得在黑暗、风暴以及沙暴中看清事物的能力。"
+msgstr "强化视觉, 获得在黑暗、风暴以及沙暴中看清事物的能力。"
+
+#. STRINGS.SKILLTREE.SHIRO.VISION_ENHANCE_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.VISION_ENHANCE_TITLE"
+msgid "视觉强化"
+msgstr "Vision Enhancement"
+
+#. STRINGS.SKILLTREE.SHIRO.VISION_OVERLOOK_DESC
+msgctxt "STRINGS.SKILLTREE.SHIRO.VISION_OVERLOOK_DESC"
+msgid "习得【远眺】: 可以观察更远的地方。"
+msgstr "习得【远眺】: 可以观察更远的地方。"
+
+#. STRINGS.SKILLTREE.SHIRO.VISION_OVERLOOK_TITLE
+msgctxt "STRINGS.SKILLTREE.SHIRO.VISION_OVERLOOK_TITLE"
+msgid "远眺"
+msgstr "Overlook"
+
+#. STRINGS.SKILLTREE.WAKABA.CONCENTRATION_DESC
+msgctxt "STRINGS.SKILLTREE.WAKABA.CONCENTRATION_DESC"
+msgid "连续攻击同一个目标从而进入专心致志状态。\n专心致志: 专注于攻击一个目标。提高100%对该目标的伤害, 但是会导致对其他可攻击目标的失焦。"
+msgstr "连续攻击同一个目标从而进入专心致志状态。\n专心致志: 专注于攻击一个目标。提高100%对该目标的伤害, 但是会导致对其他可攻击目标的失焦。"
+
+#. STRINGS.SKILLTREE.WAKABA.CONCENTRATION_TITLE
+msgctxt "STRINGS.SKILLTREE.WAKABA.CONCENTRATION_TITLE"
+msgid "专心致志"
+msgstr "Concentration"
+
+#. STRINGS.SKILLTREE.WAKABA.HEARTFLOW_DESC
+msgctxt "STRINGS.SKILLTREE.WAKABA.HEARTFLOW_DESC"
+msgid "专心致志状态下时, 减少来自非关注目标的30%伤害。"
+msgstr "专心致志状态下时, 减少来自非关注目标的30%伤害。"
+
+#. STRINGS.SKILLTREE.WAKABA.HEARTFLOW_TITLE
+msgctxt "STRINGS.SKILLTREE.WAKABA.HEARTFLOW_TITLE"
+msgid "心流"
+msgstr "Heart Flow"
+
+#. STRINGS.SKIN_DESCRIPTIONS.shiro
+msgctxt "STRINGS.SKIN_DESCRIPTIONS.shiro"
+msgid "她看似弱不禁风\n实则拥有摧枯拉朽的力量。"
+msgstr "She might looks would be blown down by wind.\nYet she's the storm that blows everything down."
+
+#. STRINGS.SKIN_DESCRIPTIONS.shiro_classic
+msgctxt "STRINGS.SKIN_DESCRIPTIONS.shiro_classic"
+msgid "来自“蜘蛛子”模组的第一版。"
+msgstr "Initial version from mod \"Kumoko\""
+
+#. STRINGS.SKIN_DESCRIPTIONS.wakaba
+msgctxt "STRINGS.SKIN_DESCRIPTIONS.wakaba"
+msgid "神造人偶。"
+msgstr "God made puppet."
+
+#. STRINGS.SKIN_NAMES.shiro
+msgctxt "STRINGS.SKIN_NAMES.shiro"
+msgid "白色死神"
+msgstr "Death White"
+
+#. STRINGS.SKIN_NAMES.shiro_classic
+msgctxt "STRINGS.SKIN_NAMES.shiro_classic"
+msgid "蜘蛛子"
+msgstr "Kumoko"
+
+#. STRINGS.SKIN_NAMES.shiro_jk
+msgctxt "STRINGS.SKIN_NAMES.shiro_jk"
+msgid "返校日"
+msgstr "School Days"
+
+#. STRINGS.SKIN_NAMES.wakaba
+msgctxt "STRINGS.SKIN_NAMES.wakaba"
+msgid "返校日"
+msgstr "Goddess' role playing"
+
+#. STRINGS.SKIN_QUOTES.shiro_classic
+msgctxt "STRINGS.SKIN_QUOTES.shiro_classic"
+msgid "我的那些能力都去哪了?"
+msgstr "I need more power."
+
+#. STRINGS.SKIN_QUOTES.shiro_jk
+msgctxt "STRINGS.SKIN_QUOTES.shiro_jk"
+msgid "如同记忆里的一般, 尽管那是虚假的。"
+msgstr "I was in my memories, but it's fake."
+
+#. STRINGS.SPELLS.EVIL_EYES.CURSE
+msgctxt "STRINGS.SPELLS.EVIL_EYES.CURSE"
+msgid "诅咒之邪眼(10理智)"
+msgstr "Curse Stare(10 san)"
+
+#. STRINGS.SPELLS.EVIL_EYES.DESTRUCTION
+msgctxt "STRINGS.SPELLS.EVIL_EYES.DESTRUCTION"
+msgid "腐蚀之邪眼(100理智)"
+msgstr "Erosion Glare(100 san)"
+
+#. STRINGS.SPELLS.EVIL_EYES.EROSION
+msgctxt "STRINGS.SPELLS.EVIL_EYES.EROSION"
+msgid "腐蚀之邪眼(10理智)"
+msgstr "Erosion Glance(10 san)"
+
+#. STRINGS.SPELLS.EVIL_EYES.FREEZE
+msgctxt "STRINGS.SPELLS.EVIL_EYES.FREEZE"
+msgid "静止之邪眼(5理智)"
+msgstr "Freeze Stare(5 san)"
+
+#. STRINGS.SPELLS.EVIL_EYES.GRAVITY
+msgctxt "STRINGS.SPELLS.EVIL_EYES.GRAVITY"
+msgid "引斥之邪眼(10理智)"
+msgstr "Gravitation Glance(10 san)"
+
+#. STRINGS.SPELLS.EVIL_EYES.TWIST
+msgctxt "STRINGS.SPELLS.EVIL_EYES.TWIST"
+msgid "歪曲之邪眼(10理智)"
+msgstr "Twist Glance(10 san)"
+
+#. STRINGS.SPELLS.TOGGLENIGHTVISION
+msgctxt "STRINGS.SPELLS.TOGGLENIGHTVISION"
+msgid "锐利目光"
+msgstr "Spider Vision"
+
+#. STRINGS.UI.HUD.DEATH_ANNOUNCEMENT_WAKABA.1
+msgctxt "STRINGS.UI.HUD.DEATH_ANNOUNCEMENT_WAKABA.1"
+msgid "%s 的扮演游戏结束了! 她的躯体回归了冥界."
+msgstr "The role-playing game of %s is over! Her body returned to the netherworld."
+
+#. STRINGS.UI.HUD.DEATH_ANNOUNCEMENT_WAKABA.2
+msgctxt "STRINGS.UI.HUD.DEATH_ANNOUNCEMENT_WAKABA.2"
+msgid "%s 的扮演游戏结束了! 她的躯体被摧毁了."
+msgstr "The role-playing game of %s is over! Her body was destroyed."
+
+#. STRINGS.UI.HUD.REZ_ANNOUNCEMENT_WAKABA.1
+msgctxt "STRINGS.UI.HUD.REZ_ANNOUNCEMENT_WAKABA.1"
+msgid "借由 %s 之手, %s 得以再次降临永恒领域."
+msgstr "By the hand of %s, %s was able to descend upon the Constant once again."
+
