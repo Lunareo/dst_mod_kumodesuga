@@ -1,12 +1,12 @@
 ---@meta
 
 ---@class skill_def
----@field title string|nil -- Can't be nil
----@field desc string|nil -- Can't be nil
----@field icon string|nil -- skill_node_only
+---@field title string|nil # Can't be nil
+---@field desc string|nil # Can't be nil
+---@field icon string|nil # skill_node_only
 ---@field pos number[]
 ---@field group string
----@field tags string[]|nil -- skill_node_only
+---@field tags string[]|nil # skill_node_only
 ---@field root boolean|nil
 ---@field lock_open fun(prefabname:string, activatedskills:string[], readonly:boolean|nil):(boolean)|nil
 ---@field onactivate fun(inst:ent, fromload:boolean|nil)|nil
@@ -45,7 +45,7 @@
 ---| "wakaba" # 若叶姬色
 
 ---@alias PrefabID_mod string
----| "aramasa" 天羽羽斩
+---| "aramasa" # 天羽羽斩
 ---| "buff_curse"
 ---| "buff_erosion"
 ---| "buff_freeze"
