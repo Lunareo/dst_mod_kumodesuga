@@ -57,6 +57,27 @@ local function OnEnabledShadowDirty(inst)
 end
 
 ---@param inst avatar_shiro
+local function GetPointSpecialActions(inst, pos, useitem, right)
+    if right and useitem == nil and
+        inst.components.skilltreeupdater:IsActivated("spacemagic_2") and
+        (inst.components.skilltreeupdater:IsActivated("spacemotor") or
+            TheWorld.Map:IsAboveGroundAtPoint(pos:Get())) then
+        local hands = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        if not (hands and hands.components.aoetargeting) then
+            return { ACTIONS.TRANSFER }
+        end
+    end
+    return {}
+end
+
+---@param inst avatar_shiro
+local function OnSetOwner(inst)
+    if inst.components.playeractionpicker ~= nil then
+        inst.components.playeractionpicker.pointspecialactionsfn = GetPointSpecialActions
+    end
+end
+
+---@param inst avatar_shiro
 ---@param food ent
 ---@param feeder ent
 local function oneat(inst, food, feeder)
@@ -107,6 +128,8 @@ local common_postinit = function(inst)
     end
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
+
+    inst:ListenForEvent("setowner", OnSetOwner)
 end
 
 ---@param inst avatar_shiro

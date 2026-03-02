@@ -98,7 +98,7 @@ msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.SHIRO"
 msgid "%s, 你是我的替身吗?"
 msgstr "%s, are you my standin?"
 
-#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.SILK_ROBE
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.SILK_ROBE //TODO: translation check point
 msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.SILK_ROBE"
 msgid "由千锤百炼的织丝技能制作而成, 比一般的布料耐用得多。"
 msgstr ""

@@ -165,8 +165,62 @@ local states = {
         end,
 
     },
+    State {
+        name = "transfer_jump",
+        tags = { "busy" },
+        onenter = function(inst)
+            inst:PerformBufferedAction()
+            inst.AnimState:PlayAnimation(inst and
+                inst.replica.rider and inst.replica.rider:IsRiding() and "buck" or "jumpout")
+        end,
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end)
+        },
+    },
+
 }
 
 for _, state in ipairs(states) do
     AddStategraphState("wilson", state)
+end
+
+local states_client = {
+    State {
+        name = "transfer_jump",
+        tags = { "busy" },
+        onenter = function(inst)
+            inst:PerformPreviewBufferedAction()
+            inst.AnimState:PlayAnimation(inst and
+                inst.replica.rider and inst.replica.rider:IsRiding() and "buck" or "jumpout")
+        end,
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end)
+        },
+    },
+}
+
+for _, state in ipairs(states_client) do
+    AddStategraphState("wilson_client", state)
+end
+
+local actions_common = {
+    ActionHandler(ACTIONS.TRANSFER, "transfer_jump"),
+    ActionHandler(ACTIONS.TRANSFER_MAP, "transfer_jump"),
+}
+
+for _, action in ipairs(actions_common) do
+    AddStategraphActionHandler("wilson", action)
+    AddStategraphActionHandler("wilson_client", action)
 end

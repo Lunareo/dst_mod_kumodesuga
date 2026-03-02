@@ -72,8 +72,8 @@ UTIL = {}
 ---@generic T: table
 ---@param obj T
 ---@param key string
----@param prefn fun(obj:T, ...):(table|nil,boolean|nil,table|nil)|nil
----@param pstfn fun(ret:table|nil, obj:T, ...):(any)|nil
+---@param prefn fun(self:T, ...):(table|nil,boolean|nil,table|nil)|nil
+---@param pstfn fun(rets:table|nil, self:T, ...):(any)|nil
 ---@param isSkipOld boolean|nil
 ---author: 绯世行
 UTIL.FnExtend = function(obj, key, prefn, pstfn, isSkipOld)

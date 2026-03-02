@@ -73,6 +73,34 @@ local function BuildSkillData(SkillTreeFns)
             group = "constmagic",
             tags = { "constmagic", "spacemotor" },
             root = true,
+            onactivate = function(inst, fromload)
+                if inst ~= nil and inst.Physics ~= nil and not inst:HasTag("playerghost") then
+                    CollisionMaskBatcher(inst)
+                        :ClearCollisionMask()
+                        :SetCollisionMask(
+                            COLLISION.GROUND,
+                            COLLISION.OBSTACLES,
+                            COLLISION.SMALLOBSTACLES,
+                            COLLISION.CHARACTERS,
+                            COLLISION.GIANTS)
+                        :CommitTo(inst)
+                    inst.Physics:Teleport(inst.Transform:GetWorldPosition())
+                end
+            end,
+            ondeactivate = function(inst, fromload)
+                if inst ~= nil and inst.Physics ~= nil and not inst:HasTag("playerghost") then
+                    CollisionMaskBatcher(inst)
+                        :ClearCollisionMask()
+                        :SetCollisionMask(
+                            COLLISION.WORLD,
+                            COLLISION.OBSTACLES,
+                            COLLISION.SMALLOBSTACLES,
+                            COLLISION.CHARACTERS,
+                            COLLISION.GIANTS)
+                        :CommitTo(inst)
+                    inst.Physics:Teleport(inst.Transform:GetWorldPosition())
+                end
+            end,
         },
         skanda = {
             pos = Coord("constmagic", 0, 0),
