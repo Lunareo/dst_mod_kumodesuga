@@ -1,5 +1,5 @@
 hookimport("prefabs", "allplayers", "wakaba", "shiro")
-hookimport("components", "builder", "builder_replica", "sanity", "playercontroller", "combat", "playervision")
+hookimport("components", "builder", "builder_replica", "sanity", "playercontroller", "combat", "playervision", "drownable")
 hookimport("entity")
 hookimport("stategraphs", "SGwilson")
 hookimport("widgets", "eventannouncer", "itemtile", "redux/loadingwidget")

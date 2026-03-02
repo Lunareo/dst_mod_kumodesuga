@@ -1,10 +1,11 @@
 STRINGS = {
---return {
     ACTIONS = {
-        PARRY = "闪避",
         CASTAOE = {
             SPIDERSCYTHE = "横扫",
         },
+        PARRY = "闪避",
+        TRANSFER =  "转移",
+        TRANSFER_MAP = "长距离转移",
     },
     CHARACTERS = {
         GENERIC = {
@@ -223,6 +224,4 @@ STRINGS = {
         },
     },
 }
-local strs = env.STRINGS
-rawset(env, "STRINGS", nil)
-return strs
+return STRINGS

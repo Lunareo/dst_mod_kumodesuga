@@ -1,3 +1,4 @@
+---@class component_playercontroller
 local PlayerController = require "components/playercontroller"
 UTIL.FnExtend(PlayerController, "OnControl", function(self, control, down)
     if not (ThePlayer and TheInput and TheFrontEnd) then return end
@@ -19,3 +20,12 @@ UTIL.FnExtend(PlayerController, "OnControl", function(self, control, down)
         end
     end
 end)
+--UTIL.FnExtend(PlayerController, "GetMapActions", nil, function(rets, self, pos, ...)
+--    rets = rets or {}
+--    if self.inst.components.skilltreeupdater:IsActivated("spacemagic_3") and
+--        self.inst:CanSeePointOnMiniMap(pos:Get()) and
+--        TheWorld.Map:IsAboveGroundAtPoint(pos:Get()) then
+--        rets[2] = BufferedAction(self.inst, nil, ACTIONS.TRANSFER_MAP, nil, pos)
+--    end
+--    return rets
+--end)
