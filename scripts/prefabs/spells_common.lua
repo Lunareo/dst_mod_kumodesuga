@@ -122,15 +122,15 @@ local function AbsorbSingleTargetSkill(data)
             end
         end,
         execute = StartAOETargeting,
-        bank = data.bank or "spell_icons_willow",
-        build = data.build or "spell_icons_willow",
-        anims = {
-            idle = data.anims and data.anims.idle or { anim = "lunar_fire" },
-            focus = data.anims and data.anims.focus or { anim = "lunar_fire_focus", loop = true },
-            down = data.anims and data.anims.down or { anim = "lunar_fire_pressed" },
-            disabled = data.anims and data.anims.disabled or { anim = "lunar_fire_disabled" },
-            cooldown = data.anims and data.anims.cooldown or { anim = "lunar_fire_cooldown" },
-        },
+        bank = data.bank,
+        build = data.build,
+        anims = data.anims--[[ or { -- show struct
+            idle = { anim = "lunar_fire" },
+            focus = { anim = "lunar_fire_focus", loop = true },
+            down = { anim = "lunar_fire_pressed" },
+            disabled = { anim = "lunar_fire_disabled" },
+            cooldown = { anim = "lunar_fire_cooldown" },
+        }]],
         widget_scale = ICON_SCALE,
         checkcooldown = function(user)
             --client safe

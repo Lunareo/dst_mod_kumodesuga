@@ -2,6 +2,7 @@ Assets = {
     Asset("SOUNDPACKAGE", "sound/kumodesuga.fev"),
     Asset("SOUND", "sound/kumodesuga.fsb"),
     Asset("ATLAS", "images/skilltree_icons_kmds.xml"),
+    Asset("ANIM", "anim/spell_icons_shiro.zip"),
 }
 
 ---@param atlas string

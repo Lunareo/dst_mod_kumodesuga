@@ -69,7 +69,7 @@ local function BuildSkillData(SkillTreeFns)
         --    connects = { "skanda" }
         --},
         spacemotor = {
-            pos = Coord("constmagic", -40, 0),
+            pos = Coord("constmagic", -40, -80),
             group = "constmagic",
             tags = { "constmagic", "spacemotor" },
             root = true,
@@ -103,7 +103,7 @@ local function BuildSkillData(SkillTreeFns)
             end,
         },
         skanda = {
-            pos = Coord("constmagic", 0, 0),
+            pos = Coord("constmagic", -40, 0),
             group = "constmagic",
             tags = { "constmagic", "skanda" },
             root = true,
@@ -115,11 +115,11 @@ local function BuildSkillData(SkillTreeFns)
             end
         },
         vision_enhance = {
-            pos = Coord("constmagic", 0, -40),
+            pos = Coord("constmagic", -40, -40),
             group = "constmagic",
             tags = { "constmagic", "vision", },
             root = true,
-            connects = { "vision_overlook" },
+            --connects = { "vision_overlook" },
             onactivate = function(inst, fromload)
                 if inst.components.nightvision ~= nil then
                     inst.components.nightvision:ToggleUpdate(true)
@@ -131,13 +131,13 @@ local function BuildSkillData(SkillTreeFns)
                 end
             end,
         },
-        vision_overlook = {
-            pos = Coord("constmagic", 0, -80),
-            group = "constmagic",
-            tags = { "constmagic", "vision", },
-        },
+        --vision_overlook = {
+        --    pos = Coord("constmagic", 0, -80),
+        --    group = "constmagic",
+        --    tags = { "constmagic", "vision", },
+        --},
         spacemagic_1 = {
-            pos = Coord("constmagic", 40, 0),
+            pos = Coord("constmagic", 0, 0),
             group = "constmagic",
             tags = { "constmagic", "spacemagic" },
             root = true,
@@ -146,7 +146,7 @@ local function BuildSkillData(SkillTreeFns)
             ondeactivate = OnSpaceMagicUpdate,
         },
         spacemagic_2 = {
-            pos = Coord("constmagic", 40, -40),
+            pos = Coord("constmagic", 0, -40),
             group = "constmagic",
             tags = { "constmagic", "spacemagic" },
             connects = { "spacemagic_3" },
@@ -154,12 +154,30 @@ local function BuildSkillData(SkillTreeFns)
             ondeactivate = OnSpaceMagicUpdate,
         },
         spacemagic_3 = {
-            pos = Coord("constmagic", 40, -80),
+            pos = Coord("constmagic", 0, -80),
             group = "constmagic",
             tags = { "constmagic", "spacemagic" },
             onactivate = OnSpaceMagicUpdate,
             ondeactivate = OnSpaceMagicUpdate,
         },
+        evil_eyes_1 = {
+            pos = Coord("constmagic", 40, 0),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+            root = true,
+        },
+        evil_eyes_2 = {
+            pos = Coord("constmagic", 40, -40),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+        },
+        evil_eyes_3 = {
+            pos = Coord("constmagic", 40, -80),
+            group = "constmagic",
+            tags = { "constmagic", "evil_eyes" },
+        },
+        shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
+        shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
         dominator_lock = {
             pos = Coord("dominator", 0, 0),
             group = "dominator",
@@ -281,23 +299,6 @@ local function BuildSkillData(SkillTreeFns)
             group = "evolution",
             tags = { "evolution", "huge_spider", "queenspider" },
         },
-        evil_eyes_1 = {
-            pos = Coord("constmagic", 80, 0),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-        },
-        evil_eyes_2 = {
-            pos = Coord("constmagic", 80, -40),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-        },
-        evil_eyes_3 = {
-            pos = Coord("constmagic", 80, -80),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-        },
-        shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
-        shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
         shiro_allegiance_shadow = {
             icon = "wilson_favor_shadow",
             pos = Coord("allegiance", -20, -80),
