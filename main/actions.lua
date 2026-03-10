@@ -10,8 +10,8 @@ local Parry = AddAction(
     STRINGS.ACTIONS.PARRY,
     function(act)
         local inst = act.doer
-        if inst ~= nil and inst.components.parryable then
-            inst.components.parryable:Parry()
+        if inst ~= nil and inst.components.attackdodger then
+            inst.components.attackdodger.dodgetimestamp = GetTime()
             return true
         end
         return false

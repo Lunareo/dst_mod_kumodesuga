@@ -16,17 +16,6 @@ AddPrefabPostInit("wakaba", function(inst)
                 return nil, nil, { self, amount, overtime, cause, nil, afflicter, nil, ... }
             end
         end)
-    local Sanity = inst.components.sanity
-    UTIL.FnExtend(Sanity, "IsSane", function(self, getraw)
----@diagnostic disable-next-line: redundant-parameter
-        return { not (self:IsInsane(getraw) or self:IsEnlightened(getraw)) }, not getraw
-    end)
-    UTIL.FnExtend(Sanity, "IsInsane", nil, function(rets, self, getraw)
-        return (getraw or 5 >= self.current) and rets or { nil }
-    end)
-    UTIL.FnExtend(Sanity, "IsEnlightened", nil, function(rets, self, getraw)
-        return (getraw or 5 <= self.max - self.current) and rets or { nil }
-    end)
     local Inventory = inst.components.inventory
     UTIL.FnExtend(Inventory, "Equip", nil, function(rets, self, item)
         if item and item.prefab == "amulet" then
@@ -36,16 +25,5 @@ AddPrefabPostInit("wakaba", function(inst)
             item.task = item:DoPeriodicTask(TUNING.REDAMULET_CONVERSION_TIME, healowner, nil, self.inst)
         end
         return rets
-    end)
-    UTIL.FnExtend(Inventory, "RemoveItem", function(self)
----@diagnostic disable-next-line: undefined-field
-        if self.inst.flag_is_stealing_by_xl then
-            return nil, true
-        end
-    end)
-    local Combat = inst.components.combat
-    UTIL.FnExtend(Combat, "GetAttacked", function(self, ...)
-        local dodge = self.inst and self.inst.components.parryable
-        return { true }, dodge and dodge:GetAttacked(...)
     end)
 end)

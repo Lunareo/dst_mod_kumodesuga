@@ -22,7 +22,7 @@ local function AutoToggleWidget(fn, data)
         w.spark:GetAnimState():PlayAnimation(data and data.anim, true)
         w.spark.OnUpdate = function(ring, dt)
             if fn() then
-                local anim = data and data.anim
+                local anim = data and data.anim and (data.anim  .. (w.animstate:IsCurrentAnimation(data.anim) and "" or "_focus") .. "_casting") or "visual_enhance_casting"
                 if not ring:GetAnimState():IsCurrentAnimation(anim) then
                     local frame = ring:GetAnimState():GetCurrentAnimationFrame()
                     ring:GetAnimState():PlayAnimation(anim, true)
@@ -97,7 +97,7 @@ local allskills = {
             down = { anim = "visual_enhance" },
         },
         widget_scale = ICON_SCALE,
-        postinit = AutoToggleWidget(isNightVisionActivated, { build = "spell_icons_shiro", anim = "visual_enhance_casting" }),
+        postinit = AutoToggleWidget(isNightVisionActivated, { build = "spell_icons_shiro", anim = "visual_enhance" }),
         _validtest = function(inst)
             return inst and inst.components.skilltreeupdater:IsActivated("vision_enhance")
         end,

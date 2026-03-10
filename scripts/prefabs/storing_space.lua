@@ -33,15 +33,12 @@ local function OnDropped(inst)
 end
 
 local function ModiSpaceState(player, isconstruct)
-    player:AddOrRemoveTag("__storing_space", not isconstruct)
     player:AddOrRemoveTag("_storing_space", isconstruct)
-    -- local cur = inst.components.sanity:GetPercentWithPenalty()
     if isconstruct then
         player.components.sanity:AddSanityPenaltyVal("spcont", 100)
     else
         player.components.sanity:RemoveSanityPenaltyVal("spcont")
     end
-    -- inst.components.sanity:SetPercent(cur)
 end
 
 local function OnEquip(inst, owner)
