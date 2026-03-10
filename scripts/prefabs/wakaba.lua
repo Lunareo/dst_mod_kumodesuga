@@ -50,6 +50,20 @@ local function CustomDmg(inst, target, weapon, multiplier, mount)
     return weapon and weapon:HasTag("lighterweapon") and 1 or TUNING.WENDY_DAMAGE_MULT
 end
 
+---@param inst avatar_wakaba
+---@param attacker ent|nil
+local function CanDodge(inst, attacker)
+    return GetTime() <= (inst.components.attackdodger.dodgetimestamp or 0) + inst.components.attackdodger.dodgewindow
+end
+
+---@param inst avatar_wakaba
+---@param attacker ent|nil
+local function OnDodge(inst, attacker)
+    if attacker == nil then return end
+    inst.sg:GoToState("knockbacklanded", { knocker = attacker, radius = .5, strengthmult = 2 })
+    inst:AddDebuff("mighty_strike", "buff_mighty_strike")
+end
+
 local heal_srcs = {
     "debug_key",
     "redamulet",
@@ -64,7 +78,6 @@ local common_postinit = function(inst)
     inst:AddTag(avatar_name)
     inst:AddTag("D_spirit")
     inst:AddTag("reader")
-    inst:AddTag("__storing_space")
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
 
@@ -95,7 +108,17 @@ local master_postinit = function(inst)
 
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
     inst.components.sanity.get_equippable_dappernessfn = function() return 0 end
-    --PostInit.wakaba.sanity(inst.components.sanity)
+    function inst.components.sanity:IsSane()
+        return not (self:IsInsane() or self:IsEnlightened())
+    end
+
+    function inst.components.sanity:IsInsane()
+        return self.inducedinsanity and not self.inducedlunacy
+    end
+
+    function inst.components.sanity:IsEnlightened()
+        return self.inducedlunacy and not self.inducedinsanity
+    end
 
     local oldager = inst:AddComponent("oldager")
     oldager.base_rate = -TUNING.WAKABA_OLDAGE_RECOVER_RATE
@@ -126,7 +149,11 @@ local master_postinit = function(inst)
 
     inst.components.combat.customdamagemultfn = CustomDmg
 
-    inst:AddComponent("parryable")
+    --inst:AddComponent("parryable")
+    inst:AddComponent("attackdodger")
+    inst.components.attackdodger:SetCanDodgeFn(CanDodge)
+    inst.components.attackdodger:SetOnDodgeFn(OnDodge)
+    inst.components.attackdodger.dodgewindow = FRAMES * 10
 
     inst.skeleton_prefab = nil
 end

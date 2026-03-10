@@ -164,20 +164,20 @@ local function BuildSkillData(SkillTreeFns)
             pos = Coord("constmagic", 40, 0),
             group = "constmagic",
             tags = { "constmagic", "evil_eyes" },
+            connects = { "evil_eyes_2" },
             root = true,
         },
         evil_eyes_2 = {
             pos = Coord("constmagic", 40, -40),
             group = "constmagic",
             tags = { "constmagic", "evil_eyes" },
+            connects = { "evil_eyes_3" },
         },
         evil_eyes_3 = {
             pos = Coord("constmagic", 40, -80),
             group = "constmagic",
             tags = { "constmagic", "evil_eyes" },
         },
-        shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
-        shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
         dominator_lock = {
             pos = Coord("dominator", 0, 0),
             group = "dominator",
@@ -299,11 +299,19 @@ local function BuildSkillData(SkillTreeFns)
             group = "evolution",
             tags = { "evolution", "huge_spider", "queenspider" },
         },
+        shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
+        shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),
         shiro_allegiance_shadow = {
             icon = "wilson_favor_shadow",
             pos = Coord("allegiance", -20, -80),
             group = "allegiance",
             tags = { "allegiance", "shadow", "shadow_favor" },
+            onactivate = function (inst, fromload)
+                
+            end,
+            ondeactivate = function (inst, fromload)
+                
+            end,
         },
         shiro_allegiance_lunar_lock_1 = SkillTreeFns.MakeCelestialChampionLock({ pos = Coord("allegiance", 20, 0) }),
         shiro_allegiance_lunar_lock_2 = SkillTreeFns.MakeNoShadowLock({ pos = Coord("allegiance", 20, -40), connects = { "shiro_allegiance_lunar" } }),
