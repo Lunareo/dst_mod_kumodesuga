@@ -12,6 +12,7 @@ TUNING = {
     SHIRO_HEALTH = 120,
     SHIRO_HUNGER = 180,
     SHIRO_SANITY = 150,
+    SHIRO_MAGICPOINT = 150,
     SHIRO_HUNGERY_SPEED_MULT = .7,
     WAKABA_HEALTH = 60,
     WAKABA_OLDAGER = 12,
@@ -26,15 +27,22 @@ TUNING = {
     BEYONDER_BASE_DMG = 42.5,
     BEYONDER_EROSION_DMG = 8.5,
     CHARACTER_DETAILS_OVERRIDE = {
+        shiro_sanity = "magicpoint",
         wakaba_health = "oldager",
     },
     GAMEMODE_STARTING_ITEMS = {
         DEFAULT = {
-            SHIRO = { "spiderscythe" },
+            SHIRO = { "spiderscythe", "silk", "silk", "silk", },
             WAKABA = { "helheim_beyonder" },
         },
     },
     MIGHTY_STRIKE_MULT = 3,
+    SKILLS = {
+        SHIRO_ALLEGIANCE_LUNAR_RESIST = .25,
+        SHIRO_ALLEGIANCE_SHADOW_RESIST = .25,
+        SHIRO_ALLEGIANCE_VS_LUNAR_BONUS = .25,
+        SHIRO_ALLEGIANCE_VS_SHADOW_BONUS = .25,
+    },
     SPIDER_SCYTHE_ATK_RANGE = 1,
     SPIDER_SCYTHE_BASE_DMG = 34,
     SPIDER_SCYTHE_DAPPER = GLOBAL.TUNING.CRAZINESS_MED,
