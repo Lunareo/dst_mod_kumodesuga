@@ -1,4 +1,5 @@
 local MakePlayerCharactor = require "prefabs/player_common"
+local WakabaSanityBadge = require "widgets/wakabasanitybadge"
 local WakabaAgeBadge = require "widgets/wakabaagebadge"
 
 local avatar_name = "wakaba"
@@ -82,6 +83,7 @@ local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
 
     if not TheNet:IsDedicated() then
+        inst.CreateSanityBadge = WakabaSanityBadge
         inst.CreateHealthBadge = WakabaAgeBadge
     end
 

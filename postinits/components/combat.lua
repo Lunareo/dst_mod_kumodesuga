@@ -5,24 +5,8 @@ local Combat = require "components/combat"
 ---@class SourceModifierList
 local SourceModifierList = require "util/sourcemodifierlist"
 
---[[
-local function rawsetbonus(self)
-    rawget(self, "_").damagebonus[1] = self.damagebonuslist:Get()
-end
-
-local function ondamagebonus(self, val)
-    if val ~= nil then
-        self.damagebonuslist:SetModifier("self.damagebonus", val, "self.damagebonus")
-    else
-        self.damagebonuslist:RemoveModifier("self.damagebonus", "self.damagebonus")
-    end
-    rawsetbonus(self)
-end
-]]
-
 UTIL.FnExtend(Combat, "_ctor", function(self)
     self.damagebonuslist = SourceModifierList(self.inst, 0, SourceModifierList.additive)
-    --addsetter(self, "damagebonus", ondamagebonus)
 end)
 
 UTIL.FnExtend(Combat, "CalcDamage", nil, function(rets, self)
@@ -32,12 +16,22 @@ UTIL.FnExtend(Combat, "CalcDamage", nil, function(rets, self)
     return rets
 end)
 
+--[=[
+local GetAttacked = Combat.GetAttacked
+---@diagnostic disable-next-line: duplicate-set-field
+function Combat:GetAttacked(attacker, ...)
+    local not_blocked = GetAttacked(self, attacker, ...)
+    if attacker ~= nil and attacker.components.skilltreeupdater ~= nil and attacker.components.skilltreeupdater:IsActivated("shiro_evolution_arachne") then
+        not_blocked = not_blocked or GetAttacked(self, attacker, ...)
+    end
+    return not_blocked
+end
+]=]
+
 function Combat:AddBonusModifier(source, m, key)
     self.damagebonuslist:SetModifier(source, m, key)
-    --rawsetbonus(self)
 end
 
 function Combat:RemoveBonusModifier(source, key)
     self.damagebonuslist:RemoveModifier(source, key)
-    --rawsetbonus(self)
 end

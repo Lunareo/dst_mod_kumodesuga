@@ -268,12 +268,16 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "evolution", "huge_spider" },
             connects = { "shiro_evolution_mega_spider" },
             onactivate = function(inst, fromload)
+                local pct = inst.components.health:GetPercent()
                 inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
             end,
             ondeactivate = function(inst, fromload)
+                local pct = inst.components.health:GetPercent()
                 inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "advance_spider_evoluted")
             end
@@ -284,12 +288,16 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "evolution", "huge_spider" },
             connects = { "shiro_evolution_queen_spider" },
             onactivate = function(inst, fromload)
+                local pct = inst.components.health:GetPercent()
                 inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "mega_spider_evoluted")
             end,
             ondeactivate = function(inst, fromload)
+                local pct = inst.components.health:GetPercent()
                 inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "mega_spider_evoluted")
             end
@@ -306,11 +314,21 @@ local function BuildSkillData(SkillTreeFns)
             pos = Coord("allegiance", -20, -80),
             group = "allegiance",
             tags = { "allegiance", "shadow", "shadow_favor" },
-            onactivate = function (inst, fromload)
-                
+            onactivate = function(inst, fromload)
+                inst:AddTag("player_shadow_aligned")
+                local damagetyperesist = inst.components.damagetyperesist
+                if damagetyperesist then
+                    damagetyperesist:AddResist("lunar_alighed", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_LUNAR_RESIST, "shiro_allegiance_shadow")
+                    damagetyperesist:AddResist("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_SHADOW_RESIST, "shiro_allegiance_shadow")
+                end
             end,
-            ondeactivate = function (inst, fromload)
-                
+            ondeactivate = function(inst, fromload)
+                inst:RemoveTag("player_shadow_aligned")
+                local damagetyperesist = inst.components.damagetyperesist
+                if damagetyperesist then
+                    damagetyperesist:RemoveResist("lunar_alighed", inst, "shiro_allegiance_shadow")
+                    damagetyperesist:RemoveResist("shadow_aligned", inst, "shiro_allegiance_shadow")
+                end
             end,
         },
         shiro_allegiance_lunar_lock_1 = SkillTreeFns.MakeCelestialChampionLock({ pos = Coord("allegiance", 20, 0) }),
@@ -320,6 +338,22 @@ local function BuildSkillData(SkillTreeFns)
             pos = Coord("allegiance", 20, -80),
             group = "allegiance",
             tags = { "allegiance", "lunar", "lunar_favor" },
+            onactivate = function(inst, fromload)
+                inst:AddTag("player_lunar_aligned")
+                local damagetypebonus = inst.components.damagetypebonus
+                if damagetypebonus then
+                    damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_LUNAR_BONUS, "shiro_allegiance_lunar")
+                    damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_SHADOW_BONUS, "shiro_allegiance_lunar")
+                end
+            end,
+            ondeactivate = function(inst, fromload)
+                inst:RemoveTag("player_lunar_aligned")
+                local damagetypebonus = inst.components.damagetypebonus
+                if damagetypebonus then
+                    damagetypebonus:RemoveBonus("lunar_aligned", inst, "shiro_allegiance_lunar")
+                    damagetypebonus:RemoveBonus("shadow_aligned", inst, "shiro_allegiance_lunar")
+                end
+            end,
         },
     }
     for name, data in pairs(skills) do
