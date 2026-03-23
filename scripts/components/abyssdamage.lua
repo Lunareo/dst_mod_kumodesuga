@@ -19,4 +19,8 @@ local AbyssDamage = Class(PlanarDamage, function(self, inst)
     PlanarDamage._ctor(self, inst)
 end)
 
+function AbyssDamage:GetDebugString()
+    return string.format("%.2f", self:GetDamage())
+end
+
 return AbyssDamage
