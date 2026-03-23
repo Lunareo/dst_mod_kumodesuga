@@ -18,7 +18,7 @@ local MagicPoint = Class(Base, function(self, inst)
     self.dt = 0
     self.ratemodifier = SourceModifierList(self.inst, SourceModifierList.additive)
     self.ratemultipliers = SourceModifierList(self.inst)
-end)
+end, {})
 
 function MagicPoint:GetRate()
     return self.rate * self.ratemultipliers:Get() + self.ratemodifier:Get()

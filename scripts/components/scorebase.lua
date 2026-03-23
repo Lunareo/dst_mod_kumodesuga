@@ -102,7 +102,7 @@ function ScoreBase:OnUpdate(dt)
 end
 
 function ScoreBase:GetDebugString()
-    return string.format("Score: %d/%d", self.current, self.max)
+    return string.format("%.2f / %.2f", self.current, self.max)
 end
 
 return ScoreBase

@@ -33,6 +33,7 @@ end
 ---@field satura component_satura
 
 ---@class component_satura: component_base
+---@field redirect fun(inst, delta, overtime)|nil
 local Satura = Class(function(self, inst)
         self.inst = inst
         self.max = 50
@@ -183,7 +184,7 @@ end
 
 function Satura:GetDebugString()
     return string.format(
-        "%2.1f/%2.1f | Paused: %s",
+        "%.2f / %.2f | Paused: %s",
         self.current, self.max,
         tostring(self:IsPaused())
     )
