@@ -9,6 +9,7 @@ PrefabFiles = {
     "spiderscythe",
     "storing_space",
     "strong_gravity_creep",
+    "trinity_impact",
     "unique_fx",
 }
 
