@@ -5,7 +5,6 @@
 ---| "abyssdefense" # 外道防御
 ---| "erosiondamage" # 腐蚀伤害
 ---| "erosiondefense" # 腐蚀防御
----| "magiccaster" # 魔术师
 ---| "nightvision" # 夜视
 ---| "parryable" # 闪避
 ---| "satura" # 饱和

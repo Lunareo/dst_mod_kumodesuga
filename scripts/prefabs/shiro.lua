@@ -1,4 +1,5 @@
 local MakePlayerCharactor = require "prefabs/player_common"
+local SpellSetter = require "prefabs/spellsetter"
 
 local avatar_name = "shiro"
 
@@ -128,6 +129,8 @@ local common_postinit = function(inst)
     end
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
+
+    SpellSetter(inst)
 
     inst:ListenForEvent("setowner", OnSetOwner)
 end
