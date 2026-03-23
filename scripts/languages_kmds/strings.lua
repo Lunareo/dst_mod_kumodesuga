@@ -24,6 +24,7 @@ STRINGS = {
                 KURIKUTA_DRIED = "味道很好的干果。",
                 SHIRO = "她真好看。",
                 SILK_ROBE = "坚韧但不厚重, 丝滑但不透凉。",
+                TRINITY_IMPACT = "",
                 WAKABA = "她真好看。",
             },
         },
@@ -108,6 +109,7 @@ STRINGS = {
         SPIDERSCYTHE_SHIRO = "蜘蛛大镰刀",
         STORING_SPACE = "储物空间",
         STORING_SPACE_DTOR = "解除储物空间",
+        TRINITY_IMPACT = "三重攻击",
         WAKABA = "若叶姬色",
     },
     RECIPE_DESC = {
