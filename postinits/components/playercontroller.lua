@@ -1,25 +1,6 @@
 ---@class component_playercontroller
 local PlayerController = require "components/playercontroller"
-UTIL.FnExtend(PlayerController, "OnControl", function(self, control, down)
-    if not (ThePlayer and TheInput and TheFrontEnd) then return end
 
-    if IsPaused() then return end
-
-    local isenabled, ishudblocking = self:IsEnabled()
-    if not isenabled and not ishudblocking then return end
-
-    if not (TheInput:GetHUDEntityUnderMouse() == nil and TheFrontEnd:GetActiveScreen() and TheFrontEnd:GetActiveScreen().name == "HUD") then return end
-
-    if control == CONTROL_CHARACTER_COMMAND_WHEEL and down then
-        local spell_item = ThePlayer.components.magiccaster and ThePlayer.components.magiccaster:GetSpell()
-        if not (spell_item and spell_item.components.spellbook) then return end
-        if ThePlayer.HUD ~= nil and ThePlayer.HUD:GetCurrentOpenSpellBook() then
-            ThePlayer.HUD:CloseSpellWheel()
-        elseif spell_item.components.spellbook:CanBeUsedBy(ThePlayer) and ThePlayer.replica.inventory:GetActiveItem() == nil then
-            spell_item.components.spellbook:OpenSpellBook(ThePlayer)
-        end
-    end
-end)
 --UTIL.FnExtend(PlayerController, "GetMapActions", nil, function(rets, self, pos, ...)
 --    rets = rets or {}
 --    if self.inst.components.skilltreeupdater:IsActivated("spacemagic_3") and
@@ -29,3 +10,49 @@ end)
 --    end
 --    return rets
 --end)
+
+UTIL.FnExtend(PlayerController, "OnRemoteLeftClick",
+    function(self, actioncode, position, target, isreleased, controlmodscode, noforce, mod_name, spellbook, spell_id)
+        if self.ismastersim and self:IsEnabled() and self.handler == nil and spellbook == self.inst then
+            self.inst.components.combat:SetTarget(nil)
+
+            self.remote_controls[CONTROL_PRIMARY] = 0
+            self:DecodeControlMods(controlmodscode)
+            SetClientRequestedAction(actioncode, mod_name)
+            local lmb, rmb
+            if spellbook ~= nil then
+                if spellbook.components.spellbook ~= nil and
+                    spellbook.components.spellbook:SelectSpell(spell_id) then
+                    lmb, rmb = self.inst.components.playeractionpicker:DoGetMouseActions(position, target, spellbook)
+                end
+            elseif spell_id == nil then
+                lmb, rmb = self.inst.components.playeractionpicker:DoGetMouseActions(position, target)
+            end
+            local dblclickact
+            if CanEntitySeeTarget(self.inst, self.inst) then
+                dblclickact = self.inst.components.playeractionpicker:GetDoubleClickActions(position)[1]
+            end
+
+            ClearClientRequestedAction()
+            if isreleased then self.remote_controls[CONTROL_PRIMARY] = nil end
+            self:ClearControlMods()
+            lmb = (actioncode == ACTIONS.LOOKAT.code and (lmb == nil or lmb.action == ACTIONS.WALKTO) and mod_name == nil and BufferedAction(self.inst, target, ACTIONS.LOOKAT, nil, position)) or
+                (lmb == nil and actioncode == ACTIONS.WALKTO.code and mod_name == nil and BufferedAction(self.inst, nil, ACTIONS.WALKTO, nil, position)) or
+                (lmb ~= nil and lmb.action.code == actioncode and lmb.action.mod_name == mod_name and lmb) or
+                (rmb ~= nil and rmb.action.code == actioncode and rmb.action.mod_name == mod_name and rmb) or
+                (dblclickact and dblclickact.action.code == actioncode and dblclickact.action.mod_name == mod_name and dblclickact) or
+                nil
+            if lmb ~= nil then
+                if lmb.action.canforce and not noforce then
+                    lmb:SetActionPoint(self:GetRemotePredictPosition() or self.inst:GetPosition())
+                    lmb.forced = true
+                end
+                self:DoAction(lmb, spellbook)
+                if dblclickact and lmb ~= dblclickact and self.locomotor.bufferedaction == lmb and
+                    self:GetRemoteDirectVector() then
+                    self.locomotor:Clear()
+                end
+            end
+            return nil, true
+        end
+    end)
