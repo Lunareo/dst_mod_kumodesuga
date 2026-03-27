@@ -17,6 +17,7 @@
 ---| "_storing_space" # 持有空间存储
 ---| "D_spirit" # 若叶姬色与白织公用标签
 ---| "lighterweapon" # 若叶姬色使用不衰减倍率的武器
+---| "MA_spellcaster" # 空手施法
 ---| "shiro" # 白织
 ---| "wakaba" # 若叶姬色
 
@@ -38,6 +39,4 @@
 ---| "wakaba"
 
 ---@enum equiptype_mod
-EQUIPSLOTS = {
-    SPELL = "spell",
-}
+EQUIPSLOTS = {}

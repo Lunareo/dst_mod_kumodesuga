@@ -1,4 +1,3 @@
---//TODO: 仅限客机执行
 TheInput:AddKeyDownHandler(GLOBAL[GetModConfigData("parrykey", true) or "KEY_R"], function()
     if TheFrontEnd:GetActiveScreen() and TheFrontEnd:GetActiveScreen().name == "HUD" and ThePlayer:HasTag("parryable") then
         local ppos = ThePlayer:GetPosition()

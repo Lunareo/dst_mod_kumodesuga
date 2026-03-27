@@ -31,6 +31,7 @@ end
 
 return function(inst)
     inst:AddTag("throw_line")
+    inst:AddTag("MA_spellcaster")
 
     local aoetargeting = inst:AddComponent("aoetargeting")
     aoetargeting:SetAllowWater(true)

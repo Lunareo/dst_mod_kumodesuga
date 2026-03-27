@@ -202,7 +202,7 @@ local function OnCharged(inst)
 end
 
 local function fn()
-    ---@class spiderscythe: ent --//Prefab:添加工具与采集功能
+    ---@class spiderscythe: ent
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -246,6 +246,12 @@ local function fn()
     inst.components.finiteuses:SetMaxUses(TUNING.SPIDER_SCYTHE_USES)
     inst.components.finiteuses:SetUses(TUNING.SPIDER_SCYTHE_USES)
     inst.components.finiteuses:SetOnFinished(inst.Remove)
+    inst.components.finiteuses:SetConsumption(ACTIONS.MINE, 1)
+    inst.components.finiteuses:SetConsumption(ACTIONS.SCYTHE, 1)
+
+    inst:AddComponent("tool")
+    inst.components.tool:SetAction(ACTIONS.MINE)
+    inst.components.tool:SetAction(ACTIONS.SCYTHE)
 
     inst:AddComponent("equippable")
     inst.components.equippable:SetOnEquip(Equip)

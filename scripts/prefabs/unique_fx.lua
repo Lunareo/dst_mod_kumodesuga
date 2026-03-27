@@ -5,6 +5,14 @@ local allsymbols = {
     "torso_pelvis", "torso",
 }
 
+local SKINPREFABS = {}
+for _, v in pairs { loadfile("prefabs/skinprefabs")() } do
+    local name = v.type == "item" and --[[v.build_name_override or]] v.name or nil
+    if name ~= nil then SKINPREFABS[hash(name)] = name end
+end
+
+---@param inst ent
+---@param owner ent
 local function AttachEchoFXOwner_Client(inst, owner)
     if not TheNet:IsDedicated() then
         inst.Transform:SetPosition(owner.Transform:GetWorldPosition())
@@ -19,7 +27,11 @@ local function AttachEchoFXOwner_Client(inst, owner)
         for _, symbol in ipairs(allsymbols) do
             local overrridebuild, overridesymbol = owner.AnimState:GetSymbolOverride(symbol)
             if overrridebuild ~= nil and overridesymbol ~= nil then
-                inst.AnimState:OverrideSymbol(symbol, overrridebuild, overridesymbol)
+                if SKINPREFABS[overrridebuild] ~= nil then
+                    inst.AnimState:OverrideItemSkinSymbol(symbol, SKINPREFABS[overrridebuild], symbol, 0, "")
+                else
+                    inst.AnimState:OverrideSymbol(symbol, overrridebuild, overridesymbol)
+                end
             end
         end
         inst:DoTaskInTime(FRAMES * 1, function() inst.AnimState:SetMultColour(1, 1, 1, .3) end)

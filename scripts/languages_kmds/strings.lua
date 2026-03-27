@@ -105,6 +105,7 @@ STRINGS = {
         KURIKUTA_DRIED = "干燥库利库塔果实",
         SHIRO = "白织",
         SILK_ROBE = "丝质长袍",
+        SPACE_PROXY = "储物空间",
         SPIDERSCYTHE = "阿剌克涅",
         SPIDERSCYTHE_SHIRO = "蜘蛛大镰刀",
         STORING_SPACE = "储物空间",
@@ -213,6 +214,7 @@ STRINGS = {
             GRAVITY = "引斥之邪眼(10理智)",
             TWIST = "歪曲之邪眼(10理智)",
         },
+        OPEN_SPACE_PROXY = "储物空间",
     },
     UI = {
         HUD = {

@@ -1,7 +1,7 @@
 ---@type table<string, integer[]>
 local ORDERS_LIST = {
     evolution = { 3, 70 },
-    dominator = { 3, 186 },
+    --dominator = { 3, 186 },
     allegiance = { 184, 206 },
     constmagic = { -160, 206 }
 }
@@ -160,54 +160,54 @@ local function BuildSkillData(SkillTreeFns)
             onactivate = OnSpaceMagicUpdate,
             ondeactivate = OnSpaceMagicUpdate,
         },
-        evil_eyes_1 = {
-            pos = Coord("constmagic", 40, 0),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-            connects = { "evil_eyes_2" },
-            root = true,
-        },
-        evil_eyes_2 = {
-            pos = Coord("constmagic", 40, -40),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-            connects = { "evil_eyes_3" },
-        },
-        evil_eyes_3 = {
-            pos = Coord("constmagic", 40, -80),
-            group = "constmagic",
-            tags = { "constmagic", "evil_eyes" },
-        },
-        dominator_lock = {
-            pos = Coord("dominator", 0, 0),
-            group = "dominator",
-            tags = { "dominator", "lock" },
-            root = true,
-            lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
-            end,
-            connects = { "arrogans", "desidiae", "pati", "sapiens" },
-        },
-        arrogans = {
-            pos = Coord("dominator", -60, -20),
-            group = "dominator",
-            tags = { "dominator", "arrogans" },
-        },
-        desidiae = {
-            pos = Coord("dominator", -20, -40),
-            group = "dominator",
-            tags = { "dominator", "desidiae" },
-        },
-        pati = {
-            pos = Coord("dominator", 20, -40),
-            group = "dominator",
-            tags = { "dominator", "pati" },
-        },
-        sapiens = {
-            pos = Coord("dominator", 60, -20),
-            group = "dominator",
-            tags = { "dominator", "sapiens" },
-        },
+        --evil_eyes_1 = { --// TODO: 绑定技能
+        --    pos = Coord("constmagic", 40, 0),
+        --    group = "constmagic",
+        --    tags = { "constmagic", "evil_eyes" },
+        --    connects = { "evil_eyes_2" },
+        --    root = true,
+        --},
+        --evil_eyes_2 = { --// TODO: 绑定技能
+        --    pos = Coord("constmagic", 40, -40),
+        --    group = "constmagic",
+        --    tags = { "constmagic", "evil_eyes" },
+        --    connects = { "evil_eyes_3" },
+        --},
+        --evil_eyes_3 = { --// TODO: 绑定技能
+        --    pos = Coord("constmagic", 40, -80),
+        --    group = "constmagic",
+        --    tags = { "constmagic", "evil_eyes" },
+        --},
+        --dominator_lock = {
+        --    pos = Coord("dominator", 0, 0),
+        --    group = "dominator",
+        --    tags = { "dominator", "lock" },
+        --    root = true,
+        --    lock_open = function(prefabname, activatedskills, readonly)
+        --        return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
+        --    end,
+        --    connects = { "arrogans", "desidiae", "pati", "sapiens" },
+        --},
+        --arrogans = { --// TODO: 制作升级系统(?)
+        --    pos = Coord("dominator", -60, -20),
+        --    group = "dominator",
+        --    tags = { "dominator", "arrogans" },
+        --},
+        --desidiae = { --// TODO: 可能替换为别的技能
+        --    pos = Coord("dominator", -20, -40),
+        --    group = "dominator",
+        --    tags = { "dominator", "desidiae" },
+        --},
+        --pati = { --// TODO: 完善MP系统
+        --    pos = Coord("dominator", 20, -40),
+        --    group = "dominator",
+        --    tags = { "dominator", "pati" },
+        --},
+        --sapiens = { --// TODO: 也可能替换掉
+        --    pos = Coord("dominator", 60, -20),
+        --    group = "dominator",
+        --    tags = { "dominator", "sapiens" },
+        --},
         shiro_evolution_tiny_spider_meter = {
             pos = Coord("evolution", 0, 0),
             infographic = true,
@@ -242,13 +242,13 @@ local function BuildSkillData(SkillTreeFns)
                 end
             end,
         },
-        shiro_evolution_undying_queen = {
+        shiro_evolution_undying_queen = { --// TODO: 制作不死技能
             pos = Coord("evolution", -120, -15),
             group = "evolution",
             tags = { "evolution", "small_spider" },
             connects = { "shiro_evolution_arachne" },
         },
-        shiro_evolution_arachne = {
+        shiro_evolution_arachne = { --// TODO: 制作二重攻击机制
             pos = Coord("evolution", -160, -30),
             group = "evolution",
             tags = { "evolution", "small_spider", "arachne" },
@@ -302,7 +302,7 @@ local function BuildSkillData(SkillTreeFns)
                 inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "mega_spider_evoluted")
             end
         },
-        shiro_evolution_queen_spider = {
+        shiro_evolution_queen_spider = { --// TODO: 制作产卵技能
             pos = Coord("evolution", 160, -30),
             group = "evolution",
             tags = { "evolution", "huge_spider", "queenspider" },
