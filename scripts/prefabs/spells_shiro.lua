@@ -149,6 +149,30 @@ local allskills = {
         spellfn = SPELL_FNS.destruction,
         cost = TUNING.SPELL_DESTRUCTION_COST,
     },
+    {
+        label = STRINGS.SPELLS.OPEN_SPACE_PROXY,
+        onselect = function(inst)
+            inst.components.spellbook:SetSpellName(STRINGS.SPELLS.OPEN_SPACE_PROXY)
+            inst.components.spellbook.closeonexecute = true
+        end,
+        execute = function(inst)
+            SendModRPCToServer(GetModRPC("kmds.spells", "spells.open_space_proxy"))
+        end,
+        bank = "spell_icons_shiro",
+        build = "spell_icons_shiro",
+        anims =
+        {
+            idle = { anim = "space_proxy" },
+            focus = { anim = "space_proxy_focus", loop = true },
+            down = { anim = "space_proxy" },
+        },
+        widget_scale = ICON_SCALE,
+        postinit = SetupMouseOver,
+        default_focus = true,
+        _validtest = function(inst)
+            return inst and inst.components.skilltreeupdater:IsActivated("spacemagic_1")
+        end,
+    },
 }
 
 return function(inst)

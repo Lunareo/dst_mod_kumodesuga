@@ -76,7 +76,7 @@ local function fn()
     inst.entity:AddTransform()
 
     inst.entity:AddAnimState()
-    inst.AnimState:SetBank("spear")
+    inst.AnimState:SetBank("spear") --// Prefab: 需要新贴图
     inst.AnimState:SetBuild("swap_spear")
     inst.AnimState:PlayAnimation("idle")
 

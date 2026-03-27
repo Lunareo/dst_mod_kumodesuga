@@ -5,7 +5,7 @@
 ---@field TRANSFER actiondata
 ---@field TRANSFER_MAP actiondata
 
-local Parry = AddAction(
+local ACTION_PARRY = AddAction(
     "PARRY",
     STRINGS.ACTIONS.PARRY,
     function(act)
@@ -18,17 +18,17 @@ local Parry = AddAction(
     end
 )
 
-Parry.priority = 10
-Parry.rmb = true
-Parry.distance = 36
-Parry.mount_valid = false
+ACTION_PARRY.priority = 10
+ACTION_PARRY.rmb = true
+ACTION_PARRY.distance = 36
+ACTION_PARRY.mount_valid = false
 
-local parryhandler = ActionHandler(Parry, "doshortaction")
+local parryhandler = ActionHandler(ACTION_PARRY, "doshortaction")
 
 AddStategraphActionHandler("wilson", parryhandler)
 AddStategraphActionHandler("wilson_client", parryhandler)
 
-local Transfer = AddAction(
+local ACTION_TRANSFER = AddAction(
     "TRANSFER",
     STRINGS.ACTIONS.TRANSFER,
     function(act)
@@ -40,11 +40,11 @@ local Transfer = AddAction(
         end
     end
 )
-Transfer.priority = 10
-Transfer.rmb = true
-Transfer.distance = 48
+ACTION_TRANSFER.priority = 10
+ACTION_TRANSFER.rmb = true
+ACTION_TRANSFER.distance = 48
 
-local Transfer_Map = AddAction(
+local ACTION_TRANSFER_MAP = AddAction(
     "TRANSFER_MAP",
     STRINGS.ACTIONS.TRANSFER_MAP,
     function(act)
@@ -56,15 +56,15 @@ local Transfer_Map = AddAction(
         end
     end
 )
-Transfer_Map.rmb = true
-Transfer_Map.do_not_locomote = true
-Transfer_Map.map_action = true
-Transfer_Map.map_only = true
-Transfer_Map.closes_map = true
+ACTION_TRANSFER_MAP.rmb = true
+ACTION_TRANSFER_MAP.do_not_locomote = true
+ACTION_TRANSFER_MAP.map_action = true
+ACTION_TRANSFER_MAP.map_only = true
+ACTION_TRANSFER_MAP.closes_map = true
 
 ---@param act BufferedAction
 ---@param pos Vector3
-ACTIONS_MAP_REMAP[Transfer.code] = function(act, pos)
+ACTIONS_MAP_REMAP[ACTION_TRANSFER.code] = function(act, pos)
     if act and act.doer and act.doer.components.skilltreeupdater:IsActivated("spacemagic_3") and
         pos and (act.doer.components.skilltreeupdater:IsActivated("spacemotor") or
             TheWorld.Map:IsAboveGroundAtPoint(pos:Get())) then
@@ -72,3 +72,11 @@ ACTIONS_MAP_REMAP[Transfer.code] = function(act, pos)
     end
     return nil
 end
+
+-- postinits
+
+UTIL.FnExtend(ACTIONS.USESPELLBOOK, "strfn", function(act, ...) ---@param act BufferedAction
+    if act.doer:HasTag("MA_spellcaster") and act.invobject == nil then
+        return { "CASTSPELL" }, true
+    end
+end)

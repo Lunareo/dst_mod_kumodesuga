@@ -24,7 +24,7 @@ params.other_space_3x3.itemtestfn = testfn
 params.other_space_3x4.itemtestfn = testfn
 
 local proxyassets = {
-    Asset("ANIM", "anim/quagmire_portal_fx.zip"),
+    Asset("ANIM", "anim/space_proxy.zip"),
 }
 
 local function OnDropped(inst)
@@ -57,8 +57,21 @@ local function OnBuilt(inst, builder)
     inst:Remove()
 end
 
+---@class ent
+---@field space_proxy prefab_space_proxy|nil
+
+local function AttachOwner(inst, owner)
+    inst.owner = owner
+    owner.space_proxy = inst
+end
+
 local function OnProxyClose(inst)
-    inst.AnimState:PushAnimation("portal_pst", false)
+    inst.AnimState:PushAnimation("proxy_pst", false)
+    inst.SoundEmitter:PlaySound("dontstarve/tentacle/tentacle_disappear")
+    if inst.owner ~= nil then
+        inst.owner.space_proxy = nil
+        inst.owner = nil
+    end
     inst:ListenForEvent("animqueueover", inst.Remove)
 end
 
@@ -133,16 +146,19 @@ local function MakeSpaceContainer(name)
 end
 
 local function proxy()
+    ---@class prefab_space_proxy: ent
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
-    inst.Transform:SetScale(.25, .25, .25)
 
     inst.entity:AddAnimState()
-    inst.AnimState:SetBank("quagmire_portal_fx")
-    inst.AnimState:SetBuild("quagmire_portal_fx")
-    inst.AnimState:PlayAnimation("portal_pre")
-    inst.AnimState:PushAnimation("portal_loop", true)
+    inst.AnimState:SetBank("space_proxy")
+    inst.AnimState:SetBuild("space_proxy")
+    inst.AnimState:PlayAnimation("proxy_pre")
+    inst.AnimState:PushAnimation("proxy_loop", true)
+
+    inst.entity:AddSoundEmitter()
+    inst.SoundEmitter:PlaySound("dontstarve/common/lava_arena/portal_doom")
 
     inst.entity:AddNetwork()
 
@@ -163,7 +179,10 @@ local function proxy()
             return Open(self, doer)
         end
     end
+
     inst.components.container_proxy:SetOnCloseFn(OnProxyClose)
+
+    inst.AttachOwner = AttachOwner
 
     inst.persists = false
 

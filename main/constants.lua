@@ -1,9 +1,7 @@
 local _GLOBAL, _env, _tenv = GLOBAL, env, {}
 setfenv(1, _tenv)
 ---constants
-EQUIPSLOTS = {
-    SPELL = "spell",
-}
+--EQUIPSLOTS = {}
 
 ---@diagnostic disable-next-line: duplicate-doc-alias
 ---@enum CHARACTER_INGREDIENT

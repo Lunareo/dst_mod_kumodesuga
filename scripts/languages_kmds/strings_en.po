@@ -281,7 +281,7 @@ msgstr "Dried Kurikuta Fruit"
 #. STRINGS.NAMES.SHIRO
 msgctxt "STRINGS.NAMES.SHIRO"
 msgid "白织"
-msgstr "Shiraori"
+msgstr "White Weaver"
 
 #. STRINGS.NAMES.SILK_ROBE
 msgctxt "STRINGS.NAMES.SILK_ROBE"
