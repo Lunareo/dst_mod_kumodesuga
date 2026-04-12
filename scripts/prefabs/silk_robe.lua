@@ -71,6 +71,7 @@ local function fn()
     inst.components.equippable.equipslot = EQUIPSLOTS.WAIST or EQUIPSLOTS.BODY
     inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
+    inst.components.equippable.critdamagerate = .1
 
     inst:AddComponent("insulator")
     inst.components.insulator:SetInsulation(180)
