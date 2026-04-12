@@ -98,6 +98,8 @@ STRINGS = {
         EROSION = "腐蚀",
         EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>",
         EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
+        EQUIPPABLE_CRITDAMAGERATE = "暴击伤害: %.1f%%",
+        EQUIPPABLE_CRITRATE = "暴击率: %.1f%%",
         HELHEIM_BEYONDER = "超越冥界",
         KUMO_ATK_STEALER = "攻击窃取",
         KUMO_OVERSATURATE = "吃撑了",

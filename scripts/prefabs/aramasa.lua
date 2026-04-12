@@ -89,6 +89,7 @@ local function fn()
     inst:AddComponent("equippable")
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
+    inst.components.equippable.critrate = .05
 
     MakeHauntableLaunch(inst)
 

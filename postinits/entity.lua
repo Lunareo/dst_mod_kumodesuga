@@ -1,14 +1,14 @@
-local groggy_stacks = {}
+local TAGSTACK = { groggy = {}, }
 UTIL.FnExtend(Entity, "AddTag", function(entity, tag)
-    if tag == "groggy" then
-        groggy_stacks[entity] = (groggy_stacks[entity] or 0) + 1
+    if TAGSTACK[tag] ~= nil then
+        TAGSTACK[tag][entity] = (TAGSTACK[tag][entity] or 0) + 1
     end
 end)
 UTIL.FnExtend(Entity, "RemoveTag", function(entity, tag)
-    if tag == "groggy" and groggy_stacks[entity] then
-        groggy_stacks[entity] = groggy_stacks[entity] - 1
-        if groggy_stacks[entity] <= 0 then
-            groggy_stacks[entity] = nil
+    if TAGSTACK[tag] ~= nil and TAGSTACK[tag][entity] ~= nil then
+        TAGSTACK[tag][entity] = TAGSTACK[tag][entity] - 1
+        if TAGSTACK[tag][entity] <= 0 then
+            TAGSTACK[tag][entity] = nil
         else
             return nil, true
         end

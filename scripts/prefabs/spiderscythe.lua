@@ -102,7 +102,6 @@ local NO_TAGS_PVP = { "INLIMBO", "playerghost", "FX", "NOCLICK", "DECOR", "notar
 local NO_TAGS = shallowcopy(NO_TAGS_PVP)
 table.insert(NO_TAGS, "player")
 
--- 从镰刀AOE拿来的
 local function HasFriendlyLeader(target, attacker)
     local target_leader = (target.components.follower ~= nil) and target.components.follower.leader or nil
 
@@ -257,6 +256,8 @@ local function fn()
     inst.components.equippable:SetOnEquip(Equip)
     inst.components.equippable:SetOnUnequip(UnEquip)
     inst.components.equippable:SetDappernessFn(Dapper)
+    inst.components.equippable.critrate = .05
+    inst.components.equippable.critdamagerate = .3
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(DmgFn)

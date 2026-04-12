@@ -41,11 +41,27 @@ AddSimPostInit(function()
         end,
     }
     Insight.prefab_descriptors.aramasa = {
-        Describe = function (inst, player_context)
+        Describe = function(inst, player_context)
             return {
                 priority = 0,
                 description = STRINGS.INSIGHT_DESC.ARAMASA,
             }
         end,
     }
+    UTIL.FnExtend(Insight.descriptors.equippable, "Describe", nil,
+        ---@param rets [{description:(string|nil)}]
+        ---@param self component_equippable
+        function(rets, self, player_context)
+            local description = {}
+            if self.critrate ~= nil then
+                table.insert(description, string.format(STRINGS.NAMES.EQUIPPABLE_CRITRATE,
+                    FunctionOrValue(self.critrate, self.inst) * 100))
+            end
+            if self.critdamagerate ~= nil then
+                table.insert(description, string.format(STRINGS.NAMES.EQUIPPABLE_CRITDAMAGERATE,
+                    FunctionOrValue(self.critdamagerate, self.inst) * 100))
+            end
+            rets[1].description = (rets[1].description or "") .. table.concat(description, ", ")
+            return rets
+        end)
 end)
