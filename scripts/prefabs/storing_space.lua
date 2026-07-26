@@ -130,6 +130,10 @@ local function MakeSpaceContainer(name)
         local inst = CreateEntity()
         inst.entity:AddTransform()
         inst.entity:AddNetwork()
+        -- Pocket-dimension style storage: not a world interactable chest.
+        inst:AddTag("CLASSIFIED")
+        inst:AddTag("pocketdimension_container")
+        inst.entity:Hide()
         inst.entity:SetPristine()
         if not TheWorld.ismastersim then
             return inst
@@ -137,6 +141,11 @@ local function MakeSpaceContainer(name)
 
         inst:AddComponent("container")
         inst.components.container:WidgetSetup(name)
+        -- Critical: without this, Container:OnUpdate distance-checks the
+        -- (often misplaced) child entity and instantly Close() after Open.
+        inst.components.container.skipautoclose = true
+        inst.components.container.skipopensnd = true
+        inst.components.container.skipclosesnd = true
 
         inst:AddComponent("preserver")
         inst.components.preserver:SetPerishRateMultiplier(0)
@@ -170,14 +179,23 @@ local function proxy()
         return inst
     end
 
+    -- Placeholder master until a real doer opens us; never leave nil (Open asserts master).
     inst.components.container_proxy:SetMaster(TheWorld:GetPocketDimensionContainer("shadow"))
     local Open = inst.components.container_proxy.Open
     ---@param doer class
     function inst.components.container_proxy:Open(doer)
-        if doer._other_space and not next(self.openlist) then
-            self:SetMaster(doer._other_space)
-            return Open(self, doer)
+        local space = doer and doer._other_space
+        if space == nil or not space:IsValid() or space.components.container == nil then
+            return
         end
+        if next(self.openlist) then
+            return
+        end
+        -- Bind to this player's pocket before opening.
+        self:SetMaster(space)
+        -- Ensure pocket never auto-closes due to parented/hidden entity checks.
+        space.components.container.skipautoclose = true
+        return Open(self, doer)
     end
 
     inst.components.container_proxy:SetOnCloseFn(OnProxyClose)
