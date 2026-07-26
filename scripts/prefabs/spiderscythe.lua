@@ -202,6 +202,54 @@ local function OnCharged(inst)
     inst.components.aoetargeting:SetEnabled(true)
 end
 
+local function HarvestPickable(inst, ent, doer)
+    if ent.components.pickable.picksound ~= nil then
+        doer.SoundEmitter:PlaySound(ent.components.pickable.picksound)
+    end
+
+    local success, loot = ent.components.pickable:Pick(TheWorld)
+
+    if loot ~= nil then
+        for i, item in ipairs(loot) do
+            Launch(item, doer, 1.5)
+        end
+    end
+    return success
+end
+
+local function IsEntityInFront(inst, entity, doer_rotation, doer_pos)
+    local facing = Vector3(math.cos(-doer_rotation / RADIANS), 0 , math.sin(-doer_rotation / RADIANS))
+
+    return IsWithinAngle(doer_pos, facing, TUNING.VOIDCLOTH_SCYTHE_HARVEST_ANGLE_WIDTH, entity:GetPosition())
+end
+
+local HARVEST_MUSTTAGS  = {"pickable"}
+local HARVEST_CANTTAGS  = { "INLIMBO", "FX", "intense" }
+
+local function DoScythe(inst, target, doer)
+    if target.components.pickable ~= nil then
+        local doer_pos = doer:GetPosition()
+        local x, y, z = doer_pos:Get()
+
+        local doer_rotation = doer.Transform:GetRotation()
+
+        local harvestedcount = 0
+        local ents = TheSim:FindEntities(x, y, z, TUNING.VOIDCLOTH_SCYTHE_HARVEST_RADIUS, HARVEST_MUSTTAGS, HARVEST_CANTTAGS, HARVESTABLE_PLANT_TARGET_TAGS)
+        for _, ent in pairs(ents) do
+            if ent:IsValid() and ent.components.pickable ~= nil then
+                if inst:IsEntityInFront(ent, doer_rotation, doer_pos) then
+                    if inst:HarvestPickable(ent, doer) then
+                        harvestedcount = harvestedcount + 1
+                    end
+                end
+            end
+        end
+        if harvestedcount > 0 then
+            doer:PushEvent("picksomethingfromaoe", {harvestedcount = harvestedcount,})
+        end
+    end
+end
+
 local function fn()
     ---@class spiderscythe: ent
     local inst = CreateEntity()
@@ -253,6 +301,9 @@ local function fn()
     inst:AddComponent("tool")
     inst.components.tool:SetAction(ACTIONS.MINE)
     inst.components.tool:SetAction(ACTIONS.SCYTHE)
+    if ACTIONS.HACK ~= nil then
+        inst.components.tool:SetAction(ACTIONS.HACK)
+    end
 
     inst:AddComponent("equippable")
     inst.components.equippable:SetOnEquip(Equip)
@@ -280,6 +331,11 @@ local function fn()
     inst:AddComponent("inspectable")
 
     MakeHauntableLaunch(inst)
+
+    inst.DoScythe = DoScythe
+    inst.IsEntityInFront = IsEntityInFront
+    inst.HarvestPickable = HarvestPickable
+
     return inst
 end
 
