@@ -13,6 +13,21 @@ msgctxt "STRINGS.ACTIONS.PARRY"
 msgid "闪避"
 msgstr "Parry"
 
+#. STRINGS.ACTIONS.TRANSFER
+msgctxt "STRINGS.ACTIONS.TRANSFER"
+msgid "转移"
+msgstr "Transfer"
+
+#. STRINGS.ACTIONS.TRANSFER_MAP
+msgctxt "STRINGS.ACTIONS.TRANSFER_MAP"
+msgid "远转移"
+msgstr "Far Transfer"
+
+#. STRINGS.ACTIONS.TRANSFER_MAP_COST
+msgctxt "STRINGS.ACTIONS.TRANSFER_MAP_COST"
+msgid "远转移 ({cost} 理智)"
+msgstr "Far Transfer ({cost} Sanity)"
+
 #. STRINGS.CHARACTERS.GENERIC.ACTIONFAIL.CASTAOE.SPELL_NOT_ENOUGH_COST
 msgctxt "STRINGS.CHARACTERS.GENERIC.ACTIONFAIL.CASTAOE.SPELL_NOT_ENOUGH_COST"
 msgid "施放这个法术需要更多的魔力!"
