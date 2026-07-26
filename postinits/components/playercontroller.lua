@@ -1,15 +1,24 @@
 ---@class component_playercontroller
 local PlayerController = require "components/playercontroller"
 
---UTIL.FnExtend(PlayerController, "GetMapActions", nil, function(rets, self, pos, ...)
---    rets = rets or {}
---    if self.inst.components.skilltreeupdater:IsActivated("spacemagic_3") and
---        self.inst:CanSeePointOnMiniMap(pos:Get()) and
---        TheWorld.Map:IsAboveGroundAtPoint(pos:Get()) then
---        rets[2] = BufferedAction(self.inst, nil, ACTIONS.TRANSFER_MAP, nil, pos)
---    end
---    return rets
---end)
+-- Vanilla requires IsPassableAtPoint, which rejects open ocean even when
+-- pointspecialactionsfn offers TRANSFER (e.g. with spacemotor / boats).
+UTIL.FnExtend(PlayerController, "GetGroundUseSpecialAction",
+    function(self, position, right)
+        position = position or
+            (self.reticule ~= nil and self.reticule.targetpos) or
+            (self.terraformer ~= nil and self.terraformer:GetPosition()) or
+            self:GetPlacerPosition() or
+            self.inst:GetPosition()
+
+        if CanEntitySeePoint(self.inst, position:Get()) then
+            local act = self.inst.components.playeractionpicker:GetPointSpecialActions(position, nil, right)[1]
+            if act ~= nil and act.action == ACTIONS.TRANSFER then
+                return { act }, true
+            end
+        end
+        -- Fall through to vanilla for other point specials.
+    end)
 
 UTIL.FnExtend(PlayerController, "OnRemoteLeftClick",
     function(self, actioncode, position, target, isreleased, controlmodscode, noforce, mod_name, spellbook, spell_id)

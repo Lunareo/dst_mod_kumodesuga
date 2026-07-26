@@ -133,6 +133,9 @@ local function MakeSpaceContainer(name)
         -- Pocket-dimension style storage: not a world interactable chest.
         inst:AddTag("CLASSIFIED")
         inst:AddTag("pocketdimension_container")
+
+        inst:SetPrefabNameOverride("space_proxy")
+
         inst.entity:Hide()
         inst.entity:SetPristine()
         if not TheWorld.ismastersim then

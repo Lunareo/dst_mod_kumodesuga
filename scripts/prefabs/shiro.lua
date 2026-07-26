@@ -58,12 +58,66 @@ local function OnEnabledShadowDirty(inst)
 end
 
 ---@param inst avatar_shiro
-local function GetPointSpecialActions(inst, pos, useitem, right)
+---@return boolean
+local function HasSpaceMotor(inst)
     local skilltreeupdater = inst.components.skilltreeupdater
-    if right and useitem == nil and skilltreeupdater and
-        skilltreeupdater:IsActivated("spacemagic_2") and
-        (skilltreeupdater:IsActivated("spacemotor") or
-            TheWorld.Map:IsAboveGroundAtPoint(pos:Get())) then
+    if skilltreeupdater == nil then
+        return false
+    end
+    if skilltreeupdater:IsActivated("spacemotor") then
+        return true
+    end
+    return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
+end
+
+--- Land / boat, or open ocean only with spacemotor.
+---@param inst avatar_shiro
+---@param pos Vector3
+---@return boolean
+local function CanTransferToPoint(inst, pos)
+    if pos == nil then
+        return false
+    end
+    local x, y, z = pos:Get()
+    -- Open ocean (not land overhang, not a boat): require spacemotor.
+    if TheWorld.Map:IsOceanAtPoint(x, y, z, false) then
+        return HasSpaceMotor(inst)
+    end
+    -- Defensive: ocean tile, not passable, no boat platform.
+    if TheWorld.Map:IsOceanTileAtPoint(x, y, z)
+        and not TheWorld.Map:IsPassableAtPoint(x, y, z)
+        and TheWorld.Map:GetPlatformAtPoint(x, z) == nil then
+        return HasSpaceMotor(inst)
+    end
+    -- Land / visual overhang / boats.
+    return TheWorld.Map:IsPassableAtPoint(x, y, z)
+end
+
+---@param inst avatar_shiro
+local function GetPointSpecialActions(inst, pos, useitem, right)
+    if not right or useitem ~= nil then
+        return {}
+    end
+
+    local skilltreeupdater = inst.components.skilltreeupdater
+    if skilltreeupdater == nil then
+        return {}
+    end
+
+    -- Map screen: return map_only TRANSFER_MAP directly.
+    -- Vanilla GetMapActions keeps checkingmapactions=true while also calling
+    -- GetRightClickActions(player_pos). Always validate the *map cursor*
+    -- (checkingmapactions_pos), not the player feet, so ocean targets without
+    -- spacemotor never produce a map action that RemapMapAction would accept.
+    if inst.checkingmapactions then
+        local targetpos = inst.checkingmapactions_pos or pos
+        if skilltreeupdater:IsActivated("spacemagic_3") and CanTransferToPoint(inst, targetpos) then
+            return { ACTIONS.TRANSFER_MAP }
+        end
+        return {}
+    end
+
+    if skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(inst, pos) then
         local inventory = inst.replica.inventory
         local hands = inventory and inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
         if not (hands and hands.components.aoetargeting) then

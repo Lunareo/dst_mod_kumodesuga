@@ -4,8 +4,9 @@ STRINGS = {
             SPIDERSCYTHE = "横扫",
         },
         PARRY = "闪避",
-        TRANSFER =  "转移",
-        TRANSFER_MAP = "长距离转移",
+        TRANSFER = "转移",
+        TRANSFER_MAP = "远转移",
+        TRANSFER_MAP_COST = "远转移 ({cost} 理智)",
     },
     CHARACTERS = {
         GENERIC = {
