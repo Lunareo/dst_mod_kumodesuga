@@ -22,10 +22,14 @@ local function Coord(group, dx, dy)
 end
 
 local function OnSpaceMagicUpdate(inst, fromload)
-    local count = inst.components.skilltreeupdater:CountSkillTag("spacemagic")
+    local skilltreeupdater = inst.components.skilltreeupdater
+    if skilltreeupdater == nil then return end
+    local count = skilltreeupdater:CountSkillTag("spacemagic")
     if count == 0 then
         if inst._other_space ~= nil then
-            inst._other_space.components.container:DropEverything(inst:GetPosition())
+            if inst._other_space.components.container ~= nil then
+                inst._other_space.components.container:DropEverything(inst:GetPosition())
+            end
             inst:RemoveChild(inst._other_space)
             inst._other_space:Remove()
             inst._other_space = nil
@@ -33,23 +37,34 @@ local function OnSpaceMagicUpdate(inst, fromload)
     else
         local old = inst._other_space
         inst._other_space = SpawnPrefab("other_space_3x" .. tostring(1 + math.clamp(count, 1, 3)))
+        if inst._other_space == nil then return end
         inst:AddChild(inst._other_space)
         if old ~= nil then
             inst:RemoveChild(old)
-            for i = 1, old.components.container:GetNumSlots() do
-                local item = old.components.container:RemoveItemBySlot(i)
-                if item ~= nil then
-                    inst._other_space.components.container:GiveItem(item, i)
+            local old_container = old.components.container
+            local new_container = inst._other_space.components.container
+            if old_container ~= nil and new_container ~= nil then
+                for i = 1, old_container:GetNumSlots() do
+                    local item = old_container:RemoveItemBySlot(i)
+                    if item ~= nil then
+                        new_container:GiveItem(item, i)
+                    end
                 end
-            end
-            old.components.container:DropEverything(inst:GetPosition())
-            if old.components.container:IsOpenedBy(inst) then
-                local proxy = inst.components.inventory:GetOpenContainerProxyFor(old)
-                if proxy ~= nil then
-                    local new_proxy = SpawnAt(proxy.prefab, proxy)
-                    proxy.components.container_proxy:Close()
-                    new_proxy.components.container_proxy:Open(inst)
+                old_container:DropEverything(inst:GetPosition())
+                if old_container:IsOpenedBy(inst) and inst.components.inventory ~= nil then
+                    local proxy = inst.components.inventory:GetOpenContainerProxyFor(old)
+                    if proxy ~= nil then
+                        local new_proxy = SpawnAt(proxy.prefab, proxy)
+                        if proxy.components.container_proxy ~= nil then
+                            proxy.components.container_proxy:Close()
+                        end
+                        if new_proxy ~= nil and new_proxy.components.container_proxy ~= nil then
+                            new_proxy.components.container_proxy:Open(inst)
+                        end
+                    end
                 end
+            elseif old_container ~= nil then
+                old_container:DropEverything(inst:GetPosition())
             end
             old:Remove()
         end

@@ -33,7 +33,8 @@ local ACTION_TRANSFER = AddAction(
     STRINGS.ACTIONS.TRANSFER,
     function(act)
         local pos = act.pos and act.pos:GetPosition()
-        if act and act.doer and act.doer.components.skilltreeupdater:IsActivated("spacemagic_2") and pos then
+        local skilltreeupdater = act and act.doer and act.doer.components.skilltreeupdater
+        if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_2") and pos then
             act.doer:ForceFacePoint(pos:Get())
             act.doer.Physics:Teleport(act.pos:GetPosition():Get())
             return true
@@ -49,7 +50,8 @@ local ACTION_TRANSFER_MAP = AddAction(
     STRINGS.ACTIONS.TRANSFER_MAP,
     function(act)
         local pos = act.pos and act.pos:GetPosition()
-        if act and act.doer and act.doer.components.skilltreeupdater:IsActivated("spacemagic_3") and pos then
+        local skilltreeupdater = act and act.doer and act.doer.components.skilltreeupdater
+        if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and pos then
             act.doer:ForceFacePoint(pos:Get())
             act.doer.Physics:Teleport(pos:Get())
             return true
@@ -65,8 +67,9 @@ ACTION_TRANSFER_MAP.closes_map = true
 ---@param act BufferedAction
 ---@param pos Vector3
 ACTIONS_MAP_REMAP[ACTION_TRANSFER.code] = function(act, pos)
-    if act and act.doer and act.doer.components.skilltreeupdater:IsActivated("spacemagic_3") and
-        pos and (act.doer.components.skilltreeupdater:IsActivated("spacemotor") or
+    local skilltreeupdater = act and act.doer and act.doer.components.skilltreeupdater
+    if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and
+        pos and (skilltreeupdater:IsActivated("spacemotor") or
             TheWorld.Map:IsAboveGroundAtPoint(pos:Get())) then
         return BufferedAction(act.doer, nil, ACTIONS.TRANSFER_MAP, nil, pos)
     end
@@ -76,7 +79,7 @@ end
 -- postinits
 
 UTIL.FnExtend(ACTIONS.USESPELLBOOK, "strfn", function(act, ...) ---@param act BufferedAction
-    if act.doer:HasTag("MA_spellcaster") and act.invobject == nil then
+    if act and act.doer and act.doer:HasTag("MA_spellcaster") and act.invobject == nil then
         return { "CASTSPELL" }, true
     end
 end)

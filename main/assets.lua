@@ -5,6 +5,8 @@ Assets = {
     Asset("ANIM", "anim/spell_icons_shiro.zip"),
 }
 
+PreloadAssets = {}
+
 ---@param atlas string
 LoadAtlas = function(atlas)
     table.insert(Assets, Asset("ATLAS", atlas))

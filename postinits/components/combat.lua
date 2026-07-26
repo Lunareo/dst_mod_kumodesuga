@@ -52,7 +52,7 @@ end
 ]=]
 
 UTIL.FnExtend(Combat, "GetAttacked", function(self, attacker)
-    if attacker.components.combat ~= nil then
+    if attacker ~= nil and attacker.components.combat ~= nil then
         if not attacker.components.combat.critical_flag then
             if attacker.components.combat.cachetarget and attacker.components.combat.cachetarget[1] == self.inst then
                 attacker.components.combat.cachetarget[2] = attacker.components.combat.cachetarget[2] * 2
@@ -112,7 +112,7 @@ function Combat:CalcCritRate(weapon, target)
     local critrate = self.critrate:Get() or BASECRITRATE
     if self.inst.components.inventory ~= nil then
         for _, v in pairs(self.inst.components.inventory.equipslots) do
-            if weapon ~= v then
+            if weapon ~= v and v.components.equippable ~= nil then
                 critrate = critrate +
                     FunctionOrValue((v.components.equippable.critrate or 0), self.inst, weapon, target)
             end
@@ -141,7 +141,7 @@ function Combat:CalcCritDamageRate(weapon, target)
     local critdamegerate = (self.critdamagerate:Get() or BASECRITDAMEGERATE)
     if self.inst.components.inventory ~= nil then
         for _, v in pairs(self.inst.components.inventory.equipslots) do
-            if weapon ~= v then
+            if weapon ~= v and v.components.equippable ~= nil then
                 critdamegerate = critdamegerate +
                     FunctionOrValue((v.components.equippable.critdamagerate or 0), self.inst, weapon, target)
             end

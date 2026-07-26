@@ -84,7 +84,9 @@ function Skanda:SetMaxSpeedMult(max)
 end
 
 ---@param dt number
-function Skanda:OnUpdate(dt) -- won't check whether components are exist or not, just use them
+function Skanda:OnUpdate(dt)
+    local locomotor = self.inst.components.locomotor
+    local hunger = self.inst.components.hunger
     if self.isrunning then
         self.runtime = self.runtime + dt
         self.speedmult = math.min(self.maxspeedmult,
@@ -93,20 +95,29 @@ function Skanda:OnUpdate(dt) -- won't check whether components are exist or not,
             self.externalaccelerate:Get() * dt)
         local spdsq = math.sqrt(math.max(1, self.speedmult))
         self.inst.AnimState:SetDeltaTimeMultiplier(spdsq)
-        self.inst.components.locomotor:SetExternalSpeedMultiplier(self.inst, self.name, self.speedmult)
-        self.inst.components.hunger.burnratemodifiers:SetModifier(self.inst, self.speedmult * spdsq, self.name)
+        if locomotor ~= nil then
+            locomotor:SetExternalSpeedMultiplier(self.inst, self.name, self.speedmult)
+        end
+        if hunger ~= nil and hunger.burnratemodifiers ~= nil then
+            hunger.burnratemodifiers:SetModifier(self.inst, self.speedmult * spdsq, self.name)
+        end
         self.inst:AddTag("wonkey_run")
     else
         self.runtime = 0
         self.speedmult = 1
         self.inst.AnimState:SetDeltaTimeMultiplier(1)
-        self.inst.components.locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
-        self.inst.components.hunger.burnratemodifiers:RemoveModifier(self.inst, self.name)
+        if locomotor ~= nil then
+            locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
+        end
+        if hunger ~= nil and hunger.burnratemodifiers ~= nil then
+            hunger.burnratemodifiers:RemoveModifier(self.inst, self.name)
+        end
         self.inst:RemoveTag("wonkey_run")
         self.inst:StopUpdatingComponent(self)
     end
     if self.inst and self.inst.enabledshadow then
-        self.inst.enabledshadow:set(self.isrunning and self.inst.components.locomotor:GetSpeedMultiplier() >= 1.5)
+        local speedok = locomotor ~= nil and locomotor:GetSpeedMultiplier() >= 1.5
+        self.inst.enabledshadow:set(self.isrunning and speedok)
     end
 end
 

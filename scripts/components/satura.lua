@@ -6,18 +6,26 @@ local UPDATE_PERIOD = 1
 
 local function onmax(self, max, old)
     if max == nil or max == old then return end
-    self.inst.replica.satura:SetMax(max)
+    local replica = self.inst.replica and self.inst.replica.satura
+    if replica ~= nil then
+        replica:SetMax(max)
+    end
 end
 
 local function oncurrent(self, current, old)
     if current == nil or current == old then return end
-    self.inst.replica.satura:SetCurrent(current)
+    local replica = self.inst.replica and self.inst.replica.satura
+    if replica ~= nil then
+        replica:SetCurrent(current)
+    end
+    local locomotor = self.inst.components.locomotor
+    if locomotor == nil then return end
     if self:IsHighsaturated() and not self.inst:HasTag("strongman") then
-        self.inst.components.locomotor:SetExternalSpeedMultiplier(self.inst, "oversaturation",
+        locomotor:SetExternalSpeedMultiplier(self.inst, "oversaturation",
             Lerp(1, min_speed_mult,
                 (math.clamp(self:GetPercent(), high_satu_percent, 1) - high_satu_percent) / (1 - high_satu_percent)))
     else
-        self.inst.components.locomotor:RemoveExternalSpeedMultiplier(self.inst, "oversaturation")
+        locomotor:RemoveExternalSpeedMultiplier(self.inst, "oversaturation")
     end
 end
 

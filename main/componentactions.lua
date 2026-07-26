@@ -1,5 +1,6 @@
 AddComponentAction("SCENE", "parryable", function(inst, doer, actions, right)
-    local hands = inst == doer and right and inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
+    local inventory = inst == doer and right and inst.replica and inst.replica.inventory or nil
+    local hands = inventory and inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
     if hands and hands.components.aoetargeting then
         table.insert(actions, ACTIONS.PARRY)
     end

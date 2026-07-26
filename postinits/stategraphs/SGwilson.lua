@@ -85,7 +85,7 @@ local states = {
                 inst.components.playercontroller:RemotePausePrediction()
             end
 
-            inst.sg:SetTimeout(FRAMES * 3)
+            inst.sg:SetTimeout(FRAMES * 2)
         end,
 
         ontimeout = function(inst)
@@ -120,25 +120,25 @@ local states = {
         end,
         timeline =
         {
+            TimeEvent(4 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
+            end),
+            TimeEvent(5 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
+            end),
             TimeEvent(7 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
-            end),
-            TimeEvent(9 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound("dontstarve/wilson/attack_weapon")
-            end),
-            TimeEvent(11 * FRAMES, function(inst)
                 inst.sg.statemem.weapon = inst.components.combat:GetWeapon()
                 DoAramasa(inst)
             end),
+            TimeEvent(9 * FRAMES, DoAramasa),
+            TimeEvent(10 * FRAMES, DoAramasa),
+            TimeEvent(11 * FRAMES, DoAramasa),
+            TimeEvent(12 * FRAMES, DoAramasa),
             TimeEvent(13 * FRAMES, DoAramasa),
-            TimeEvent(14 * FRAMES, DoAramasa),
-            TimeEvent(15 * FRAMES, DoAramasa),
-            TimeEvent(16 * FRAMES, DoAramasa),
-            TimeEvent(17 * FRAMES, DoAramasa),
-            TimeEvent(18 * FRAMES, function(inst)
+            TimeEvent(14 * FRAMES, function(inst)
                 DoAramasa(inst, true)
             end),
-            TimeEvent(19 * FRAMES, function(inst)
+            TimeEvent(15 * FRAMES, function(inst)
                 inst.sg:RemoveStateTag("nointerrupt")
                 DoAramasa(inst, true)
             end),

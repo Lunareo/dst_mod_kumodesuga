@@ -190,16 +190,26 @@ local BUFF_DEFS = {
     },
     drunken = {
         attach = function (inst, target, followsymbol, followoffset, data)
+            if target == nil then return inst:Remove() end
             inst.groggy = target:HasTag("groggy")
             target:AddTag("groggy")
-            target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
-            target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
+            if target.components.locomotor ~= nil then
+                target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
+            end
+            if target.components.combat ~= nil then
+                target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
+            end
         end,
         detach = function (inst, target, followsymbol, followoffset, data)
+            if target == nil then return end
             target:AddOrRemoveTag("groggy", inst.groggy)
-            target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
-            target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
-            if not (data and data.nosleep) then
+            if target.components.locomotor ~= nil then
+                target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
+            end
+            if target.components.combat ~= nil then
+                target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
+            end
+            if not (data and data.nosleep) and target.components.sleeper ~= nil then
                 target.components.sleeper:AddSleepiness(4, 30)
             end
         end,
