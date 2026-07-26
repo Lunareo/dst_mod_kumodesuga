@@ -34,7 +34,7 @@ UTIL.FnExtend(Builder, "RemoveIngredients", function(self, ingredients, recname)
     local recipe = GLOBAL.AllRecipes[recname]
     if recipe then
         for _, v in pairs(recipe.character_ingredients) do
-            if v.type == CHARACTER_INGREDIENT.HUNGER then
+            if v.type == CHARACTER_INGREDIENT.HUNGER and self.inst.components.hunger ~= nil then
                 self.inst.components.hunger:DoDelta(-v.amount)
             end
         end

@@ -20,8 +20,9 @@ UTIL.FnExtend(Hunger, "DoDec",
     nil,
     function(rets, self, dt)
         local satura = self.inst and self.inst.components.satura
-        if satura and satura:IsSaturated() then
-            self.inst.components.health:DoDelta(
+        local health = self.inst and self.inst.components.health
+        if satura and satura:IsSaturated() and health ~= nil then
+            health:DoDelta(
                 self.hungerrate * dt * self.burnrate * self.burnratemodifiers:Get() * HEALING_MODIFIER, true,
                 "saturation")
         end

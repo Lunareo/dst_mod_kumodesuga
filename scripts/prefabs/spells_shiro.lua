@@ -88,7 +88,9 @@ local allskills = {
     {
         label = STRINGS.SPELLS.TOGGLENIGHTVISION,
         onselect = function(inst)
-            inst.components.spellbook.closeonexecute = false
+            if inst.components.spellbook ~= nil then
+                inst.components.spellbook.closeonexecute = false
+            end
         end,
         execute = function(inst)
             SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
@@ -104,7 +106,7 @@ local allskills = {
         widget_scale = ICON_SCALE,
         postinit = AutoToggleWidget(isNightVisionActivated, { build = "spell_icons_shiro", anim = "visual_enhance" }),
         _validtest = function(inst)
-            return inst and inst.components.skilltreeupdater:IsActivated("vision_enhance")
+            return inst and inst.components.skilltreeupdater and inst.components.skilltreeupdater:IsActivated("vision_enhance")
         end,
     },
     AbsorbSingleTargetSkill {
@@ -152,8 +154,10 @@ local allskills = {
     {
         label = STRINGS.SPELLS.OPEN_SPACE_PROXY,
         onselect = function(inst)
-            inst.components.spellbook:SetSpellName(STRINGS.SPELLS.OPEN_SPACE_PROXY)
-            inst.components.spellbook.closeonexecute = true
+            if inst.components.spellbook ~= nil then
+                inst.components.spellbook:SetSpellName(STRINGS.SPELLS.OPEN_SPACE_PROXY)
+                inst.components.spellbook.closeonexecute = true
+            end
         end,
         execute = function(inst)
             SendModRPCToServer(GetModRPC("kmds.spells", "spells.open_space_proxy"))
@@ -170,7 +174,7 @@ local allskills = {
         postinit = SetupMouseOver,
         default_focus = true,
         _validtest = function(inst)
-            return inst and inst.components.skilltreeupdater:IsActivated("spacemagic_1")
+            return inst and inst.components.skilltreeupdater and inst.components.skilltreeupdater:IsActivated("spacemagic_1")
         end,
     },
 }

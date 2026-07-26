@@ -8,19 +8,24 @@ UTIL.FnExtend(StatusDisplays, "_ctor",
     nil,
     function(rets, self, owner)
         owner:ListenForEvent("saturadelta", function(inst, data)
-            self:SetHungerPercent(inst.replica.hunger:GetPercent())
+            local hunger = inst.replica and inst.replica.hunger
+            if hunger ~= nil then
+                self:SetHungerPercent(hunger:GetPercent())
+            end
         end)
     end)
 UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
     function(self, pct)
-        local satura = self.owner and self.owner.replica.satura
+        local satura = self.owner and self.owner.replica and self.owner.replica.satura
         if satura and satura:IsSaturated() then
             self.stomach.anim:GetAnimState():SetMultColour(unpack(OVERTINT))
             self.stomach.marker:Show()
             self.stomach:SetPercent(satura:GetCurrent() / satura:Max(), satura:Max())
             if self.stomach.circleframe ~= nil then
                 self.stomach.circleframe:GetAnimState():SetPercent("frame", 0)
-                self.stomach.num:SetString(tostring(math.ceil(satura:GetCurrent() + self.owner.replica.hunger:Max())))
+                local hunger = self.owner.replica.hunger
+                local hungermx = hunger and hunger:Max() or 0
+                self.stomach.num:SetString(tostring(math.ceil(satura:GetCurrent() + hungermx)))
             end
             return nil, true
         else

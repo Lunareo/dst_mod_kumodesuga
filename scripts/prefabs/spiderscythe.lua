@@ -9,7 +9,7 @@ local function OnKilledOther(attacker, eventdata)
     if attacker and attacker:IsValid() and attacker:HasTag(TAG_CAN_USE) and eventdata and eventdata.victim and eventdata.victim.components.health and
         attacker.components.inventory then
         local touch = attacker.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        if touch and touch.prefab == "spiderscythe" then
+        if touch and touch.prefab == "spiderscythe" and touch.components.finiteuses ~= nil then
             touch.components.finiteuses:SetUses(math.min(
                 touch.components.finiteuses:GetUses() +
                 math.ceil(eventdata.victim.components.health:GetMaxWithPenalty() / TUNING.SPIDER_SCYTHE_BASE_DMG * TUNING.SPIDER_SCYTHE_REPAIR_RT),
@@ -79,7 +79,7 @@ local function ReticuleMouseTargetFn(inst, mousepos)
         local dz = mousepos.z - z
         local l = dx * dx + dz * dz
         if l <= 0 then
-            return inst.components.reticule.targetpos
+            return inst.components.reticule and inst.components.reticule.targetpos or mousepos
         end
         l = 6.5 / math.sqrt(l)
         return Vector3(x + dx * l, 0, z + dz * l)
@@ -153,7 +153,9 @@ local function AreaAttackPlus(combat, target, range, weapon, validfn, stimuli, e
             (validfn == nil or validfn(ent, combat.inst)) then
             combat.inst:PushEvent("onareaattackother", { target = ent, weapon = weapon, stimuli = stimuli })
             local dmg, spdmg = combat:CalcDamage(ent, weapon, combat.areahitdamagepercent)
-            ent.components.combat:GetAttacked(combat.inst, dmg, weapon, stimuli, spdmg)
+            if ent.components.combat ~= nil then
+                ent.components.combat:GetAttacked(combat.inst, dmg, weapon, stimuli, spdmg)
+            end
             ent:AddDebuff("erosion", "buff_erosion", {
                 attacker = combat.inst, weapon = weapon
             })

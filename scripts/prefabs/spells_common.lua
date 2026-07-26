@@ -47,13 +47,16 @@ local function AutoToggleWidget(fn)
 end
 
 local function StartAOETargeting(inst)
-    local playercontroller = ThePlayer.components.playercontroller
+    local playercontroller = ThePlayer and ThePlayer.components and ThePlayer.components.playercontroller
     if playercontroller ~= nil then
         playercontroller:StartAOETargetingUsing(inst)
     end
 end
 
 local function ReticuleTargetFn(inst)
+    if ThePlayer == nil or ThePlayer.entity == nil then
+        return Vector3(0, 0.001, 0)
+    end
     return Vector3(ThePlayer.entity:LocalToWorldSpace(7, 0.001, 0)) -- Raised this off the ground a touch so it wont have any z-fighting with the ground biome transition tiles.
 end
 

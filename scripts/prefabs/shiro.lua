@@ -59,11 +59,13 @@ end
 
 ---@param inst avatar_shiro
 local function GetPointSpecialActions(inst, pos, useitem, right)
-    if right and useitem == nil and
-        inst.components.skilltreeupdater:IsActivated("spacemagic_2") and
-        (inst.components.skilltreeupdater:IsActivated("spacemotor") or
+    local skilltreeupdater = inst.components.skilltreeupdater
+    if right and useitem == nil and skilltreeupdater and
+        skilltreeupdater:IsActivated("spacemagic_2") and
+        (skilltreeupdater:IsActivated("spacemotor") or
             TheWorld.Map:IsAboveGroundAtPoint(pos:Get())) then
-        local hands = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local inventory = inst.replica.inventory
+        local hands = inventory and inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
         if not (hands and hands.components.aoetargeting) then
             return { ACTIONS.TRANSFER }
         end

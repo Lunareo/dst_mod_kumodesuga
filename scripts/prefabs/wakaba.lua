@@ -25,7 +25,8 @@ prefabs = FlattenTree({ prefabs, start_inv }, true)
 local function GetPointSpecialActions(inst, pos, useitem, right)
     if right and useitem == nil then
         local rider = inst.replica.rider
-        local hands = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local inventory = inst.replica.inventory
+        local hands = inventory and inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
         if (rider ~= nil and not rider:IsRiding() or rider == nil) and not (hands and hands.components.aoetargeting) then
             return { ACTIONS.PARRY }
         end
@@ -54,7 +55,9 @@ end
 ---@param inst avatar_wakaba
 ---@param attacker ent|nil
 local function CanDodge(inst, attacker)
-    return GetTime() <= (inst.components.attackdodger.dodgetimestamp or 0) + inst.components.attackdodger.dodgewindow
+    local attackdodger = inst.components.attackdodger
+    if attackdodger == nil then return false end
+    return GetTime() <= (attackdodger.dodgetimestamp or 0) + (attackdodger.dodgewindow or 0)
 end
 
 ---@param inst avatar_wakaba
