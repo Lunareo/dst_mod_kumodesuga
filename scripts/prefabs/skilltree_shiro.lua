@@ -21,54 +21,177 @@ local function Coord(group, dx, dy)
     return { ORDERS_LIST[group][1] + dx, ORDERS_LIST[group][2] - 30 + dy }
 end
 
-local function OnSpaceMagicUpdate(inst, fromload)
-    local skilltreeupdater = inst.components.skilltreeupdater
-    if skilltreeupdater == nil then return end
-    local count = skilltreeupdater:CountSkillTag("spacemagic")
-    if count == 0 then
-        if inst._other_space ~= nil then
-            if inst._other_space.components.container ~= nil then
-                inst._other_space.components.container:DropEverything(inst:GetPosition())
-            end
-            inst:RemoveChild(inst._other_space)
-            inst._other_space:Remove()
-            inst._other_space = nil
-        end
-    else
-        local old = inst._other_space
-        inst._other_space = SpawnPrefab("other_space_3x" .. tostring(1 + math.clamp(count, 1, 3)))
-        if inst._other_space == nil then return end
-        inst:AddChild(inst._other_space)
-        if old ~= nil then
-            inst:RemoveChild(old)
-            local old_container = old.components.container
-            local new_container = inst._other_space.components.container
-            if old_container ~= nil and new_container ~= nil then
-                for i = 1, old_container:GetNumSlots() do
-                    local item = old_container:RemoveItemBySlot(i)
-                    if item ~= nil then
-                        new_container:GiveItem(item, i)
-                    end
-                end
-                old_container:DropEverything(inst:GetPosition())
-                if old_container:IsOpenedBy(inst) and inst.components.inventory ~= nil then
-                    local proxy = inst.components.inventory:GetOpenContainerProxyFor(old)
-                    if proxy ~= nil then
-                        local new_proxy = SpawnAt(proxy.prefab, proxy)
-                        if proxy.components.container_proxy ~= nil then
-                            proxy.components.container_proxy:Close()
-                        end
-                        if new_proxy ~= nil and new_proxy.components.container_proxy ~= nil then
-                            new_proxy.components.container_proxy:Open(inst)
+-- spacemagic tag count -> container prefab
+-- 1 -> other_space_3x2, 2 -> other_space_3x3, 3 -> other_space_3x4
+local SPACE_RANK = {
+    other_space_3x2 = 1,
+    other_space_3x3 = 2,
+    other_space_3x4 = 3,
+}
+
+local function GetSpacePrefab(count)
+    if count == nil or count <= 0 then
+        return nil
+    end
+    return "other_space_3x" .. tostring(1 + math.clamp(count, 1, 3))
+end
+
+local function GetSpaceRank(space_or_prefab)
+    local prefab = type(space_or_prefab) == "string" and space_or_prefab
+        or (space_or_prefab and space_or_prefab.prefab)
+    return prefab and SPACE_RANK[prefab] or 0
+end
+
+---@param old_container component_container
+---@param new_container component_container
+---@param drop_pos Vector3
+local function TransferSpaceItems(old_container, new_container, drop_pos)
+    for i = 1, old_container:GetNumSlots() do
+        local item = old_container:RemoveItemBySlot(i)
+        if item ~= nil then
+            -- Prefer same slot; fall back to any free slot.
+            -- drop_on_fail=false so intermediate overflow is not immediately dumped.
+            if not new_container:GiveItem(item, i, nil, false) then
+                if not new_container:GiveItem(item, nil, nil, false) then
+                    -- Truly cannot fit (runtime downsize): drop at player.
+                    if item:IsValid() then
+                        item.Transform:SetPosition(drop_pos:Get())
+                        if item.components.inventoryitem ~= nil then
+                            item.components.inventoryitem:OnDropped(true)
                         end
                     end
                 end
-            elseif old_container ~= nil then
-                old_container:DropEverything(inst:GetPosition())
             end
-            old:Remove()
         end
     end
+end
+
+---@param inst avatar_shiro
+---@param old ent
+---@param new_space ent
+local function ReopenSpaceProxy(inst, old, new_space)
+    local old_container = old.components.container
+    if old_container == nil or not old_container:IsOpenedBy(inst) then
+        return
+    end
+    if inst.components.inventory == nil then
+        return
+    end
+    local proxy = inst.components.inventory:GetOpenContainerProxyFor(old)
+    if proxy == nil then
+        return
+    end
+    local new_proxy = SpawnAt(proxy.prefab, proxy)
+    if proxy.components.container_proxy ~= nil then
+        proxy.components.container_proxy:Close()
+    end
+    if new_proxy ~= nil and new_proxy.components.container_proxy ~= nil then
+        new_proxy.components.container_proxy:SetMaster(new_space)
+        new_proxy.components.container_proxy:Open(inst)
+    end
+end
+
+---@param inst avatar_shiro
+---@param old ent|nil
+---@param target_prefab string
+---@return ent|nil
+local function ReplaceOtherSpace(inst, old, target_prefab)
+    local new_space = SpawnPrefab(target_prefab)
+    if new_space == nil then
+        return old
+    end
+    inst:AddChild(new_space)
+    new_space.Transform:SetPosition(0, 0, 0)
+
+    if old ~= nil then
+        inst:RemoveChild(old)
+        local old_container = old.components.container
+        local new_container = new_space.components.container
+        if old_container ~= nil and new_container ~= nil then
+            TransferSpaceItems(old_container, new_container, inst:GetPosition())
+            ReopenSpaceProxy(inst, old, new_space)
+        elseif old_container ~= nil then
+            old_container:DropEverything(inst:GetPosition())
+        end
+        old.persists = false
+        old:Remove()
+    end
+
+    return new_space
+end
+
+---@param inst avatar_shiro
+---@param fromload boolean|nil
+local function OnSpaceMagicUpdate(inst, fromload)
+    local skilltreeupdater = inst.components.skilltreeupdater
+    if skilltreeupdater == nil then
+        return
+    end
+
+    local count = skilltreeupdater:CountSkillTag("spacemagic")
+    local target_prefab = GetSpacePrefab(count)
+    local old = inst._other_space
+
+    -- No spacemagic skills: destroy pocket dimension.
+    if target_prefab == nil then
+        if old ~= nil then
+            if old.components.container ~= nil then
+                old.components.container:DropEverything(inst:GetPosition())
+            end
+            inst:RemoveChild(old)
+            old.persists = false
+            old:Remove()
+            inst._other_space = nil
+        end
+        return
+    end
+
+    -- Already the correct container size.
+    if old ~= nil and old.prefab == target_prefab then
+        old.Transform:SetPosition(0, 0, 0)
+        if old.components.container ~= nil then
+            old.components.container.skipautoclose = true
+        end
+        return
+    end
+
+    --
+    -- fromload path (skilltree SendFromSkillTreeBlob):
+    -- Skills are ActivateSkill'd one-by-one with intermediate CountSkillTag values.
+    -- Player OnLoad has usually already restored the full saved container via SpawnSaveRecord.
+    -- If we resize to the intermediate (smaller) size here, overflow slots drop permanently.
+    --
+    -- Rules on load:
+    --  1) Missing container  -> create target (legacy / empty saves)
+    --  2) Existing larger/same rank -> keep it (do NOT shrink)
+    --  3) Existing smaller rank     -> upgrade/migrate only
+    --
+    if fromload then
+        if old == nil then
+            inst._other_space = SpawnPrefab(target_prefab)
+            if inst._other_space ~= nil then
+                inst:AddChild(inst._other_space)
+                inst._other_space.Transform:SetPosition(0, 0, 0)
+            end
+            return
+        end
+
+        -- Keep saved pocket attached to player origin (SpawnSaveRecord may restore world coords).
+        old.Transform:SetPosition(0, 0, 0)
+        if old.components.container ~= nil then
+            old.components.container.skipautoclose = true
+        end
+
+        if GetSpaceRank(old) >= GetSpaceRank(target_prefab) then
+            return
+        end
+
+        inst._other_space = ReplaceOtherSpace(inst, old, target_prefab)
+        return
+    end
+
+    -- Runtime skill learn/unlearn: resize to exact target (may shrink and drop overflow).
+    inst._other_space = ReplaceOtherSpace(inst, old, target_prefab)
 end
 
 ---@param SkillTreeFns SkillTreeFns

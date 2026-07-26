@@ -183,7 +183,15 @@ local master_postinit = function(inst)
     function inst:OnLoad(data, ...)
         if data._other_space and not self._other_space then
             self._other_space = SpawnSaveRecord(data._other_space)
-            self:AddChild(self._other_space)
+            if self._other_space ~= nil then
+                self:AddChild(self._other_space)
+                -- SaveRecord stores absolute world pos; as a child it must sit on the player
+                -- or Container:OnUpdate IsNear checks (if skipautoclose is off) will fail.
+                self._other_space.Transform:SetPosition(0, 0, 0)
+                if self._other_space.components.container ~= nil then
+                    self._other_space.components.container.skipautoclose = true
+                end
+            end
         end
         return OnLoad ~= nil and OnLoad(self, data, ...)
     end
