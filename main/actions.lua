@@ -33,6 +33,38 @@ local TRANSFER_MAP_SANITY_PER_SEGMENT = 3
 local TRANSFER_MAP_DISTANCE_SEGMENT = 80
 
 ---@param doer ent
+---@return number|nil
+local function GetSanityCurrent(doer)
+    if doer == nil then
+        return nil
+    end
+    local sanity = doer.components.sanity
+    if sanity ~= nil and sanity.current ~= nil then
+        return sanity.current
+    end
+    local replica = doer.replica and doer.replica.sanity
+    if replica ~= nil and replica.GetCurrent ~= nil then
+        return replica:GetCurrent()
+    end
+    return nil
+end
+
+---@param doer ent
+---@param cost number
+---@return boolean
+local function CanAffordSanityCost(doer, cost)
+    if cost == nil or cost <= 0 then
+        return true
+    end
+    local current = GetSanityCurrent(doer)
+    if current == nil then
+        -- No sanity data (e.g. non-player): allow show/cast.
+        return true
+    end
+    return current >= cost
+end
+
+---@param doer ent
 ---@param cost number
 ---@return boolean
 local function TryConsumeTransferSanity(doer, cost)
@@ -97,6 +129,17 @@ local function CanTransferToPoint(doer, pos)
     return TheWorld.Map:IsPassableAtPoint(x, y, z)
 end
 
+--- Whether far-transfer may be shown / remapped (destination + affordability).
+---@param doer ent
+---@param pos Vector3
+---@return boolean
+local function CanShowTransferMap(doer, pos)
+    if doer == nil or pos == nil or not CanTransferToPoint(doer, pos) then
+        return false
+    end
+    return CanAffordSanityCost(doer, GetTransferMapSanityCost(doer, pos))
+end
+
 local ACTION_TRANSFER = AddAction(
     "TRANSFER",
     STRINGS.ACTIONS.TRANSFER,
@@ -151,11 +194,11 @@ ACTION_TRANSFER_MAP.map_action = true
 ACTION_TRANSFER_MAP.map_only = true
 ACTION_TRANSFER_MAP.closes_map = true
 ACTION_TRANSFER_MAP.floating_valid = true
--- RemapMapAction accepts any ocean tile for map_only actions; re-check destination.
+-- RemapMapAction accepts any ocean tile for map_only actions; re-check destination + cost.
 ACTION_TRANSFER_MAP.maponly_checkvalidpos_fn = function(act)
     local doer = act and act.doer
     local pos = act and act.pos and act.pos:GetPosition()
-    if doer == nil or pos == nil or not CanTransferToPoint(doer, pos) then
+    if doer == nil or pos == nil or not CanShowTransferMap(doer, pos) then
         return false
     end
     return true, nil, pos.x, pos.z
@@ -175,12 +218,25 @@ end
 ---@param pos Vector3
 ACTIONS_MAP_REMAP[ACTION_TRANSFER.code] = function(act, pos)
     local doer = act and act.doer
-    local skilltreeupdater = doer and doer.components.skilltreeupdater
-    if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and CanTransferToPoint(doer, pos) then
+    -- Far-transfer remap also requires Alt (FORCE_INSPECT), same as short transfer.
+    local pc = doer and doer.components.playercontroller
+    if pc == nil or not pc:IsControlPressed(CONTROL_FORCE_INSPECT) then
+        return nil
+    end
+    local skilltreeupdater = doer.components.skilltreeupdater
+    if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and CanShowTransferMap(doer, pos) then
         return BufferedAction(doer, nil, ACTIONS.TRANSFER_MAP, nil, pos)
     end
     return nil
 end
+
+-- Shared helpers for character pointspecial (client + server).
+KMDS = rawget(_G, "KMDS") or {}
+KMDS.GetTransferMapSanityCost = GetTransferMapSanityCost
+KMDS.CanAffordSanityCost = CanAffordSanityCost
+KMDS.CanShowTransferMap = CanShowTransferMap
+KMDS.CanTransferToPoint = CanTransferToPoint
+rawset(_G, "KMDS", KMDS)
 
 -- postinits
 
