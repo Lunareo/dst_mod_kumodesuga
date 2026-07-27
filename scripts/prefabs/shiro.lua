@@ -70,6 +70,15 @@ local function HasSpaceMotor(inst)
     return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
 end
 
+--- Transfer / far-transfer only while holding Alt (CONTROL_FORCE_INSPECT).
+--- Server receives this via EncodeControlMods / DecodeControlMods on click RPC.
+---@param inst avatar_shiro
+---@return boolean
+local function IsTransferModifierHeld(inst)
+    local pc = inst.components.playercontroller
+    return pc ~= nil and pc:IsControlPressed(CONTROL_FORCE_INSPECT)
+end
+
 --- Land / boat, or open ocean only with spacemotor.
 ---@param inst avatar_shiro
 ---@param pos Vector3
@@ -99,6 +108,11 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
         return {}
     end
 
+    -- Only show/allow transfer while Alt is held.
+    if not IsTransferModifierHeld(inst) then
+        return {}
+    end
+
     local skilltreeupdater = inst.components.skilltreeupdater
     if skilltreeupdater == nil then
         return {}
@@ -109,18 +123,32 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     -- GetRightClickActions(player_pos). Always validate the *map cursor*
     -- (checkingmapactions_pos), not the player feet, so ocean targets without
     -- spacemotor never produce a map action that RemapMapAction would accept.
+    -- Also hide when sanity cost cannot be afforded.
     if inst.checkingmapactions then
         local targetpos = inst.checkingmapactions_pos or pos
-        if skilltreeupdater:IsActivated("spacemagic_3") and CanTransferToPoint(inst, targetpos) then
+        local can_show = false
+        if skilltreeupdater:IsActivated("spacemagic_3") then
+            if KMDS and KMDS.CanShowTransferMap then
+                can_show = KMDS.CanShowTransferMap(inst, targetpos)
+            else
+                can_show = CanTransferToPoint(inst, targetpos)
+            end
+        end
+        if can_show then
             return { ACTIONS.TRANSFER_MAP }
         end
         return {}
     end
 
+    -- Alt already held: allow TRANSFER even with aoetargeting weapons
+    -- (hand cast is suppressed separately while Alt is held).
     if skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(inst, pos) then
-        local inventory = inst.replica.inventory
-        local hands = inventory and inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
-        if not (hands and hands.components.aoetargeting) then
+        -- Short transfer also needs sanity; hide when unaffordable.
+        local afford = true
+        if KMDS and KMDS.CanAffordSanityCost then
+            afford = KMDS.CanAffordSanityCost(inst, 3)
+        end
+        if afford then
             return { ACTIONS.TRANSFER }
         end
     end

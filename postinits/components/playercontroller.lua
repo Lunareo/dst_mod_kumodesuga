@@ -1,10 +1,51 @@
 ---@class component_playercontroller
 local PlayerController = require "components/playercontroller"
 
+local function IsShiroAltHeld(self)
+    return self.inst:HasTag("shiro") and self:IsControlPressed(CONTROL_FORCE_INSPECT)
+end
+
+-- shiro + Alt: do not start hand-equip AOE targeting / charging.
+UTIL.FnExtend(PlayerController, "TryAOETargeting",
+    function(self)
+        if IsShiroAltHeld(self) then
+            return { false }, true
+        end
+    end)
+
+UTIL.FnExtend(PlayerController, "TryAOECharging",
+    function(self)
+        if IsShiroAltHeld(self) then
+            return { false }, true
+        end
+    end)
+
+-- shiro + Alt: strip CASTAOE from ground use so transfer can surface.
+UTIL.FnExtend(PlayerController, "GetGroundUseAction", nil,
+    function(rets, self, position, spellbook)
+        if not IsShiroAltHeld(self) then
+            return rets
+        end
+        local lmb = rets and rets[1] or nil
+        local rmb = rets and rets[2] or nil
+        if lmb ~= nil and lmb.action == ACTIONS.CASTAOE then
+            lmb = nil
+        end
+        if rmb ~= nil and rmb.action == ACTIONS.CASTAOE then
+            rmb = nil
+        end
+        return { lmb, rmb }
+    end)
+
 -- Vanilla requires IsPassableAtPoint, which rejects open ocean even when
 -- pointspecialactionsfn offers TRANSFER (e.g. with spacemotor / boats).
 UTIL.FnExtend(PlayerController, "GetGroundUseSpecialAction",
     function(self, position, right)
+        -- TRANSFER only while Alt (FORCE_INSPECT) is held.
+        if not self:IsControlPressed(CONTROL_FORCE_INSPECT) then
+            return
+        end
+
         position = position or
             (self.reticule ~= nil and self.reticule.targetpos) or
             (self.terraformer ~= nil and self.terraformer:GetPosition()) or
