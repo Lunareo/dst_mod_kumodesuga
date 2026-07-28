@@ -29,7 +29,6 @@
 ---| "buff_freeze"
 ---| "buff_health_penalty_reduction" # 腐蚀再生
 ---| "buff_mighty_strike"
----| "echo_shadow_fx_client"
 ---| "helheim_beyonder"
 ---| "shiro"
 ---| "silk_robe"

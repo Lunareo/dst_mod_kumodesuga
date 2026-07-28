@@ -32,33 +32,15 @@ skilldefs.CUSTOM_FUNCTIONS[avatar_name] = skill_data.CUSTOM_FUNCTIONS
 ---@class avatar_shiro: ent
 ---@field _other_space ent|nil
 ---@field _other_space_data table|nil
----@field enabledshadow net_bool
+---@field checkingmapactions boolean|nil
+---@field checkingmapactions_pos Vector3
 
 local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
 ---@param inst avatar_shiro
-local function SpawnSkandaFX(inst)
-    ---@class echo_shadow_fx_client: ent
-    local fx = SpawnPrefab("echo_shadow_fx_client")
-    fx:AttachFXOwner(inst)
-end
-
----@param inst avatar_shiro
-local function OnEnabledShadowDirty(inst)
-    if inst.enabledshadow and inst.enabledshadow:value() then
-        if not inst.components.updatelooper then
-            inst:AddComponent("updatelooper")
-        end
-        inst.components.updatelooper:AddOnUpdateFn(SpawnSkandaFX)
-    elseif inst.components.updatelooper then
-        inst.components.updatelooper:RemoveOnUpdateFn(SpawnSkandaFX)
-    end
-end
-
----@param inst avatar_shiro
----@return boolean
+---@return boolean|nil
 local function HasSpaceMotor(inst)
     local skilltreeupdater = inst.components.skilltreeupdater
     if skilltreeupdater == nil then
@@ -73,7 +55,7 @@ end
 --- Transfer / far-transfer only while holding Alt (CONTROL_FORCE_INSPECT).
 --- Server receives this via EncodeControlMods / DecodeControlMods on click RPC.
 ---@param inst avatar_shiro
----@return boolean
+---@return boolean|nil
 local function IsTransferModifierHeld(inst)
     local pc = inst.components.playercontroller
     return pc ~= nil and pc:IsControlPressed(CONTROL_FORCE_INSPECT)
@@ -82,7 +64,7 @@ end
 --- Land / boat, or open ocean only with spacemotor.
 ---@param inst avatar_shiro
 ---@param pos Vector3
----@return boolean
+---@return boolean|nil
 local function CanTransferToPoint(inst, pos)
     if pos == nil then
         return false
@@ -126,7 +108,7 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     -- Also hide when sanity cost cannot be afforded.
     if inst.checkingmapactions then
         local targetpos = inst.checkingmapactions_pos or pos
-        local can_show = false
+        local can_show = false ---@type boolean|nil
         if skilltreeupdater:IsActivated("spacemagic_3") then
             if KMDS and KMDS.CanShowTransferMap then
                 can_show = KMDS.CanShowTransferMap(inst, targetpos)
@@ -192,19 +174,12 @@ end
 local common_postinit = function(inst)
     inst.AnimState:SetHatOffset(2, 27)
 
-    inst.enabledshadow = net_bool(inst.GUID, "skill.skanda.enabledshadow", "skill.skanda.enabledshadowdirty")
-    inst.enabledshadow:set(false)
-
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
 
     inst:AddComponent("nightvision")
-
-    if not TheNet:IsDedicated() then
-        inst:ListenForEvent("skill.skanda.enabledshadowdirty", OnEnabledShadowDirty)
-    end
 
     local RemoveTag = inst.RemoveTag
     function inst:RemoveTag(tag)
