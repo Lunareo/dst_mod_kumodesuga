@@ -1,4 +1,5 @@
 ---@type table<string, integer[]>
+
 local ORDERS_LIST = {
     evolution = { 3, 70 },
     --dominator = { 3, 186 },
@@ -239,6 +240,7 @@ local function BuildSkillData(SkillTreeFns)
                     inst.Physics:Teleport(inst.Transform:GetWorldPosition())
                 end
             end,
+            candisable = true,
         },
         skanda = {
             pos = Coord("constmagic", -40, 0),
@@ -246,11 +248,17 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "constmagic", "skanda" },
             root = true,
             onactivate = function(inst, fromload)
-                inst:AddComponent("skanda")
+                if inst.components.skanda == nil then
+                    inst:AddComponent("skanda")
+                end
             end,
             ondeactivate = function(inst, fromload)
-                inst:RemoveComponent("skanda")
-            end
+                if inst.components.skanda ~= nil then
+                    inst.components.skanda:Enable(false)
+                    inst:RemoveComponent("skanda")
+                end
+            end,
+            candisable = true,
         },
         vision_enhance = {
             pos = Coord("constmagic", -40, -40),
@@ -268,6 +276,7 @@ local function BuildSkillData(SkillTreeFns)
                     inst.components.nightvision:ToggleUpdate(false)
                 end
             end,
+            candisable = true,
         },
         --vision_overlook = {
         --    pos = Coord("constmagic", 0, -80),
@@ -456,8 +465,10 @@ local function BuildSkillData(SkillTreeFns)
                 inst:AddTag("player_shadow_aligned")
                 local damagetyperesist = inst.components.damagetyperesist
                 if damagetyperesist then
-                    damagetyperesist:AddResist("lunar_alighed", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_LUNAR_RESIST, "shiro_allegiance_shadow")
-                    damagetyperesist:AddResist("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_SHADOW_RESIST, "shiro_allegiance_shadow")
+                    damagetyperesist:AddResist("lunar_alighed", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_LUNAR_RESIST,
+                        "shiro_allegiance_shadow")
+                    damagetyperesist:AddResist("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_SHADOW_RESIST,
+                        "shiro_allegiance_shadow")
                 end
             end,
             ondeactivate = function(inst, fromload)
@@ -480,8 +491,10 @@ local function BuildSkillData(SkillTreeFns)
                 inst:AddTag("player_lunar_aligned")
                 local damagetypebonus = inst.components.damagetypebonus
                 if damagetypebonus then
-                    damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_LUNAR_BONUS, "shiro_allegiance_lunar")
-                    damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_SHADOW_BONUS, "shiro_allegiance_lunar")
+                    damagetypebonus:AddBonus("lunar_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_LUNAR_BONUS,
+                        "shiro_allegiance_lunar")
+                    damagetypebonus:AddBonus("shadow_aligned", inst, TUNING.SKILLS.SHIRO_ALLEGIANCE_VS_SHADOW_BONUS,
+                        "shiro_allegiance_lunar")
                 end
             end,
             ondeactivate = function(inst, fromload)
