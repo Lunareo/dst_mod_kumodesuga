@@ -85,30 +85,30 @@ local SPELL_FNS = {
 }
 
 local allskills = {
-    {
-        label = STRINGS.SPELLS.TOGGLENIGHTVISION,
-        onselect = function(inst)
-            if inst.components.spellbook ~= nil then
-                inst.components.spellbook.closeonexecute = false
-            end
-        end,
-        execute = function(inst)
-            SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
-        end,
-        bank = "spell_icons_shiro",
-        build = "spell_icons_shiro",
-        anims =
-        {
-            idle = { anim = "visual_enhance" },
-            focus = { anim = "visual_enhance_focus", loop = true },
-            down = { anim = "visual_enhance" },
-        },
-        widget_scale = ICON_SCALE,
-        postinit = AutoToggleWidget(isNightVisionActivated, { build = "spell_icons_shiro", anim = "visual_enhance" }),
-        _validtest = function(inst)
-            return inst and inst.components.skilltreeupdater and inst.components.skilltreeupdater:IsActivated("vision_enhance")
-        end,
-    },
+    --{
+    --    label = STRINGS.SPELLS.TOGGLENIGHTVISION,
+    --    onselect = function(inst)
+    --        if inst.components.spellbook ~= nil then
+    --            inst.components.spellbook.closeonexecute = false
+    --        end
+    --    end,
+    --    execute = function(inst)
+    --        SendModRPCToServer(GetModRPC("kmds.skills", "skills.updating"), hash("nightvision"))
+    --    end,
+    --    bank = "spell_icons_shiro",
+    --    build = "spell_icons_shiro",
+    --    anims =
+    --    {
+    --        idle = { anim = "visual_enhance" },
+    --        focus = { anim = "visual_enhance_focus", loop = true },
+    --        down = { anim = "visual_enhance" },
+    --    },
+    --    widget_scale = ICON_SCALE,
+    --    postinit = AutoToggleWidget(isNightVisionActivated, { build = "spell_icons_shiro", anim = "visual_enhance" }),
+    --    _validtest = function(inst)
+    --        return inst and inst.components.skilltreeupdater and inst.components.skilltreeupdater:IsActivated("vision_enhance")
+    --    end,
+    --},
     AbsorbSingleTargetSkill {
         name = "freeze",
         bank = "spell_icons_shiro",

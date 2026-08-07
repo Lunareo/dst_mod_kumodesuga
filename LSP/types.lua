@@ -39,3 +39,5 @@
 
 ---@enum equiptype_mod
 EQUIPSLOTS = {}
+
+MOD_RPC = {}

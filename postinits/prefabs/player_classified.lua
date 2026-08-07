@@ -97,5 +97,8 @@ AddPrefabPostInit("player_classified", function(inst)
     inst.currentstamina:set(0)
     inst.maxstamina:set(100)
 
+    inst.skillenabled = net_ushortint(inst.GUID, "skillenabled", "skillenableddirty")
+    inst.skillenabled:set(65535)
+
     inst:DoStaticTaskInTime(0, RegisterNetListeners)
 end)
