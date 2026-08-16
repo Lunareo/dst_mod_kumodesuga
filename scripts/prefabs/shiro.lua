@@ -210,6 +210,10 @@ local master_postinit = function(inst)
     inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"] --[[@as number]])
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
 
+    inst:AddComponent("magicpoint")
+    inst.components.magicpoint:SetMax(TUNING[string.upper(avatar_name) .. "_MAGICPOINT"] --[[@as number]])
+    inst.components.magicpoint:SetCurrent(inst.components.magicpoint:GetMax())
+
     inst.components.locomotor:SetTriggersCreep(false)
 
     inst.components.slipperyfeet.StartSlipperySource = function() end

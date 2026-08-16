@@ -7,6 +7,7 @@ TUNING = {
     },
     DRUNKEN_MODI = {
         COMBAT = 5,
+        GROGGY = 240,
         SPEED = .2,
     },
     SHIRO_HEALTH = 120,
