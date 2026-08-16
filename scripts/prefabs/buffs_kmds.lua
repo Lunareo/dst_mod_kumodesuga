@@ -191,8 +191,9 @@ local BUFF_DEFS = {
     drunken = {
         attach = function (inst, target, followsymbol, followoffset, data)
             if target == nil then return inst:Remove() end
-            inst.groggy = target:HasTag("groggy")
-            target:AddTag("groggy")
+            if target.components.grogginess ~= nil then
+                target.components.grogginess:AddGrogginess(TUNING.DRUNKEN_MODI.GROGGY)
+            end
             if target.components.locomotor ~= nil then
                 target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
             end
@@ -202,7 +203,6 @@ local BUFF_DEFS = {
         end,
         detach = function (inst, target, followsymbol, followoffset, data)
             if target == nil then return end
-            target:AddOrRemoveTag("groggy", inst.groggy)
             if target.components.locomotor ~= nil then
                 target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
             end
@@ -210,10 +210,10 @@ local BUFF_DEFS = {
                 target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
             end
             if not (data and data.nosleep) and target.components.sleeper ~= nil then
-                target.components.sleeper:AddSleepiness(4, 30)
+                target.components.sleeper:GoToSleep(30) --// TODO: Add to TUNING
             end
         end,
-        duration = 240,
+        duration = TUNING.DRUNKEN_MODI.GROGGY,
     },
 }
 

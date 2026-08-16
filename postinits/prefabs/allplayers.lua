@@ -2,6 +2,7 @@ AddReplicableComponent("satura")
 AddReplicableComponent("scorebase")
 AddReplicableComponent("stamina")
 AddReplicableComponent("accela")
+AddReplicableComponent("magicpoint")
 
 hookimport "components/hunger"
 hookimport "prefabs/player_classified"

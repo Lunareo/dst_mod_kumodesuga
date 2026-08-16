@@ -5,16 +5,19 @@
 local SourceModifierList = require "util/sourcemodifierlist"
 
 local function onrename(self, new, old)
-    assert(old == nil or new == old, string.format("Class symbol %s could not be renamed!", self.name))
+    rawset(self, "name", old)
+    assert(old == nil or new == old, string.format("Class symbol should not be renamed!"))
 end
 
 local function oncurrent(self, new, old)
     if new == old then return end
+    if self.inst.replica[self.name] == nil then return end
     self.inst.replica[self.name]:SetCurrent(new)
 end
 
 local function onmax(self, new, old)
     if new == old then return end
+    if self.inst.replica[self.name] == nil then return end
     self.inst.replica[self.name]:SetMax(new)
 end
 
@@ -30,6 +33,7 @@ end
 ---@field updatemultipliers SourceModifierList
 ---@field save_max boolean|nil
 local ScoreBase = Class(function(self, inst, name)
+    assert(type(name) == "string", "Derive component must be named!")
     self.inst = inst
     self.name = name and string.lower(name) or "scorebase"
     self.current = 0 -- consider self["current" .. name]
@@ -39,11 +43,10 @@ local ScoreBase = Class(function(self, inst, name)
     self.maxmultipliers = SourceModifierList(self.inst)
     self.updatemodifier = SourceModifierList(self.inst, 0, SourceModifierList.additive)
     self.updatemultipliers = SourceModifierList(self.inst)
-end, nil, {
-    name = onrename,
-    current = oncurrent,
-    max = onmax,
-})
+    addsetter(self, "name", onrename)
+    addsetter(self, "current", oncurrent)
+    addsetter(self, "max", onmax)
+end, nil, {})
 
 function ScoreBase:OnSave()
     return

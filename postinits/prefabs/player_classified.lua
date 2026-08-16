@@ -56,6 +56,15 @@ local function OnStaminaDirty(inst)
     end
 end
 
+local function OnMagicPointDirty(inst)
+    if inst._parent ~= nil then
+        inst._parent:PushEvent("magicpointdelta", {
+            current = inst.currentmagicpoint:value(),
+            max = inst.maxmagicpoint:value(),
+        })
+    end
+end
+
 
 -- local function RegisterNetListeners_mastersim(inst)
 --     inst:ListenForEvent("saturadelta", OnSaturaDelta, inst._parent)
@@ -65,6 +74,7 @@ local function RegisterNetListeners_local(inst)
     inst:ListenForEvent("saturadirty", OnSaturaDirty)
     inst:ListenForEvent("acceladirty", OnAccelaDirty)
     inst:ListenForEvent("staminadirty", OnStaminaDirty)
+    inst:ListenForEvent("magicpointdirty", OnMagicPointDirty)
 end
 
 local function RegisterNetListeners(inst)
@@ -99,6 +109,11 @@ AddPrefabPostInit("player_classified", function(inst)
 
     inst.skillenabled = net_ushortint(inst.GUID, "skillenabled", "skillenableddirty")
     inst.skillenabled:set(65535)
+
+    inst.currentmagicpoint = net_ushortint(inst.GUID, "magicpoint.current", "magicpointdirty")
+    inst.maxmagicpoint = net_ushortint(inst.GUID, "magicpoint.max", "magicpointdirty")
+    inst.currentmagicpoint:set(0)
+    inst.maxmagicpoint:set(TUNING.SHIRO_MAGICPOINT)
 
     inst:DoStaticTaskInTime(0, RegisterNetListeners)
 end)
