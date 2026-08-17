@@ -1,4 +1,4 @@
-hookimport("prefabs", "allplayers", "wakaba")
+hookimport("prefabs", "allplayers", "wakaba", "beyond_sanity")
 hookimport("components", "builder", "builder_replica", "sanity", "playercontroller", "playeractionpicker", "combat", "playervision", "drownable", "aoetargeting")
 hookimport("entity")
 hookimport("stategraphs", "SGwilson")
