@@ -34,6 +34,7 @@ skilldefs.CUSTOM_FUNCTIONS[avatar_name] = skill_data.CUSTOM_FUNCTIONS
 ---@field _other_space_data table|nil
 ---@field checkingmapactions boolean|nil
 ---@field checkingmapactions_pos Vector3
+---@field CreateMagicBadge boolean|nil
 
 local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
@@ -176,8 +177,10 @@ local common_postinit = function(inst)
 
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
+    inst:AddTag("beyond_sanity")
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
+    inst.CreateMagicBadge = true
 
     inst:AddComponent("nightvision")
 

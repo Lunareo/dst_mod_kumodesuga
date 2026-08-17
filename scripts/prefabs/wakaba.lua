@@ -1,5 +1,4 @@
 local MakePlayerCharactor = require "prefabs/player_common"
-local WakabaSanityBadge = require "widgets/wakabasanitybadge"
 local WakabaAgeBadge = require "widgets/wakabaagebadge"
 
 local avatar_name = "wakaba"
@@ -80,13 +79,13 @@ local heal_srcs = {
 local common_postinit = function(inst)
     inst.AnimState:SetHatOffset(0, 35)
     inst:AddTag(avatar_name)
+    inst:AddTag("beyond_sanity")
     inst:AddTag("D_spirit")
     inst:AddTag("reader")
 
     inst.MiniMapEntity:SetIcon(avatar_name .. ".tex")
 
     if not TheNet:IsDedicated() then
-        inst.CreateSanityBadge = WakabaSanityBadge
         inst.CreateHealthBadge = WakabaAgeBadge
     end
 
@@ -112,18 +111,6 @@ local master_postinit = function(inst)
     inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"] --[[@as number]])
 
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
-    inst.components.sanity.get_equippable_dappernessfn = function() return 0 end
-    function inst.components.sanity:IsSane()
-        return not (self:IsInsane() or self:IsEnlightened())
-    end
-
-    function inst.components.sanity:IsInsane()
-        return self.inducedinsanity and not self.inducedlunacy
-    end
-
-    function inst.components.sanity:IsEnlightened()
-        return self.inducedlunacy and not self.inducedinsanity
-    end
 
     local oldager = inst:AddComponent("oldager")
     oldager.base_rate = -TUNING.WAKABA_OLDAGE_RECOVER_RATE

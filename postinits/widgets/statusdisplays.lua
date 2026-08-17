@@ -14,21 +14,15 @@ UTIL.FnExtend(StatusDisplays, "_ctor",
                 self:SetHungerPercent(hunger:GetPercent())
             end
         end)
-
-        -- Magic point badge (sanity template, violet gauge) for owners that have the component.
-        local magicpoint = owner.replica and owner.replica.magicpoint
-        if magicpoint ~= nil then
-            self.magic = self:AddChild(MagicBadge(owner))
-            self.magic:SetPosition(self.brain:GetPosition())
+        if owner:HasTag("beyond_sanity") then
             self.brain:Hide()
-            self.magic:SetPercent(magicpoint:GetPercent(), magicpoint:Max())
-            owner:ListenForEvent("magicpointdelta", function(inst, data)
-                if self.magic ~= nil and data ~= nil and data.max > 0 then
-                    self.magic:SetPercent(data.current / data.max, data.max)
-                end
-            end)
+            self.brain.Show = self.brain.Hide
+        end
+        if owner.CreateMagicBadge then
+            self:AddMagic()
         end
     end)
+
 UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
     function(self, pct)
         local satura = self.owner and self.owner.replica and self.owner.replica.satura
@@ -49,6 +43,7 @@ UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
             return
         end
     end)
+
 UTIL.FnExtend(StatusDisplays, "SetGhostMode",
     nil,
     function(rets, self, ghostmode)
@@ -58,6 +53,21 @@ UTIL.FnExtend(StatusDisplays, "SetGhostMode",
             else
                 self.magic:Show()
             end
-            self.brain:Hide()
         end
     end)
+
+function StatusDisplays:AddMagic()
+    if self.isghostmode then return end
+    self.magic = self:AddChild(MagicBadge(self.owner))
+    self.magic:SetPosition(self.brain:GetPosition())
+    self.owner:ListenForEvent("magicpointdelta", function(inst, data)
+        if self.magic ~= nil and data ~= nil and data.max > 0 then
+            self.magic:SetPercent(data.current / data.max, data.max)
+        end
+    end)
+    self.owner:DoTaskInTime(0, function (inst)
+        if inst.replica.magicpoint ~= nil then
+            self.magic:SetPercent(inst.replica.magicpoint:GetPercent(), inst.replica.magicpoint:GetMax())
+        end
+    end)
+end
