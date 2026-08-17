@@ -92,7 +92,7 @@ return {
             NOT_ENOUGH_EMBERS = "only_used_by_willow",
             NO_TARGETS = "only_used_by_willow",
             CANT_SPELL_MOUNTED = "only_used_by_willow",
-            SPELL_ON_COOLDOWN = "only_used_by_willow",
+            SPELL_ON_COOLDOWN = "……魔导,大师。也要,冷却。",
 			NO_BATTERY = "only_used_by_winona",
 			NO_CATAPULTS = "only_used_by_winona",
 		},
@@ -943,6 +943,11 @@ return {
     ANNOUNCE_DETACH_BUFF_MOISTUREIMMUNITY  = "……又要,湿了。",
     ANNOUNCE_DETACH_BUFF_SLEEPRESISTANCE   = "……困……",
 
+    ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "……眼睛。好痛。要看,一会儿……",
+    ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "……眼睛,好多了。",
+    ANNOUNCE_ATTACH_BUFF_DRUNKEN = "呜哇!",
+    ANNOUNCE_DETACH_BUFF_DRUNKEN = "……咦。这里,哪里。……我,做了什么?",
+
 	ANNOUNCE_OCEANFISHING_LINESNAP = "……线,断了。",
 	ANNOUNCE_OCEANFISHING_LINETOOLOOSE = "……该收线了。",
 	ANNOUNCE_OCEANFISHING_GOTAWAY = "……跑了。",
@@ -1256,9 +1261,9 @@ return {
 		GENERIC = "……碍事。",
 		PIG = "……猪。",
 		PREY = "……猎物。",
-		SPIDER = "……蜘蛛。……抱歉。",
-		SPIDER_WARRIOR = "……战士。……不想打。但是。",
-		DEER = "……鹿。……对不起。",
+		SPIDER = "……蜘蛛。……碍事。",
+		SPIDER_WARRIOR = "……战士。……利,爪。",
+		DEER = "……鹿。……肉。",
 	},
 	COMBAT_QUIT =
 	{
@@ -1266,11 +1271,18 @@ return {
 		PIG = "……放它走。这次。",
 		PREY = "……快。……追不上。",
 		SPIDER = "……不追了。丝,还会用。",
-		SPIDER_WARRIOR = "……再见。……最好,别再见。",
+		SPIDER_WARRIOR = "……不追。……够了。",
 	},
 
 	DESCRIBE =
 	{
+		CHIPS = "……没想到,这里,也有。D,在看吗。",
+		KURIKUTA_DRIED = "……干果。……比,毒魔物,的肉,好吃。",
+		SHIRO = "……我。……%s,是,替身?",
+		SILK_ROBE = "……织丝,的,基本功。",
+		SPIDERSCYTHE = "……我,的,前脚。……做成,镰。……顺手。",
+		WAKABA = "……D。……这里,也是,你的,游戏?",
+
 		MULTIPLAYER_PORTAL = "……门。……人,从哪,来。",
         MULTIPLAYER_PORTAL_MOONROCK = "……月岩的,门。……有点,暖。",
         MOONROCKIDOL = "……偶像。……不拜。",
@@ -1811,7 +1823,7 @@ return {
         SLURTLESLIME = "……有用。……所以,忍。",
         SNURTLE = "……少,一点,黏。……还是,黏。",
         SPIDER_HIDER = "……蜘蛛。……藏,起来。",
-        SPIDER_SPITTER = "……喷丝,蜘蛛。……远亲。",
+        SPIDER_SPITTER = "……喷丝,蜘蛛。……远,距离。",
         SPIDERHOLE = "……旧网,结着。",
         SPIDERHOLE_ROCK = "……旧网,结着。……石头。",
         STALAGMITE = "……石头。",
@@ -2933,7 +2945,7 @@ return {
 		SEWING_KIT = "……缝!……补!",
 		SEWING_TAPE = "……补修,用。",
 		SHOVEL = "……地下,复杂。",
-		SILK = "……丝。……同乡,手,艺。……嗯。",
+		SILK = "……丝。……粗,糙。……能,用。",
 		SKELETON = "……你,比我,先。……不幸。",
 		SCORCHED_SKELETON = "……怪。",
         SKELETON_NOTPLAYER = "……人,骨,不是。",
@@ -2953,7 +2965,7 @@ return {
 		WATHGRITHRHAT = "……豪华,帽。",
 		SPIDER =
 		{
-			DEAD = "……蜘蛛。……抱歉。",
+			DEAD = "……蜘蛛。……死,了。",
 			GENERIC = "……蜘蛛。……不,亲近。也不,讨厌。",
 			SLEEPING = "……睡,着。……走,吧。",
 		},
@@ -2961,10 +2973,10 @@ return {
 		SPIDEREGGSACK = "……卵,袋。……别,孵。",
 		SPIDERGLAND = "……腺体。……消毒,味。",
 		SPIDERHAT = "……王冠。……粘液,洗,掉,了?",
-		SPIDERQUEEN = "……女王。……大。……敬意,一点。",
+		SPIDERQUEEN = "……女王,蜘蛛。……大。",
 		SPIDER_WARRIOR =
 		{
-			DEAD = "……战士。……辛苦。",
+			DEAD = "……战士。……倒,了。",
 			GENERIC = "……战士。……凶。",
 			SLEEPING = "……距离,保持。",
 		},
@@ -3947,7 +3959,7 @@ return {
         DUG_TRAP_STARFISH = "……今,骗,不,了。",
         SPIDER_MOON =
         {
-        	GENERIC = "……月,变,蜘蛛。……可,怜。",
+        	GENERIC = "……月,变,蜘蛛。……不,稳定。",
         	SLEEPING = "……动,停。……好。",
         	DEAD = "……真的,死,了?",
         },
@@ -4277,7 +4289,7 @@ return {
         SPIDERDEN_BEDAZZLER = "……装饰,巢。……手,巧。",
         SPIDER_HEALER = "……蜘蛛,能,自愈,了。……哦。",
         SPIDER_REPELLENT = "……对,我……效果,无。……幸。",
-        SPIDER_HEALER_ITEM = "……见,到,蜘蛛……给,它们。……大概。",
+        SPIDER_HEALER_ITEM = "……蜘蛛,的,药。……我,不,需要。",
 
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "……唔。……很,药,感。",
@@ -5955,14 +5967,14 @@ return {
 		},
         SPIDERCORPSE =
 		{
-			GENERIC = "……蜘蛛,死体。……唔。",
-			BURNING = "……火,葬。……好,些。",
+			GENERIC = "……蜘蛛,死体。……安静。",
+			BURNING = "……烧,掉。……稳妥。",
 			REVIVING = "……这,不,对。",
 		},
         SPIDERQUEENCORPSE =
 		{
-			GENERIC = "……女王,死体。……微妙。",
-			BURNING = "……火,葬。……好,些。",
+			GENERIC = "……女王,死体。……大。",
+			BURNING = "……烧,掉。……稳妥。",
 			REVIVING = "……不,妙。",
 		},
         MERMCORPSE =

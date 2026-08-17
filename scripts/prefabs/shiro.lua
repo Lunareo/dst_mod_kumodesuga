@@ -105,7 +105,7 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     -- GetRightClickActions(player_pos). Always validate the *map cursor*
     -- (checkingmapactions_pos), not the player feet, so ocean targets without
     -- spacemotor never produce a map action that RemapMapAction would accept.
-    -- Also hide when sanity cost cannot be afforded.
+    -- Also hide when the magic point cost cannot be afforded.
     if inst.checkingmapactions then
         local targetpos = inst.checkingmapactions_pos or pos
         local can_show = false ---@type boolean|nil
@@ -125,10 +125,10 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     -- Alt already held: allow TRANSFER even with aoetargeting weapons
     -- (hand cast is suppressed separately while Alt is held).
     if skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(inst, pos) then
-        -- Short transfer also needs sanity; hide when unaffordable.
+        -- Short transfer also needs magic points; hide when unaffordable.
         local afford = true
-        if KMDS and KMDS.CanAffordSanityCost then
-            afford = KMDS.CanAffordSanityCost(inst, 3)
+        if KMDS and KMDS.CanAffordMagicPointCost then
+            afford = KMDS.CanAffordMagicPointCost(inst, 3)
         end
         if afford then
             return { ACTIONS.TRANSFER }

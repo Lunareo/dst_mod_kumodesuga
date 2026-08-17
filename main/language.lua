@@ -13,7 +13,7 @@ local map_zh = {
 }
 
 local defaultlang = LanguageTranslator.defaultlang
-local base = modrequire("languages_kmds/strings", {})
+local base = modrequire("languages_kmds/strings", { require = require })
 merge(STRINGS, base, true)
 if not map_zh[locale] then
     LoadPOFile("scripts/languages_kmds/strings_en.po", "kmds")

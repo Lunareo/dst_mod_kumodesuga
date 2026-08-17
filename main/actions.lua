@@ -28,21 +28,21 @@ local parryhandler = ActionHandler(ACTION_PARRY, "doshortaction")
 AddStategraphActionHandler("wilson", parryhandler)
 AddStategraphActionHandler("wilson_client", parryhandler)
 
-local TRANSFER_SANITY_COST = 3
-local TRANSFER_MAP_SANITY_PER_SEGMENT = 3
+local TRANSFER_MAGICPOINT_COST = 3
+local TRANSFER_MAP_MAGICPOINT_PER_SEGMENT = 3
 local TRANSFER_MAP_DISTANCE_SEGMENT = 80
 
 ---@param doer ent
 ---@return number|nil
-local function GetSanityCurrent(doer)
+local function GetMagicPointCurrent(doer)
     if doer == nil then
         return nil
     end
-    local sanity = doer.components.sanity
-    if sanity ~= nil and sanity.current ~= nil then
-        return sanity.current
+    local magicpoint = doer.components and doer.components.magicpoint
+    if magicpoint ~= nil then
+        return magicpoint:GetCurrent()
     end
-    local replica = doer.replica and doer.replica.sanity
+    local replica = doer.replica and doer.replica.magicpoint
     if replica ~= nil and replica.GetCurrent ~= nil then
         return replica:GetCurrent()
     end
@@ -52,13 +52,13 @@ end
 ---@param doer ent
 ---@param cost number
 ---@return boolean
-local function CanAffordSanityCost(doer, cost)
+local function CanAffordMagicPointCost(doer, cost)
     if cost == nil or cost <= 0 then
         return true
     end
-    local current = GetSanityCurrent(doer)
+    local current = GetMagicPointCurrent(doer)
     if current == nil then
-        -- No sanity data (e.g. non-player): allow show/cast.
+        -- Replication may not be attached yet; let the server perform the authoritative check.
         return true
     end
     return current >= cost
@@ -67,30 +67,20 @@ end
 ---@param doer ent
 ---@param cost number
 ---@return boolean
-local function TryConsumeTransferSanity(doer, cost)
-    local sanity = doer and doer.components.sanity
-    if sanity == nil then
-        return true
-    end
-    if cost <= 0 then
-        return true
-    end
-    if sanity.current < cost then
-        return false
-    end
-    sanity:DoDelta(-cost)
-    return true
+local function TryConsumeTransferMagicPoint(doer, cost)
+    local magicpoint = doer and doer.components and doer.components.magicpoint
+    return magicpoint ~= nil and magicpoint:Cost(cost)
 end
 
 ---@param doer ent
 ---@param pos Vector3
 ---@return number
-local function GetTransferMapSanityCost(doer, pos)
+local function GetTransferMapMagicPointCost(doer, pos)
     local dist = doer:GetDistanceSqToPoint(pos:Get())
     dist = math.sqrt(dist)
-    -- Every 80 units (or any remainder) costs 3 sanity; minimum one segment.
+    -- Every 80 units (or any remainder) costs 3 magic points; minimum one segment.
     local segments = math.max(1, math.ceil(dist / TRANSFER_MAP_DISTANCE_SEGMENT))
-    return segments * TRANSFER_MAP_SANITY_PER_SEGMENT
+    return segments * TRANSFER_MAP_MAGICPOINT_PER_SEGMENT
 end
 
 ---@param doer ent
@@ -137,7 +127,7 @@ local function CanShowTransferMap(doer, pos)
     if doer == nil or pos == nil or not CanTransferToPoint(doer, pos) then
         return false
     end
-    return CanAffordSanityCost(doer, GetTransferMapSanityCost(doer, pos))
+    return CanAffordMagicPointCost(doer, GetTransferMapMagicPointCost(doer, pos))
 end
 
 local ACTION_TRANSFER = AddAction(
@@ -152,7 +142,7 @@ local ACTION_TRANSFER = AddAction(
             if doer:GetDistanceSqToPoint(pos:Get()) > maxdist * maxdist then
                 return false
             end
-            if not TryConsumeTransferSanity(doer, TRANSFER_SANITY_COST) then
+            if not TryConsumeTransferMagicPoint(doer, TRANSFER_MAGICPOINT_COST) then
                 return false
             end
             doer:ForceFacePoint(pos:Get())
@@ -177,8 +167,8 @@ local ACTION_TRANSFER_MAP = AddAction(
         local doer = act and act.doer
         local skilltreeupdater = doer and doer.components.skilltreeupdater
         if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and pos and CanTransferToPoint(doer, pos) then
-            local cost = GetTransferMapSanityCost(doer, pos)
-            if not TryConsumeTransferSanity(doer, cost) then
+            local cost = GetTransferMapMagicPointCost(doer, pos)
+            if not TryConsumeTransferMagicPoint(doer, cost) then
                 return false
             end
             doer:ForceFacePoint(pos:Get())
@@ -209,7 +199,7 @@ ACTION_TRANSFER_MAP.stroverridefn = function(act)
     if doer == nil or pos == nil then
         return nil
     end
-    local cost = GetTransferMapSanityCost(doer, pos)
+    local cost = GetTransferMapMagicPointCost(doer, pos)
     local fmt = STRINGS.ACTIONS.TRANSFER_MAP_COST or "{cost}"
     return subfmt(fmt, { cost = cost })
 end
@@ -232,8 +222,8 @@ end
 
 -- Shared helpers for character pointspecial (client + server).
 KMDS = rawget(_G, "KMDS") or {}
-KMDS.GetTransferMapSanityCost = GetTransferMapSanityCost
-KMDS.CanAffordSanityCost = CanAffordSanityCost
+KMDS.GetTransferMapMagicPointCost = GetTransferMapMagicPointCost
+KMDS.CanAffordMagicPointCost = CanAffordMagicPointCost
 KMDS.CanShowTransferMap = CanShowTransferMap
 KMDS.CanTransferToPoint = CanTransferToPoint
 rawset(_G, "KMDS", KMDS)
