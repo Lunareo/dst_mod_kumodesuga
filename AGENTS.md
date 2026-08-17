@@ -12,3 +12,7 @@
 - 优先最小改动；不要无关格式化整文件。
 - 组件索引前注意判空（`components.X` / `replica.X`）。
 - 客户端特效与 `AnimState` 调用需校验实体 `IsValid`，避免 native 崩溃。
+
+## 计划
+
+- 计划在文件DOC/PLAN.md中，有需要时再观看。

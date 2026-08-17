@@ -109,7 +109,7 @@ end
 ----------------------------------------------------------------------------------------------------
 
 function Satura:GetPercent()
-    return self.current / self.max
+    return self.max > 0 and self.current / self.max or 0
 end
 
 function Satura:SetPercent(p, overtime)
@@ -124,9 +124,11 @@ function Satura:SetCurrent(current)
     self.current = math.clamp(current, 0, self.max)
 
     self.inst:PushEvent("saturadelta", {
-        oldpercent = old / self.max,
-        newpercent = self.current / self.max,
-        delta = self.current - old
+        oldpercent = self.max > 0 and old / self.max or 0,
+        newpercent = self.max > 0 and self.current / self.max or 0,
+        delta = self.current - old,
+        current = self.current,
+        max = self.max,
     })
 end
 

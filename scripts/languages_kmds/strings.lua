@@ -6,7 +6,7 @@ STRINGS = {
         PARRY = "闪避",
         TRANSFER = "转移",
         TRANSFER_MAP = "远转移",
-        TRANSFER_MAP_COST = "远转移 ({cost} 理智)",
+        TRANSFER_MAP_COST = "远转移 ({cost} 魔力)",
     },
     CHARACTERS = {
         GENERIC = {
@@ -29,40 +29,7 @@ STRINGS = {
                 WAKABA = "她真好看。",
             },
         },
-        SHIRO = {
-            ACTIONFAIL = {
-                CASTAOE = {
-                    SPELL_ON_COOLDOWN = "魔导大师也需要一些冷却时间。",
-                },
-            },
-            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "这一记对我的眼睛造成了巨大的伤害, 我需要一些时间来恢复...",
-            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "我感觉好多了.",
-            ANNOUNCE_ATTACH_BUFF_DRUNKEN = "呜哇!",
-            ANNOUNCE_DETACH_BUFF_DRUNKEN = "",
-            DESCRIBE = {
-                CHIPS = "没想到在这里也能吃到这个。",
-                KURIKUTA_DRIED = "比起有毒魔物的肉, 这个已经非常不错了。",
-                SHIRO = "%s, 你是我的替身吗?",
-                SILK_ROBE = "由千锤百炼的织丝技能制作而成, 比一般的布料耐用得多。",
-                SPIDERSCYTHE = "有一种亲近的感觉。",
-                WAKABA = "",
-            },
-        },
-        WAKABA = {
-            ACTIONFAIL = {
-                CASTAOE = {
-                    SPELL_ON_COOLDOWN = "稍作限制能让游戏变得更有趣。",
-                },
-            },
-            DESCRIBE = {
-                CHIPS = "不必担心发胖，这个身躯是完美的。",
-                GOLDNUGGET = "恒星的残骸。",
-                HELHEIM_BEYONDER = "",
-                SHIRO = "",
-                SPIDERSCYTHE = "希望她喜欢这个礼物。",
-                WAKABA = "拙劣的模仿。",
-            },
-        },
+        SHIRO = require "speech_shiro",
     },
     CHARACTER_DESCRIPTIONS = {
         shiro = "*身份神秘的少女\n*不善于表达\n*不要让她接触酒精",
@@ -210,12 +177,12 @@ STRINGS = {
     SPELLS = {
         TOGGLENIGHTVISION = "锐利目光",
         EVIL_EYES = {
-            CURSE = "诅咒之邪眼(10理智)",
-            DESTRUCTION = "腐蚀之邪眼(100理智)",
-            EROSION = "腐蚀之邪眼(10理智)",
-            FREEZE = "静止之邪眼(5理智)",
-            GRAVITY = "引斥之邪眼(10理智)",
-            TWIST = "歪曲之邪眼(10理智)",
+            CURSE = "诅咒之邪眼(10魔力)",
+            DESTRUCTION = "腐蚀之邪眼(100魔力)",
+            EROSION = "腐蚀之邪眼(10魔力)",
+            FREEZE = "静止之邪眼(5魔力)",
+            GRAVITY = "引斥之邪眼(10魔力)",
+            TWIST = "歪曲之邪眼(10魔力)",
         },
         OPEN_SPACE_PROXY = "储物空间",
     },

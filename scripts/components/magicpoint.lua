@@ -12,27 +12,6 @@ local UPDATE_PERIOD = 1
 -- from a removed one (fb entries double as "registered" markers).
 local NO_FALLBACK = function() end
 
----@param self component_magicpoint
----@param new number
----@param old number
-local function oncurrent(self, new, old)
-    if new == old then return end
-    local replica = self.inst.replica and self.inst.replica.magicpoint
-    if replica ~= nil then
-        replica:SetCurrent(new)
-    end
-end
-
----@param self component_magicpoint
----@param new number
----@param old number
-local function onmax(self, new, old)
-    if new == old then return end
-    local replica = self.inst.replica and self.inst.replica.magicpoint
-    if replica ~= nil then
-        replica:SetMax(new)
-    end
-end
 
 ---@param inst ent
 ---@param self component_magicpoint
@@ -49,13 +28,8 @@ end
 ---@field ratemodifier SourceModifierList # additive sum of consumption sources
 ---@field ratemultipliers SourceModifierList # global consumption coefficient
 local MagicPoint = Class(Base, function(self, inst)
-    -- ScoreBase's property setters are not inherited by subclasses, reinstall
-    -- them so current/max assignments keep the replica/classified in sync.
-    addsetter(self, "current", oncurrent)
-    addsetter(self, "max", onmax)
-
     Base._ctor(self, inst, "magicpoint")
-    self.rate = .4
+    self.rate = 1
     self.fb = {}
     self.tasks = {}
     self.dt = 0
@@ -72,8 +46,21 @@ function MagicPoint:GetRate()
 end
 
 ---@param amt number
+---@return boolean
+function MagicPoint:CanAfford(amt)
+    return amt <= 0 or self.current >= amt
+end
+
+---@param amt number
+---@return boolean
 function MagicPoint:Cost(amt)
-    self:DoDelta(-amt)
+    if not self:CanAfford(amt) then
+        return false
+    end
+    if amt > 0 then
+        self:DoDelta(-amt)
+    end
+    return true
 end
 
 ---Register a consumption source.

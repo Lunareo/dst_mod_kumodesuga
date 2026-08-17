@@ -18,13 +18,13 @@ UTIL.FnExtend(StatusDisplays, "_ctor",
         -- Magic point badge (sanity template, violet gauge) for owners that have the component.
         local magicpoint = owner.replica and owner.replica.magicpoint
         if magicpoint ~= nil then
-            self.magicbadge = self:AddChild(MagicBadge(owner))
-            self.magicbadge:SetPosition(self.brain:GetPosition())
+            self.magic = self:AddChild(MagicBadge(owner))
+            self.magic:SetPosition(self.brain:GetPosition())
             self.brain:Hide()
-            self.magicbadge:SetPercent(magicpoint:GetPercent(), magicpoint:Max())
+            self.magic:SetPercent(magicpoint:GetPercent(), magicpoint:Max())
             owner:ListenForEvent("magicpointdelta", function(inst, data)
-                if self.magicbadge ~= nil and data ~= nil and data.max > 0 then
-                    self.magicbadge:SetPercent(data.current / data.max, data.max)
+                if self.magic ~= nil and data ~= nil and data.max > 0 then
+                    self.magic:SetPercent(data.current / data.max, data.max)
                 end
             end)
         end
@@ -52,11 +52,12 @@ UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
 UTIL.FnExtend(StatusDisplays, "SetGhostMode",
     nil,
     function(rets, self, ghostmode)
-        if self.magicbadge ~= nil then
+        if self.magic ~= nil then
             if ghostmode then
-                self.magicbadge:Hide()
+                self.magic:Hide()
             else
-                self.magicbadge:Show()
+                self.magic:Show()
             end
+            self.brain:Hide()
         end
     end)

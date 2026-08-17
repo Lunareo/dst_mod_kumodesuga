@@ -9,16 +9,25 @@ local function onrename(self, new, old)
     assert(old == nil or new == old, string.format("Class symbol should not be renamed!"))
 end
 
+local function GetReplica(self)
+    local replicas = self.inst.replica
+    return replicas ~= nil and replicas[self.name] or nil
+end
+
 local function oncurrent(self, new, old)
     if new == old then return end
-    if self.inst.replica[self.name] == nil then return end
-    self.inst.replica[self.name]:SetCurrent(new)
+    local replica = GetReplica(self)
+    if replica ~= nil then
+        replica:SetCurrent(new)
+    end
 end
 
 local function onmax(self, new, old)
     if new == old then return end
-    if self.inst.replica[self.name] == nil then return end
-    self.inst.replica[self.name]:SetMax(new)
+    local replica = GetReplica(self)
+    if replica ~= nil then
+        replica:SetMax(new)
+    end
 end
 
 ---@class component_scorebase: component_base
@@ -69,15 +78,27 @@ function ScoreBase:OnLoad(data)
 end
 
 function ScoreBase:SetPercent(percent)
-    self.current = percent * self.max
+    self:SetCurrent(percent * self.max)
 end
 
 function ScoreBase:GetPercent()
-    return self.current / self.max
+    return self.max > 0 and self.current / self.max or 0
 end
 
+local function PushDeltaEvent(self, old, oldmax)
+    self.inst:PushEvent(self.name .. "delta", {
+        oldpercent = oldmax > 0 and old / oldmax or 0,
+        newpercent = self.max > 0 and self.current / self.max or 0,
+        delta = self.current - old,
+        current = self.current,
+        max = self.max,
+    })
+end
 function ScoreBase:SetCurrent(current)
-    self.current = current
+    local old = self.current
+
+    self.current = math.clamp(current, 0, self.max)
+    PushDeltaEvent(self, old, self.max)
 end
 
 function ScoreBase:GetCurrent()
@@ -85,7 +106,9 @@ function ScoreBase:GetCurrent()
 end
 
 function ScoreBase:SetMax(max)
+    local oldmax = self.max
     self.max = max * self.maxmultipliers:Get() + self.maxmodifier:Get()
+    PushDeltaEvent(self, self.current, oldmax)
 end
 
 function ScoreBase:GetMax(native)
@@ -96,8 +119,22 @@ function ScoreBase:SetVal(val)
 
 end
 
-function ScoreBase:DoDelta(delta)
-    self.current = math.min(self.max, math.max(0, self.current + delta))
+function ScoreBase:DoDelta(delta, overtime, ignore_invincible)
+    if self.redirect ~= nil then
+        self.redirect(self.inst, delta, overtime)
+
+        return
+    end
+
+    if not ignore_invincible and
+        self.inst.components.health and
+        self.inst.components.health:IsInvincible() or
+        self.inst.is_teleporting
+    then
+        return
+    end
+
+    self:SetCurrent(self.current + delta)
 end
 
 function ScoreBase:OnUpdate(dt)

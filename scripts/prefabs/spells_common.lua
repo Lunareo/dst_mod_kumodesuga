@@ -74,31 +74,32 @@ local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "n
 
 local function TryConsumeCost(doer, cost)
     if cost == nil then return true end
-    if doer.components.sanity and doer.components.sanity.current >= cost then
-        doer.components.sanity:DoDelta(-cost)
-        return true
-    else
-        return false
-    end
+    local magicpoint = doer and doer.components and doer.components.magicpoint
+    return magicpoint ~= nil and magicpoint:Cost(cost)
 end
 
 ---@param data skill_def_partial
 ---@return table
 local function AbsorbSingleTargetSkill(data)
     local spellfn = function(inst, doer, pos)
+        local cooldowns = doer.components.spellbookcooldowns
+        if cooldowns ~= nil and cooldowns:IsInCooldown(data.name) then
+            return false, "SPELL_ON_COOLDOWN"
+        end
+
+        local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
+        if target == nil then
+            return true
+        end
+
         if not TryConsumeCost(doer, data and data.cost) then
             return false, "SPELL_NOT_ENOUGH_COST"
         end
-        if doer.components.spellbookcooldowns ~= nil and doer.components.spellbookcooldowns:IsInCooldown(data.name) then
-            return false, "SPELL_ON_COOLDOWN"
-        end
-        local target = FindClosestEntityInPoint(pos, 4, nil, CREATURES_MUST, CREATURES_CANT)
-        if target ~= nil then
-            data.spellfn(target, doer)
-            local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
-            if doer.components.spellbookcooldowns ~= nil and cooldown ~= nil then
-                doer.components.spellbookcooldowns:RestartSpellCooldown(data.name, cooldown)
-            end
+
+        data.spellfn(target, doer)
+        local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
+        if cooldowns ~= nil and cooldown ~= nil then
+            cooldowns:RestartSpellCooldown(data.name, cooldown)
         end
         return true
     end
