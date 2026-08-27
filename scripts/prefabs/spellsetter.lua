@@ -29,6 +29,16 @@ local function WatchSkillRefresh_Server(inst)
     inst:ListenForEvent("ondeactivateskill_server", updatespells)
 end
 
+-- 骑乘状态会影响技能表的构成（如下坐骑），上下坐骑时都要重建一次。
+local function WatchRideRefresh_Client(inst)
+    inst:ListenForEvent("isridingdirty", updatespells)
+end
+
+local function WatchRideRefresh_Server(inst)
+    inst:ListenForEvent("mounted", updatespells)
+    inst:ListenForEvent("dismounted", updatespells)
+end
+
 return function(inst)
     inst:AddTag("throw_line")
     inst:AddTag("MA_spellcaster")
@@ -52,9 +62,11 @@ return function(inst)
 
     if not TheWorld.ismastersim then
         WatchSkillRefresh_Client(inst)
+        WatchRideRefresh_Client(inst)
     end
 
     inst:AddComponent("aoespell")
 
     WatchSkillRefresh_Server(inst)
+    WatchRideRefresh_Server(inst)
 end

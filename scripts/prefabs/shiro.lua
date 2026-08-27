@@ -149,6 +149,13 @@ end
 ---@param food ent
 ---@param feeder ent
 local function oneat(inst, food, feeder)
+    -- 睡眠免疫期间是醉不倒的（蘑菇料理给的 shroomsleepimmunity）。
+    -- 这道关卡必须设在 AddDebuff 之前：buff 自己的 attach 里再拦就晚了，
+    -- MakeBuff 的 OnAttached 会先把"喝醉了"那句台词播出去
+    if inst.components.debuffable ~= nil and inst.components.debuffable:HasDebuff("shroomsleepimmunity") then
+        return
+    end
+
     local fooddisplayname = food and food:GetBasicDisplayName() or nil
     if fooddisplayname ~= nil then
         for _, word in ipairs(TUNING.DRUNK_KEYS) do

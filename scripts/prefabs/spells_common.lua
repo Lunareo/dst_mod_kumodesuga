@@ -70,7 +70,7 @@ end
 
 local CREATURES_MUST = { "_combat" }
 local CREATURES_CAN  = { "monster", "smallcreature", "largecreature", "animal", "bigbernie", "character" }
-local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "noattack", "notarget" }
+local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "noattack", "notarget", "structure" }
 
 local function TryConsumeCost(doer, cost)
     if cost == nil then return true end

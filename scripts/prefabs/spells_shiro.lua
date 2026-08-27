@@ -57,6 +57,21 @@ local function isNightVisionActivated()
     return ThePlayer and ThePlayer.components.nightvision and ThePlayer.components.nightvision.update:value()
 end
 
+--- 客户端安全：rider 的 replica 会同步服务端的骑乘状态。
+---@param inst ent
+---@return boolean|nil
+local function IsRiding(inst)
+    if inst == nil then
+        return false
+    end
+    local replica = inst.replica ~= nil and inst.replica.rider or nil
+    if replica ~= nil then
+        return replica:IsRiding()
+    end
+    local rider = inst.components ~= nil and inst.components.rider or nil
+    return rider ~= nil and rider:IsRiding()
+end
+
 local SPELL_FNS = {
     freeze = function(target, doer)
         SpawnAt("fx_book_sleep", target)
@@ -176,6 +191,30 @@ local allskills = {
         _validtest = function(inst)
             return inst and inst.components.skilltreeupdater and inst.components.skilltreeupdater:IsActivated("spacemagic_1")
         end,
+    },
+    {
+        -- 仅骑乘时出现；图标复用原版 woby 指令盘的 mount 系列动画。
+        label = STRINGS.ACTIONS.DISMOUNT,
+        onselect = function(inst)
+            if inst.components.spellbook ~= nil then
+                inst.components.spellbook:SetSpellName(STRINGS.ACTIONS.DISMOUNT)
+                inst.components.spellbook.closeonexecute = true
+            end
+        end,
+        execute = function(inst)
+            SendModRPCToServer(GetModRPC("kmds.spells", "spells.dismount"))
+        end,
+        bank = "spell_icons_woby",
+        build = "spell_icons_woby",
+        anims =
+        {
+            idle = { anim = "mount" },
+            focus = { anim = "mount_focus" },
+            down = { anim = "mount_pressed" },
+        },
+        widget_scale = ICON_SCALE,
+        postinit = SetupMouseOver,
+        _validtest = IsRiding,
     },
 }
 

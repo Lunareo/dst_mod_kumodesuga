@@ -3,6 +3,7 @@ Assets = {
     Asset("SOUND", "sound/kumodesuga.fsb"),
     Asset("ATLAS", "images/skilltree_icons_kmds.xml"),
     Asset("ANIM", "anim/spell_icons_shiro.zip"),
+    Asset("ANIM", "anim/spell_icons_woby.zip"), -- 施法轮盘【下坐骑】复用原版 mount 图标
 }
 
 PreloadAssets = {}
