@@ -18,7 +18,7 @@ end
 ---@class buffdef
 ---@field attach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)
 ---@field extend fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)|nil
----@field detach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table)
+---@field detach fun(inst:ent, target:ent, followsymbol:string, followoffset:Vector3, data:table):(string|nil) 返回事件名可把脱离台词推迟到目标触发该事件时再播
 ---@field duration number|nil
 ---@field priority integer|nil
 ---@field prefabs table|nil
@@ -44,6 +44,26 @@ local function dodecreasepenalty(inst, target)
     target.components.health:DeltaPenalty(-inst._regenval or 0)
     inst._regentick = (inst._regentick or 0) - 1
     if inst._regentick <= 0 then inst.components.debuff:Stop() end
+end
+
+--- Puts the target to sleep, mirroring how the pan flute handles sleepers / players / others.
+---@param target ent
+---@param sleepiness number
+---@param sleeptime number
+---@return boolean asleep 是否真的被放倒了
+local function dosleep(target, sleepiness, sleeptime)
+    if target.components.health:IsDead()
+        or target.components.freezable:IsFrozen()
+        or target.components.pinnable:IsStuck() then
+        return false
+    end
+
+    -- 不推 ridersleep：醉的是骑手不是坐骑。玩家被放倒时 SGwilson 的 knockout 会自己播 fall_off 摔下来
+    local grogginess = target.components.grogginess
+    grogginess:AddGrogginess(sleepiness, sleeptime)
+    -- 不能用 IsKnockedOut()：它查的是 sg 状态标签，而 sg 事件是缓冲到下一帧才处理的。
+    -- knockedout 这个标志位是 Grogginess:KnockOut() 当场置上的，才读得到。
+    return grogginess.knockedout
 end
 
 ---@type table<string, buffdef>
@@ -191,27 +211,22 @@ local BUFF_DEFS = {
     drunken = {
         attach = function (inst, target, followsymbol, followoffset, data)
             if target == nil then return inst:Remove() end
-            if target.components.grogginess ~= nil then
-                target.components.grogginess:AddGrogginess(TUNING.DRUNKEN_MODI.GROGGY)
-            end
-            if target.components.locomotor ~= nil then
-                target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
-            end
-            if target.components.combat ~= nil then
-                target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
-            end
+            -- groggy 是 postinits/entity.lua 里的引用计数标签，加一次减一次就行，
+            -- 既不用记录原状态，也不会被 grogginess 组件或饥饿减速抢先摘掉
+            target:AddTag("groggy")
+            target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
+            target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
         end,
         detach = function (inst, target, followsymbol, followoffset, data)
-            if target == nil then return end
-            if target.components.locomotor ~= nil then
-                target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
-            end
-            if target.components.combat ~= nil then
-                target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
-            end
-            if not (data and data.nosleep) and target.components.sleeper ~= nil then
-                target.components.sleeper:GoToSleep(30) --// TODO: Add to TUNING
-            end
+            if not (target and target:IsValid()) then return end
+            target:RemoveTag("groggy")
+            target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
+            target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
+            -- 全程只挂标签、不碰 grog_amount，所以 buff 自己放不倒人；酒劲过去了才睡。
+            -- 真睡着的话，"醒酒"那句台词就跟着推迟到睡醒（cometo）时再说
+            return dosleep(target, TUNING.DRUNKEN_MODI.SLEEPINESS, TUNING.DRUNKEN_MODI.SLEEP)
+                and "cometo"
+                or nil
         end,
         duration = TUNING.DRUNKEN_MODI.GROGGY,
     },
@@ -276,13 +291,28 @@ local function MakeBuff(name, onattachedfn, onextendedfn, ondetachedfn, duration
         end
     end
 
+    --- `ondetachedfn` 返回事件名时，脱离台词推迟到目标触发该事件后再播。
+    --- 等待期间就靠 inst 自己活着来持有监听：它 SetParent 在 target.entity 下，
+    --- 目标一旦销毁就跟着一起没，不会留下野回调。
     local function OnDetached(inst, target, followsymbol, followoffset, data, ...)
-        if ondetachedfn ~= nil then
-            ondetachedfn(inst, target, followsymbol, followoffset, data, ...)
+        local sayonevent = ondetachedfn ~= nil
+            and ondetachedfn(inst, target, followsymbol, followoffset, data, ...)
+            or nil
+
+        local function Say()
+            if target:IsValid() then
+                target:PushEvent("foodbuffdetached", DETACH_BUFF_DATA)
+            end
+            inst:Remove()
         end
 
-        target:PushEvent("foodbuffdetached", DETACH_BUFF_DATA)
-        inst:Remove()
+        if sayonevent == nil then
+            return Say()
+        end
+
+        inst:ListenForEvent(sayonevent, Say, target)
+        -- 死人不说话，等不到就自己收摊
+        inst:ListenForEvent("death", function() inst:Remove() end, target)
     end
 
     local function fn()

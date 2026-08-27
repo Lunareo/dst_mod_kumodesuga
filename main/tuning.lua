@@ -9,6 +9,8 @@ TUNING = {
         COMBAT = 5,
         GROGGY = 240,
         SPEED = .2,
+        SLEEP = 240,     -- 醉意消退后的入眠时长
+        SLEEPINESS = 10, -- 一次性灌入的醉倒值，需高于目标的 grogginess 抗性
     },
     SHIRO_HEALTH = 120,
     SHIRO_HUNGER = 180,
@@ -39,10 +41,10 @@ TUNING = {
     },
     MIGHTY_STRIKE_MULT = 3,
     SKILLS = {
-        SHIRO_ALLEGIANCE_LUNAR_RESIST = .25,
-        SHIRO_ALLEGIANCE_SHADOW_RESIST = .25,
-        SHIRO_ALLEGIANCE_VS_LUNAR_BONUS = .25,
-        SHIRO_ALLEGIANCE_VS_SHADOW_BONUS = .25,
+        SHIRO_ALLEGIANCE_LUNAR_RESIST = .75,
+        SHIRO_ALLEGIANCE_SHADOW_RESIST = .75,
+        SHIRO_ALLEGIANCE_VS_LUNAR_BONUS = 1.25,
+        SHIRO_ALLEGIANCE_VS_SHADOW_BONUS = 1.25,
     },
     SPIDER_SCYTHE_ATK_RANGE = 1,
     SPIDER_SCYTHE_BASE_DMG = 34,

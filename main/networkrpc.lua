@@ -110,3 +110,14 @@ AddModRPCHandler("kmds.spells", "spells.open_space_proxy", function(player) ---@
         proxy.components.container_proxy:Open(player)
     end
 end)
+
+AddModRPCHandler("kmds.spells", "spells.dismount", function(player) ---@param player ent
+    if player == nil or not player:IsValid() then
+        return
+    end
+    local rider = player.components and player.components.rider
+    if rider ~= nil and rider:IsRiding() then
+        -- Dismount 只是推 "dismount" 事件，交给 SG 走完整的下坐骑动作。
+        rider:Dismount()
+    end
+end)
