@@ -14,8 +14,7 @@ require "containers".params.silk_robe = {
 }
 
 local assets = {
-    Asset("DYNAMIC_ANIM", "anim/dynamic/silk_robe.zip"),
-    Asset("PKGREF", "anim/dynamic/silk_robe.dyn"),
+    Asset("ANIM", "anim/silk_robe.zip"),
 }
 
 local symbols = {

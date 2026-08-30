@@ -4,8 +4,7 @@ local SpellSetter = require "prefabs/spellsetter"
 local avatar_name = "shiro"
 
 local assets = {
-    Asset("DYNAMIC_ANIM", "anim/dynamic/shiro.zip"),
-    Asset("PKGREF", "anim/dynamic/shiro.dyn"),
+    Asset("ANIM", "anim/shiro.zip"),
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
     Asset("SCRIPT", "scripts/prefabs/skilltree_shiro.lua"),
 }
