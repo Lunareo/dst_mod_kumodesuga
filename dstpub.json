@@ -4,6 +4,7 @@
   "tags": [],
   "ignore": [
     "AGENTS.md",
+    "CLAUDE.md",
     "UPDATE.md",
     "kmds.code-workspace",
     "LSP",
