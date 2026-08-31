@@ -723,7 +723,7 @@ return {
 
     ANNOUNCE_DESPAWN = "光。要回去了。",
 	ANNOUNCE_BECOMEGHOST = "呜哦哦哦——。演一下。",
-	ANNOUNCE_GHOSTDRAIN = "人的那部分,快掉光了。",
+	ANNOUNCE_GHOSTDRAIN = "扮演的那部分,快撑不住了。",
 	ANNOUNCE_PETRIFED_TREES = "树在叫。听见了。",
 	ANNOUNCE_KLAUS_ENRAGE = "它发狂了。这下不好赢。",
 	ANNOUNCE_KLAUS_UNCHAINED = "锁链断了。",
@@ -754,7 +754,7 @@ return {
 	ANNOUNCE_WINTERS_FEAST_BUFF_OVER = "节日过得真快。",
 
     --lavaarena event
-    ANNOUNCE_REVIVING_CORPSE = "我来帮你。",
+    ANNOUNCE_REVIVING_CORPSE = "起来。还没看够。",
     ANNOUNCE_REVIVED_OTHER_CORPSE = "和新的一样了。",
     ANNOUNCE_REVIVED_FROM_CORPSE = "好多了。谢了。",
 
@@ -1386,7 +1386,7 @@ return {
         {
             GENERIC = "%s。肌肉的量超出常识。",
             ATTACKER = "不要和大力士动手。",
-            MURDERER = "杀人犯。我不怕。",
+            MURDERER = "杀人犯。正好,缺个乐子。",
             REVIVER = "%s其实很温和。",
             GHOST = "我说过那块石头举不起来。数字不对。",
             FIRESTARTER = "火没办法\"打赢\",%s。",
@@ -1502,7 +1502,7 @@ return {
             ATTACKER = "%s今天更扎人。",
             MURDERER = "准备被除草吧,%s。",
             REVIVER = "%s不会放弃朋友。",
-            GHOST = "需要帮忙吗,小家伙。",
+            GHOST = "想回去的话,拿代价来换。",
             FIRESTARTER = "你不是讨厌火吗,%s。",
         },
         WARLY =
@@ -1582,7 +1582,7 @@ return {
 
         LAVA_POND_ROCK = "石头。和别处的石头一样。",
 
-		WEBBERSKULL = "可怜的小家伙。该好好安葬。",
+		WEBBERSKULL = "骨头。死神的业务范围。",
 		WORMLIGHT = "看起来好吃。",
 		WORMLIGHT_LESSER = "有点皱。",
 		WORM =
@@ -1667,7 +1667,7 @@ return {
             NOMAGIC = "这附近没有魔力。",
 		},
 		BISHOP_NIGHTMARE = "它在散架。",
-		ROOK_NIGHTMARE = "很可怕。",
+		ROOK_NIGHTMARE = "看起来很能打。",
 		KNIGHT_NIGHTMARE = "噩梦骑士。",
 		MINOTAUR = "那东西看着不高兴。",
 		SPIDER_DROPPER = "记下来。不要往上看。",
@@ -1936,7 +1936,7 @@ return {
 		AXE = "可靠的斧头。",
 		BABYBEEFALO =
 		{
-			GENERIC = "很可爱。",
+			GENERIC = "小号的。没什么威胁。",
 		    SLEEPING = "好梦,臭家伙。",
         },
         BUNDLE = "补给都在里面。",
@@ -2001,9 +2001,9 @@ return {
             ORNERY = "它气得很深。",
             RIDER = "这一头看起来能骑。",
             PUDGY = "嗯。里面装了太多食物。",
-            MYPARTNER = "我们是一辈子的朋友。",
+            MYPARTNER = "契约成立,终身有效。",
             DEAD = "它很顽强。",
-            DEAD_MYPARTNER = "希望还能再见。",
+            DEAD_MYPARTNER = "契约终止。有点可惜。",
 		},
 
 		BEEFALOHAT = "戴上头发会塌。",
@@ -2212,7 +2212,7 @@ return {
 			GENERIC = "它在看我。",
 			WAITING = "它睡了。",
 		},
-		COOKEDMANDRAKE = "可怜的小家伙。",
+		COOKEDMANDRAKE = "叫得挺响。",
 		COOKEDMEAT = "烤得刚好。",
 		COOKEDMONSTERMEAT = "比生的稍微好一点。",
 		COOKEDSMALLMEAT = "现在不用担心长虫了。",
@@ -2230,19 +2230,19 @@ return {
         CANARY =
 		{
 			GENERIC = "某种黄色的生物。",
-			HELD = "我没有捏到你吧。",
+			HELD = "没捏死。算你结实。",
 		},
         CANARY_POISONED = "大概没事。",
 
 		CRITTERLAB = "里面有东西吗。",
         CRITTER_GLOMLING = "符合空气动力学的生物。",
-        CRITTER_DRAGONLING = "它爬进我心里了。",
+        CRITTER_DRAGONLING = "留下。看起来会很有趣。",
 		CRITTER_LAMB = "比它妈妈干净多了。",
         CRITTER_PUPPY = "作为小怪物,算可爱。",
         CRITTER_KITTEN = "你会是很好的助手。",
-        CRITTER_PERDLING = "带羽毛的朋友。",
+        CRITTER_PERDLING = "带羽毛的随从。",
 		CRITTER_LUNARMOTHLING = "留着她,是因为她擅长算数。",
-        CRITTER_BULBIN = "你不会做坏事吧。",
+        CRITTER_BULBIN = "做坏事可以。别做得无聊。",
         CRITTER_EETS = "看,人类。",
 
 		CROW =
@@ -2368,7 +2368,7 @@ return {
 		DECIDUOUSTREE =
 		{
 			BURNING = "浪费木头。",
-			BURNT = "我本来能阻止的。",
+			BURNT = "火的事,与我无关。",
 			CHOPPED = "接着,自然。",
 			POISON = "它对我摘桦果的事不太高兴。",
 			GENERIC = "大多数时候都长着叶子。",
@@ -2380,21 +2380,21 @@ return {
 		EVERGREEN =
 		{
 			BURNING = "浪费木头。",
-			BURNT = "我本来能阻止的。",
+			BURNT = "火的事,与我无关。",
 			CHOPPED = "接着,自然。",
 			GENERIC = "满是松针。",
 		},
 		EVERGREEN_SPARSE =
 		{
 			BURNING = "浪费木头。",
-			BURNT = "我本来能阻止的。",
+			BURNT = "火的事,与我无关。",
 			CHOPPED = "接着,自然。",
 			GENERIC = "这棵可怜的树没有松果。",
 		},
 		TWIGGYTREE =
 		{
 			BURNING = "浪费木头。",
-			BURNT = "我本来能阻止的。",
+			BURNT = "火的事,与我无关。",
 			CHOPPED = "接着,自然。",
 			GENERIC = "全是枝条。",
 			DISEASED = "看着病了。比平时更明显。", --unimplemented
@@ -2482,7 +2482,7 @@ return {
 		FROG =
 		{
 			DEAD = "它叫不出声了。",
-			GENERIC = "很可爱。",
+			GENERIC = "会叫的小东西。",
 			SLEEPING = "看它睡着的样子。",
 		},
 		FROGGLEBUNWICH = "腿很多的三明治。",
@@ -3039,7 +3039,7 @@ return {
 			LOCKED = "还缺一样东西。", --single player
 			PARTIAL = "这个发明快完成了。", --single player
 		},
-		TELEPORTATO_BOX = "它也许能控制整个宇宙的极性。", --single player
+		TELEPORTATO_BOX = "反转极性?有意思的功能。可惜不是我写的。", --single player
 		TELEPORTATO_CRANK = "够硬。能承受最激烈的实验。", --single player
 		TELEPORTATO_POTATO = "这个金属马铃薯里装着可怕的力量。", --single player
 		TELEPORTATO_RING = "一个能聚拢维度能量的环。", --single player
@@ -3419,7 +3419,7 @@ return {
         WINTER_TREE =
         {
             BURNT = "这给节日泼了冷水。",
-            BURNING = "我想这是个错误。",
+            BURNING = "这下节日气氛更浓了。",
             CANDECORATE = "冬季盛宴快乐。",
             YOUNG = "快到冬季盛宴了。",
         },
@@ -3530,9 +3530,9 @@ return {
 			ROBOT = "%s 大概是在拿 %s 做试验时死的。",
 			DEFAULT = "%s 大概是在拿 %s 做试验时死的。",
 		},
-		HUMANMEAT = "肉就是肉。界线要划在哪里。",
-		HUMANMEAT_COOKED = "熟得漂亮。但道德上还是灰的。",
-		HUMANMEAT_DRIED = "晒干以后就不算来自人了,对吧。",
+		HUMANMEAT = "肉就是肉。人类的界线,管不到我。",
+		HUMANMEAT_COOKED = "熟得漂亮。道德不影响口感。",
+		HUMANMEAT_DRIED = "晒干了,就只是肉干。",
 		ROCK_MOON = "那块石头来自月亮。",
 		MOONROCKNUGGET = "那块石头来自月亮。",
 		MOONROCKCRATER = "该往里面塞点亮的东西。为了确认。",
@@ -3776,7 +3776,7 @@ return {
         QUAGMIRE_TRADER_MERM = "他们大概愿意交易。",
         QUAGMIRE_TRADER_MERM2 = "他们大概愿意交易。",
 
-        QUAGMIRE_GOATMUM = "她让我想起我以前的保姆。",
+        QUAGMIRE_GOATMUM = "她让我想起一个下属。",
         QUAGMIRE_GOATKID = "这只山羊小得多。",
         QUAGMIRE_PIGEON =
         {
@@ -3955,7 +3955,7 @@ return {
         BATHBOMB = "教科书上的化学。",
         TRAP_STARFISH =
         {
-            GENERIC = "可爱的小海星。",
+            GENERIC = "小号的陷阱。",
             CLOSED = "它想咬我。",
         },
         DUG_TRAP_STARFISH = "现在骗不了人了。",
@@ -3994,7 +3994,7 @@ return {
 
 		MOON_FISSURE =
 		{
-			GENERIC = "我的脑子里同时跳着安宁和恐惧。",
+			GENERIC = "脑子里同时跳出安宁和警告。这设计有点意思。",
 			NOLIGHT = "这地方的裂缝开始显出来了。",
 		},
         MOON_ALTAR =
@@ -4221,7 +4221,7 @@ return {
 
         SUNKENCHEST =
         {
-            GENERIC = "真正的宝藏是路上找到的东西。",
+            GENERIC = "宝物是什么不重要。打捞的过程才有趣。",
             LOCKED = "它闭得很紧。",
         },
 
@@ -4454,13 +4454,13 @@ return {
             BURNT = "它怎么烧起来的。",
         },
 
-        HERMITCRAB = "一个人住,大概会很寂寞。",
+        HERMITCRAB = "一个人住。是因为有趣吗。",
 
         HERMIT_PEARL = "我会好好照顾它。",
         HERMIT_CRACKED_PEARL = "我……没有照顾好它。",
 
         -- DSEAS
-        WATERPLANT = "只要不动它们的藤壶,它们就还是朋友。",
+        WATERPLANT = "不碰它们的藤壶,就不咬人。公平交易。",
         WATERPLANT_BOMB = "我们被围住了。",
         WATERPLANT_BABY = "这一株才刚发芽。",
         WATERPLANT_PLANTER = "它们似乎最适合长在海里的石头上。",
@@ -4551,7 +4551,7 @@ return {
 
         ARCHIVE_LOCKBOX_DISPENCER = {
           POWEROFF = "要是有办法让它重新运作就好了。",
-          GENERIC =  "我很想站在它旁边,聊些无关紧要的事。",
+          GENERIC =  "站在它旁边,看别人聊无关紧要的事。",
         },
 
         ARCHIVE_SECURITY_DESK = {
@@ -4936,7 +4936,7 @@ return {
         BIRD_MUTANT = "那以前大概是只乌鸦。",
         BIRD_MUTANT_SPITTER = "我不喜欢它看我的方式。",
 
-        WAGSTAFF_NPC = "作为同样讲道理的人,我不得不帮他。",
+        WAGSTAFF_NPC = "他讲道理,我出力。等价交换。",
 
         WAGSTAFF_NPC_MUTATIONS = "学问从不休息。",
         WAGSTAFF_NPC_WAGPUNK = "不知道他要去哪。",
@@ -5096,7 +5096,7 @@ return {
 		},
 		COTL_TABERNACLE_LEVEL3 =
 		{
-			LIT = "我能一直看着它……一直……",
+			LIT = "能一直盯着它。反正时间多的是。",
 			GENERIC = "它需要燃料。",
 		},
 
@@ -5359,7 +5359,7 @@ return {
 		SHADOW_FORGE = "它会让什么样的黑暗设计成形。",
 		SHADOW_FORGE_KIT = "不做几个试验就太不讲道理了。",
 
-        FUSED_SHADELING = "你小一点、去烦别人的时候,我更喜欢你。",
+        FUSED_SHADELING = "你小一点、去烦别人的时候,比较有看头。",
         FUSED_SHADELING_BOMB = "很响。",
 
 		VOIDCLOTH = "那些影子都是同一块布上剪下来的。",
@@ -5718,7 +5718,7 @@ return {
 
         CARPENTRY_BLADE_MOONGLASS = "锋利,像我的脑子。",
 
-        CHEST_MIMIC_REVEALED = "可怕。绝对可怕。",
+        CHEST_MIMIC_REVEALED = "装得不错。差点上当。",
 
         GELBLOB_STORAGE = {
             GENERIC  = "看着是空的。",
@@ -5843,7 +5843,7 @@ return {
 
         WANDERINGTRADER =
         {
-            REVEALED = "要是交易了,我们会成为朋友吗。",
+            REVEALED = "交易一次,就能算认识了吗。",
             GENERIC = "好奇怪的一头牛。",
         },
 
@@ -6061,7 +6061,7 @@ return {
         HERMITCRAB_LIGHTPOST = -- Similar to YOTS_LANTERN_POST
         {
             GENERIC = "它们确实让气氛变轻。",
-            ABANDONED = "太可怜了,我受不了。",
+            ABANDONED = "太惨了。处理掉吧。",
         },
         HERMITCRAB_LIGHTPOST_ITEM = "来把一点气氛串起来。",
 
