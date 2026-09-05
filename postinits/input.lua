@@ -16,3 +16,9 @@ TheInput:AddKeyDownHandler(GLOBAL[GetModConfigData("parrykey", true) or "KEY_R"]
         end
     end
 end)
+
+TheInput:AddControlHandler(CONTROL_CHARACTER_COMMAND_WHEEL, function (down)
+    if not down and ThePlayer and ThePlayer.HUD then
+        ThePlayer.HUD:CloseSpellWheel()
+    end
+end)

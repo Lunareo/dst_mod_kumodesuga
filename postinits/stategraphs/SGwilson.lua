@@ -218,6 +218,7 @@ end
 local actions_common = {
     ActionHandler(ACTIONS.TRANSFER, "transfer_jump"),
     ActionHandler(ACTIONS.TRANSFER_MAP, "transfer_jump"),
+    ActionHandler(ACTIONS.WEAVE, "dolongaction")
 }
 
 for _, action in ipairs(actions_common) do
