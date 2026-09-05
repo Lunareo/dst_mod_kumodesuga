@@ -6,6 +6,15 @@ AddComponentAction("SCENE", "parryable", function(inst, doer, actions, right)
     end
 end)
 
+AddComponentAction("USEITEM", "inventoryitem", function(inst, doer, target, actions, right)
+    if doer.components.skilltreeupdater:IsActivated("shiro_evolution_arachne")
+        and inst:HasTag("reweaver") and target.replica.godspunable
+        and target.replica.godspunable._upgraded
+        and target.replica.godspunable._upgraded:value() ~= true then
+            table.insert(actions, ACTIONS.WEAVE)
+    end
+end)
+
 --AddComponentAction("SCENE", "skilltreeupdater", function (inst, doer, actions, right)
 --    if right and inst == doer and
 --    inst.components.skilltreeupdater:IsActivated("spacemagic_3") and

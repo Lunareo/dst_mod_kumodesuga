@@ -2,6 +2,7 @@ PrefabFiles = {
     "aramasa",
     "buffs_kmds",
     "erosion_fx",
+    "godspunsilk",
     "helheim_beyonder",
     "reticule_kmds",
     "silk_robe",

@@ -6,35 +6,20 @@ STRINGS = {
         PARRY = "闪避",
         TRANSFER = "转移",
         TRANSFER_MAP = "远转移",
-        TRANSFER_MAP_COST = "远转移 ({cost} 魔力)",
+        TRANSFER_MAP_COST = "远转移 （{cost} 魔力）",
     },
     CHARACTERS = {
-        GENERIC = {
-            ACTIONFAIL = {
-                CASTAOE = {
-                    SPELL_NOT_ENOUGH_COST = "施放这个法术需要更多的魔力!",
-                },
-            },
-            ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
-            ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "only_used_by_shiro",
-            ANNOUNCE_ATTACH_BUFF_DRUNKEN = "only_used_by_shiro",
-            ANNOUNCE_DETACH_BUFF_DRUNKEN = "only_used_by_shiro",
-            DESCRIBE = {
-                ARAMASA = "",
-                CHIPS = "酥脆可口的小零食。",
-                KURIKUTA_DRIED = "味道很好的干果。",
-                SHIRO = "她真好看。",
-                SILK_ROBE = "坚韧但不厚重, 丝滑但不透凉。",
-                TRINITY_IMPACT = "",
-                WAKABA = "她真好看。",
-            },
-        },
+        -- GENERIC 与五个角色的模组独有台词都在 speech_extension.lua 维护，
+        -- 由文件末尾的合并块写入，这里不再重复列出。
+        ARIEL = require "speech_ariel",
         SHIRO = require "speech_shiro",
+        SOPHIA = require "speech_sophia",
         WAKABA = require "speech_wakaba",
+        WRATH = require "speech_wrath",
     },
     CHARACTER_DESCRIPTIONS = {
         shiro = "*身份神秘的少女\n*不善于表达\n*不要让她接触酒精",
-        wakaba = "*沉默寡言的JK\n*没有共情的能力\n*很擅长电子游戏\n*(这也是游戏的一部分)",
+        wakaba = "*沉默寡言的JK\n*没有共情的能力\n*很擅长电子游戏\n*（这也是游戏的一部分）",
     },
     CHARACTER_NAMES = {
         shiro = "白",
@@ -52,8 +37,8 @@ STRINGS = {
         ARAMASA = "攻击造成8次伤害",
     },
     NAMES = {
-        ABYSSDAMAGE = "<color=#221356>外道伤害</color>: <color=#221356>%2.1d</color>",
-        ABYSSDEFENSE = "<color=#221356>外道抗性</color>: <color=#221356>%2.1d</color>",
+        ABYSSDAMAGE = "<color=#221356>外道伤害</color>：<color=#221356>%2.1d</color>",
+        ABYSSDEFENSE = "<color=#221356>外道抗性</color>：<color=#221356>%2.1d</color>",
         ARACHNECURSE = "蜘蛛女郎的诅咒",
         ARAMASA = "天羽羽斩",
         BUFF_CURSE = "诅咒",
@@ -65,10 +50,10 @@ STRINGS = {
         CHIPS = "薯片",
         DECREASE_HUNGER = "饥饿度",
         EROSION = "腐蚀",
-        EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>: <color=#451758>%2.1d</color>",
-        EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>: <color=#451758>%2.1d</color>",
-        EQUIPPABLE_CRITDAMAGERATE = "暴击伤害: %.1f%%",
-        EQUIPPABLE_CRITRATE = "暴击率: %.1f%%",
+        EROSIONDAMAGE = "<color=#451758>腐蚀伤害</color>：<color=#451758>%2.1d</color>",
+        EROSIONDEFENSE = "<color=#451758>腐蚀抗性</color>：<color=#451758>%2.1d</color>",
+        EQUIPPABLE_CRITDAMAGERATE = "暴击伤害：%.1f%%",
+        EQUIPPABLE_CRITRATE = "暴击率：%.1f%%",
         HELHEIM_BEYONDER = "超越冥界",
         KUMO_ATK_STEALER = "攻击窃取",
         KUMO_OVERSATURATE = "吃撑了",
@@ -93,7 +78,7 @@ STRINGS = {
     },
     SKILLTREE = {
         SHIRO = {
-            ARROGANS_DESC = "加速战斗经验的成长, 但是会引起更多的仇恨。",
+            ARROGANS_DESC = "加速战斗经验的成长，但是会引起更多的仇恨。",
             ARROGANS_TITLE = "傲慢",
             EVIL_EYES_1_DESC = "习得【麻痹之邪眼】。\n习得【恐怖之邪眼】。\n",
             EVIL_EYES_1_TITLE = "邪眼I",
@@ -101,14 +86,14 @@ STRINGS = {
             EVIL_EYES_2_TITLE = "邪眼II",
             EVIL_EYES_3_DESC = "习得【石化之邪眼】。\n习得\n",
             EVIL_EYES_3_TITLE = "邪眼III",
-            DESIDIAE_DESC = "使被攻击的目标随着时间的推移, 损失更多的生命、饥饿和理智。",
+            DESIDIAE_DESC = "使被攻击的目标随着时间的推移，损失更多的生命、饥饿和理智。",
             DESIDIAE_TITLE = "怠惰",
             DOMINATOR_LOCK_DESC = "",
-            PATI_DESC = "在MP耗尽之前, 无论如何都能以HP值1存活。\n并根据忍耐的等级获得伤害减免, 且使HP的损失变为线性。",
+            PATI_DESC = "在MP耗尽之前，无论如何都能以HP值1存活。\n并根据忍耐的等级获得伤害减免，且使HP的损失变为线性。",
             PATI_TITLE = "忍耐",
             REINCARNATION_DESC = "",
             REINCARNATION_TITLE = "",
-            SAPIENS_DESC = "降低MP的消耗, 大幅增加MP恢复速度, 提高魔法造成的伤害。",
+            SAPIENS_DESC = "降低MP的消耗，大幅增加MP恢复速度，提高魔法造成的伤害。",
             SAPIENS_TITLE = "睿智",
             SHIRO_ALLEGIANCE_LUNAR_DESC = "借助月光的力量重创你的敌人！",
             SHIRO_ALLEGIANCE_LUNAR_TITLE = "月光代理人",
@@ -117,38 +102,38 @@ STRINGS = {
             SHIRO_EVOLUTION_ADVANCE_SPIDER_DESC = "中幅提高血量上限及防御。",
             SHIRO_EVOLUTION_ADVANCE_SPIDER_LOCK_DESC = "没有进化为死神之镰。",
             SHIRO_EVOLUTION_ADVANCE_SPIDER_TITLE = "上级蜘蛛怪",
-            SHIRO_EVOLUTION_ARACHNE_DESC = "得益于拥有两个脑袋, 通过身体协同使得一次攻击造成两次伤害, \n并在每次重生后的第一次死亡时逃脱并恢复到最大HP。",
+            SHIRO_EVOLUTION_ARACHNE_DESC = "得益于拥有两个脑袋，通过身体协同使得一次攻击造成两次伤害，\n并在每次重生后的第一次死亡时逃脱并恢复到最大HP。",
             SHIRO_EVOLUTION_ARACHNE_TITLE = "女郎蜘蛛",
-            SHIRO_EVOLUTION_DEATH_SCYTHE_DESC = "习得【腐蚀攻击】: 使用近战武器造成伤害时附带腐蚀伤害。",
+            SHIRO_EVOLUTION_DEATH_SCYTHE_DESC = "习得【腐蚀攻击】：使用近战武器造成伤害时附带腐蚀伤害。",
             SHIRO_EVOLUTION_DEATH_SCYTHE_LOCK_DESC = "没有进化为上级蜘蛛怪。",
             SHIRO_EVOLUTION_DEATH_SCYTHE_TITLE = "死神之镰",
             SHIRO_EVOLUTION_MEGA_SPIDER_DESC = "大幅提高血量上限及防御。",
             SHIRO_EVOLUTION_MEGA_SPIDER_TITLE = "超级蜘蛛怪",
-            SHIRO_EVOLUTION_QUEEN_SPIDER_DESC = "可以制作蜘蛛卵, 并被视为蜘蛛女王+1, 可以徒手雇佣无仇恨的蜘蛛。\n习得【产卵】: 消耗体力制作随机蜘蛛。",
+            SHIRO_EVOLUTION_QUEEN_SPIDER_DESC = "可以制作蜘蛛卵，并被视为蜘蛛女王+1，可以徒手雇佣无仇恨的蜘蛛。\n习得【产卵】：消耗体力制作随机蜘蛛。",
             SHIRO_EVOLUTION_QUEEN_SPIDER_TITLE = "女王蜘蛛怪",
-            SHIRO_EVOLUTION_TINY_SPIDER_METER_DESC = "习得【丝线制造】: 可以消耗SP制作蜘蛛丝。",
+            SHIRO_EVOLUTION_TINY_SPIDER_METER_DESC = "习得【丝线制造】：可以消耗SP制作蜘蛛丝。",
             SHIRO_EVOLUTION_TINY_SPIDER_METER_TITLE = "小型蜘蛛怪",
-            SHIRO_EVOLUTION_UNDYING_QUEEN_DESC = "习得【不死】: HP归零时, 可以选择尝试在原地恢复HP, 并在HP恢复到最大时复活。",
+            SHIRO_EVOLUTION_UNDYING_QUEEN_DESC = "习得【不死】：HP归零时，可以选择尝试在原地恢复HP，并在HP恢复到最大时复活。",
             SHIRO_EVOLUTION_UNDYING_QUEEN_TITLE = "不死蛛后",
-            SKANDA_DESC = "奔跑时会逐渐加速, 饥饿/体力的消耗也会相应地增加。",
+            SKANDA_DESC = "奔跑时会逐渐加速，饥饿/体力的消耗也会相应地增加。",
             SKANDA_TITLE = "韦陀天",
             SPACEMAGIC_1_DESC = "开辟一块用于存储物品的空间。",
             SPACEMAGIC_1_TITLE = "空间魔法I",
             SPACEMAGIC_2_DESC = "获得更大的储物空间。\n学会进行短距离的空间跳跃。",
             SPACEMAGIC_2_TITLE = "空间魔法II",
-            SPACEMAGIC_3_DESC = "获得更大的储物空间, 并可以直接将沉重的物品收纳到储物空间中。\n学会进行长距离的空间跳跃。",
+            SPACEMAGIC_3_DESC = "获得更大的储物空间，并可以直接将沉重的物品收纳到储物空间中。\n学会进行长距离的空间跳跃。",
             SPACEMAGIC_3_TITLE = "空间魔法III",
             SPACEMOTOR_DESC = "在没有地面的地方站稳脚跟。",
             SPACEMOTOR_TITLE = "空间机动",
-            VISION_ENHANCE_DESC = "强化视觉, 获得在黑暗、风暴以及沙暴中看清事物的能力。",
+            VISION_ENHANCE_DESC = "强化视觉，获得在黑暗、风暴以及沙暴中看清事物的能力。",
             VISION_ENHANCE_TITLE = "视觉强化",
-            VISION_OVERLOOK_DESC = "习得【远眺】: 可以观察更远的地方。",
+            VISION_OVERLOOK_DESC = "习得【远眺】：可以观察更远的地方。",
             VISION_OVERLOOK_TITLE = "远眺",
         },
         WAKABA = {
-            CONCENTRATION_DESC = "连续攻击同一个目标从而进入专心致志状态。\n专心致志: 专注于攻击一个目标。提高100%对该目标的伤害, 但是会导致对其他可攻击目标的失焦。",
+            CONCENTRATION_DESC = "连续攻击同一个目标从而进入专心致志状态。\n专心致志：专注于攻击一个目标。提高100%对该目标的伤害，但是会导致对其他可攻击目标的失焦。",
             CONCENTRATION_TITLE = "专心致志",
-            HEARTFLOW_DESC = "专心致志状态下时, 减少来自非关注目标的30%伤害。",
+            HEARTFLOW_DESC = "专心致志状态下时，减少来自非关注目标的30%伤害。",
             HEARTFLOW_TITLE = "心流",
         },
         PANELS = {
@@ -171,32 +156,41 @@ STRINGS = {
     },
     SKIN_QUOTES = {
         shiro = "",
-        shiro_classic = "我的那些能力都去哪了?",
-        shiro_jk = "如同记忆里的一般, 尽管那是虚假的。",
+        shiro_classic = "我的那些能力都去哪了？",
+        shiro_jk = "如同记忆里的一般，尽管那是虚假的。",
         wakaba = "",
     },
     SPELLS = {
         TOGGLENIGHTVISION = "锐利目光",
         EVIL_EYES = {
-            CURSE = "诅咒之邪眼(10魔力)",
-            DESTRUCTION = "腐蚀之邪眼(100魔力)",
-            EROSION = "腐蚀之邪眼(10魔力)",
-            FREEZE = "静止之邪眼(5魔力)",
-            GRAVITY = "引斥之邪眼(10魔力)",
-            TWIST = "歪曲之邪眼(10魔力)",
+            CURSE = "诅咒之邪眼（10魔力）",
+            DESTRUCTION = "腐蚀之邪眼（100魔力）",
+            EROSION = "腐蚀之邪眼（10魔力）",
+            FREEZE = "静止之邪眼（5魔力）",
+            GRAVITY = "引斥之邪眼（10魔力）",
+            TWIST = "歪曲之邪眼（10魔力）",
         },
         OPEN_SPACE_PROXY = "储物空间",
     },
     UI = {
         HUD = {
             DEATH_ANNOUNCEMENT_WAKABA = {
-                "%s 的扮演游戏结束了! 她的躯体回归了冥界.",
-                "%s 的扮演游戏结束了! 她的躯体被摧毁了.",
+                "%s 的扮演游戏结束了！她的躯体回归了冥界。",
+                "%s 的扮演游戏结束了！她的躯体被摧毁了。",
             },
             REZ_ANNOUNCEMENT_WAKABA = {
-                "借由 %s 之手, %s 得以再次降临永恒领域."
+                "借由 %s 之手，%s 得以再次降临永恒领域。"
             },
         },
     },
 }
+
+-- 合并模组独有台词（原版 speech_wilson.lua 中不存在的键）。
+-- speech_<char>.lua 与原版同构，模组独有键统一在 speech_extension.lua 维护，
+-- 其中 GENERIC 区块既是键清单基准，也是角色缺失该键时的运行时兜底。
+local speech_ext = require "speech_extension"
+for char, ext in pairs(speech_ext) do
+    STRINGS.CHARACTERS[char] = merge(STRINGS.CHARACTERS[char], ext, true)
+end
+
 return STRINGS

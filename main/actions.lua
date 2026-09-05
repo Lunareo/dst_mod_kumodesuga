@@ -220,6 +220,35 @@ ACTIONS_MAP_REMAP[ACTION_TRANSFER.code] = function(act, pos)
     return nil
 end
 
+STRINGS.ACTIONS.WEAVE = "再织"
+
+---@class ACTIONS
+---@field WEAVE ACTION_WEAVE
+
+---@class ACTION_WEAVE: actiondata
+local ACTION_WEAVE = AddAction(
+    "WEAVE",
+    STRINGS.ACTIONS.WEAVE,
+    function (act)
+        if act.doer.components.skilltreeupdater:IsActivated("shiro_evolution_arachne")
+            and act.invobject ~= nil and act.target ~= nil then
+            if act.invobject:HasTag("reweaver") and act.target.replica.godspunable
+                and act.target.components.godspunable.upgraded ~= true then
+                act.target.components.godspunable:Upgrade()
+                if act.invobject.components.stackable ~= nil then
+                    act.invobject.components.stackable:Get():Remove()
+                else
+                    act.invobject:Remove()
+                end
+                return true
+            end
+        end
+    end
+)
+ACTION_WEAVE.priority = 10
+ACTION_WEAVE.mount_valid = true
+ACTION_WEAVE.rmb = true
+
 -- Shared helpers for character pointspecial (client + server).
 KMDS = rawget(_G, "KMDS") or {}
 KMDS.GetTransferMapMagicPointCost = GetTransferMapMagicPointCost
