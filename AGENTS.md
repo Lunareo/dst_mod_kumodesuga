@@ -18,3 +18,8 @@
 
 - 完成的计划可以在计划文件中添加标记标识其完成状态。
 - 计划在文件DOC/PLAN.md中，有需要时再读取。
+
+## Spriter Pro MCP
+
+- 涉及 SCML 动画工程（角色贴图分片、符号/帧管理）时，优先使用用户级 MCP `spriter-pro`（工具前缀 `spriter_`），用法见 `D:\Document\dst\tools\spriter-pro-mcp\README.md`。
+- 写 SCML 前提醒用户先在 Spriter Pro 中关闭目标文件。
