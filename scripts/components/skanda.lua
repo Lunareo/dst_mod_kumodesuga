@@ -133,9 +133,6 @@ function Skanda:OnUpdate(dt)
             FunctionOrValue(self.accelerate, self.runtime, self.speedmult, self.maxspeedmult) *
             self.externalaccelerate:Get() * dt)
         local spdsq = math.sqrt(math.max(1, self.speedmult))
-        if self.inst.AnimState ~= nil then
-            self.inst.AnimState:SetDeltaTimeMultiplier(spdsq)
-        end
         if locomotor ~= nil then
             locomotor:SetExternalSpeedMultiplier(self.inst, self.name, self.speedmult)
         end
@@ -146,9 +143,6 @@ function Skanda:OnUpdate(dt)
     else
         self.runtime = 0
         self.speedmult = 1
-        if self.inst.AnimState ~= nil then
-            self.inst.AnimState:SetDeltaTimeMultiplier(1)
-        end
         if locomotor ~= nil then
             locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
         end
@@ -168,6 +162,9 @@ function Skanda:OnUpdate(dt)
     end
     if not self.isrunning then
         final_speed = 1
+    end
+    if self.inst.AnimState ~= nil then
+        self.inst.AnimState:SetDeltaTimeMultiplier(math.sqrt(math.max(1, final_speed)))
     end
     SetSkandaAlpha(self, SpeedToAlpha(final_speed))
 end
