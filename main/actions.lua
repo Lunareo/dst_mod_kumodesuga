@@ -38,13 +38,13 @@ local function GetMagicPointCurrent(doer)
     if doer == nil then
         return nil
     end
-    local magicpoint = doer.components and doer.components.magicpoint
-    if magicpoint ~= nil then
-        return magicpoint:GetCurrent()
+    local mp = doer.components and doer.components.magicpoint
+    if mp ~= nil then
+        return mp:GetCurrent()
     end
-    local replica = doer.replica and doer.replica.magicpoint
-    if replica ~= nil and replica.GetCurrent ~= nil then
-        return replica:GetCurrent()
+    local mp_replica = doer.replica and doer.replica.magicpoint
+    if mp_replica ~= nil and mp_replica.GetCurrent ~= nil then
+        return mp_replica:GetCurrent()
     end
     return nil
 end
@@ -68,8 +68,17 @@ end
 ---@param cost number
 ---@return boolean
 local function TryConsumeTransferMagicPoint(doer, cost)
+    if cost == nil or cost <= 0 then return true end
+    local mult = 1
+    if doer ~= nil and doer.replica.inventory ~= nil and doer.replica.inventory:EquipHasTag("silk_robe") then
+        mult = mult * 0.8
+    end
+    if doer ~= nil and doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("sapiens") then
+        mult = mult * 0.7
+    end
+    local final_cost = math.ceil(cost * mult)
     local magicpoint = doer and doer.components and doer.components.magicpoint
-    return magicpoint ~= nil and magicpoint:Cost(cost)
+    return magicpoint ~= nil and magicpoint:Cost(final_cost)
 end
 
 ---@param doer ent
@@ -80,7 +89,15 @@ local function GetTransferMapMagicPointCost(doer, pos)
     dist = math.sqrt(dist)
     -- Every 80 units (or any remainder) costs 3 magic points; minimum one segment.
     local segments = math.max(1, math.ceil(dist / TRANSFER_MAP_DISTANCE_SEGMENT))
-    return segments * TRANSFER_MAP_MAGICPOINT_PER_SEGMENT
+    local raw_cost = segments * TRANSFER_MAP_MAGICPOINT_PER_SEGMENT
+    local mult = 1
+    if doer ~= nil and doer.replica.inventory ~= nil and doer.replica.inventory:EquipHasTag("silk_robe") then
+        mult = mult * 0.8
+    end
+    if doer ~= nil and doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("sapiens") then
+        mult = mult * 0.7
+    end
+    return math.max(1, math.ceil(raw_cost * mult))
 end
 
 ---@param doer ent
@@ -134,10 +151,10 @@ local ACTION_TRANSFER = AddAction(
     "TRANSFER",
     STRINGS.ACTIONS.TRANSFER,
     function(act)
-        local pos = act.pos and act.pos:GetPosition()
+        local pos = act.pos ~= nil and act.pos:GetPosition()
         local doer = act and act.doer
         local skilltreeupdater = doer and doer.components.skilltreeupdater
-        if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(doer, pos) then
+        if pos and skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(doer, pos) then
             local maxdist = 48
             if doer:GetDistanceSqToPoint(pos:Get()) > maxdist * maxdist then
                 return false
@@ -262,5 +279,24 @@ rawset(_G, "KMDS", KMDS)
 UTIL.FnExtend(ACTIONS.USESPELLBOOK, "strfn", function(act, ...) ---@param act BufferedAction
     if act and act.doer and act.doer:HasTag("MA_spellcaster") and act.invobject == nil then
         return { "CASTSPELL" }, true
+    end
+end)
+
+UTIL.FnExtend(ACTIONS.PICKUP, "fn", function(act) ---@param act BufferedAction
+    local doer = act.doer ---@class avatar_shiro
+    local target = act.target
+    if doer and doer:HasTag("shiro") and target and target:HasTag("heavy") and target.components.inventoryitem ~= nil then
+        if doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("spacemagic_3") then
+            local space = doer._other_space
+            if space and space.components.container and not space.components.container:IsFull() then
+                doer:PushEvent("onpickupitem", { item = target })
+                target.components.inventoryitem.cangoincontainer = true
+                local success = space.components.container:GiveItem(target)
+                target.components.inventoryitem.cangoincontainer = false
+                if success then
+                    return { true }, true
+                end
+            end
+        end
     end
 end)

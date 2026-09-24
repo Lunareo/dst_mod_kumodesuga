@@ -5,6 +5,7 @@ PrefabFiles = {
     "godspunsilk",
     "helheim_beyonder",
     "reticule_kmds",
+    "shiro_clone",
     "silk_robe",
     "spiderscythe",
     "storing_space",

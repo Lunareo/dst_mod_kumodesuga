@@ -47,7 +47,7 @@ UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
 UTIL.FnExtend(StatusDisplays, "SetGhostMode",
     nil,
     function(rets, self, ghostmode)
-        if self.magic ~= nil then
+        if self.magic ~= nil and self.owner and self.owner:HasTag("beyond_sanity") then
             if ghostmode then
                 self.magic:Hide()
             else
@@ -59,7 +59,7 @@ UTIL.FnExtend(StatusDisplays, "SetGhostMode",
 function StatusDisplays:AddMagic()
     if self.isghostmode then return end
     self.magic = self:AddChild(MagicBadge(self.owner))
-    self.magic:SetPosition(self.brain:GetPosition())
+    self.magic:SetPosition(self.stomach:GetPosition() * 2 - self.heart:GetPosition())
     self.owner:ListenForEvent("magicpointdelta", function(inst, data)
         if self.magic ~= nil and data ~= nil and data.max > 0 then
             self.magic:SetPercent(data.current / data.max, data.max)

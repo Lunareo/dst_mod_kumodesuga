@@ -2,7 +2,7 @@
 
 local ORDERS_LIST = {
     evolution = { 3, 70 },
-    --dominator = { 3, 186 },
+    dominator = { 3, 186 },
     allegiance = { 184, 206 },
     constmagic = { -160, 206 }
 }
@@ -327,34 +327,31 @@ local function BuildSkillData(SkillTreeFns)
         --},
         --dominator_lock = {
         --    pos = Coord("dominator", 0, 0),
-        --    group = "dominator",
-        --    tags = { "dominator", "lock" },
-        --    root = true,
-        --    lock_open = function(prefabname, activatedskills, readonly)
-        --        return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
-        --    end,
-        --    connects = { "arrogans", "desidiae", "pati", "sapiens" },
-        --},
-        --arrogans = { --// TODO: 制作升级系统(?)
-        --    pos = Coord("dominator", -60, -20),
-        --    group = "dominator",
-        --    tags = { "dominator", "arrogans" },
-        --},
-        --desidiae = { --// TODO: 可能替换为别的技能
-        --    pos = Coord("dominator", -20, -40),
-        --    group = "dominator",
-        --    tags = { "dominator", "desidiae" },
-        --},
-        --pati = { --// TODO: 完善MP系统
-        --    pos = Coord("dominator", 20, -40),
-        --    group = "dominator",
-        --    tags = { "dominator", "pati" },
-        --},
-        --sapiens = { --// TODO: 也可能替换掉
-        --    pos = Coord("dominator", 60, -20),
-        --    group = "dominator",
-        --    tags = { "dominator", "sapiens" },
-        --},
+        dominator_lock = {
+            pos = Coord("dominator", 0, 0),
+            group = "dominator",
+            tags = { "dominator", "lock" },
+            root = true,
+            lock_open = function(prefabname, activatedskills, readonly)
+                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
+            end,
+            connects = { "desidiae", "pati", "sapiens" },
+        },
+        desidiae = {
+            pos = Coord("dominator", -20, -40),
+            group = "dominator",
+            tags = { "dominator", "desidiae" },
+        },
+        pati = {
+            pos = Coord("dominator", 20, -40),
+            group = "dominator",
+            tags = { "dominator", "pati" },
+        },
+        sapiens = {
+            pos = Coord("dominator", 60, -20),
+            group = "dominator",
+            tags = { "dominator", "sapiens" },
+        },
         shiro_evolution_tiny_spider_meter = {
             pos = Coord("evolution", 0, 0),
             infographic = true,
@@ -382,11 +379,19 @@ local function BuildSkillData(SkillTreeFns)
                     inst:AddComponent("erosiondamage")
                 end
                 inst.components.erosiondamage:AddBonus(inst, 5, "death_scythe")
+                if inst.components.locomotor ~= nil then
+                    inst.components.locomotor:SetExternalSpeedMultiplier(inst, "poison_spider", 1.05)
+                end
+                inst:AddTag("poison_spider_unlocked")
             end,
             ondeactivate = function(inst, fromload)
                 if inst.components.erosiondamage then
                     inst.components.erosiondamage:RemoveBonus(inst, "death_scythe")
                 end
+                if inst.components.locomotor ~= nil then
+                    inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "poison_spider")
+                end
+                inst:RemoveTag("poison_spider_unlocked")
             end,
         },
         shiro_evolution_undying_queen = { --// TODO: 制作不死技能
@@ -395,10 +400,16 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "evolution", "small_spider" },
             connects = { "shiro_evolution_arachne" },
         },
-        shiro_evolution_arachne = { --// TODO: 制作二重攻击机制
+        shiro_evolution_arachne = {
             pos = Coord("evolution", -160, -30),
             group = "evolution",
             tags = { "evolution", "small_spider", "arachne" },
+            onactivate = function(inst, fromload)
+                inst:AddTag("arachne_double_strike")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst:RemoveTag("arachne_double_strike")
+            end,
         },
         shiro_evolution_advance_spider_lock = {
             pos = Coord("evolution", 40, 0),
@@ -416,14 +427,14 @@ local function BuildSkillData(SkillTreeFns)
             connects = { "shiro_evolution_mega_spider" },
             onactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health.maxhealth = inst.components.health.maxhealth + 80
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
             end,
             ondeactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - 80)
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
                 inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "advance_spider_evoluted")
@@ -436,23 +447,33 @@ local function BuildSkillData(SkillTreeFns)
             connects = { "shiro_evolution_queen_spider" },
             onactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_HEALTH
+                inst.components.health.maxhealth = inst.components.health.maxhealth + 80
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "mega_spider_evoluted")
+                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .30, "advance_spider_evoluted")
             end,
             ondeactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_HEALTH)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - 80)
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "mega_spider_evoluted")
+                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
             end
         },
-        shiro_evolution_queen_spider = { --// TODO: 制作产卵技能
+        shiro_evolution_queen_spider = {
             pos = Coord("evolution", 160, -30),
             group = "evolution",
             tags = { "evolution", "huge_spider", "queenspider" },
+            onactivate = function(inst, fromload)
+                inst:AddTag("spiderqueen")
+                inst:AddTag("spiderwhisperer")
+                inst:AddTag("queen_spider_unlocked")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst:RemoveTag("spiderqueen")
+                inst:RemoveTag("spiderwhisperer")
+                inst:RemoveTag("queen_spider_unlocked")
+            end,
         },
         shiro_allegiance_shadow_lock_1 = SkillTreeFns.MakeFuelWeaverLock({ pos = Coord("allegiance", -20, 0) }),
         shiro_allegiance_shadow_lock_2 = SkillTreeFns.MakeNoLunarLock({ pos = Coord("allegiance", -20, -40), connects = { "shiro_allegiance_shadow" } }),

@@ -66,8 +66,10 @@ return {
             },
         },
         ANNOUNCE_ATTACH_BUFF_DRUNKEN = "呜哇！",
+        ANNOUNCE_ATTACH_BUFF_HANGOVER = "……头痛。身体，好沉重……",
         ANNOUNCE_ATTACH_BUFF_HEALTH_PENALTY_REDUCTION = "……眼睛。好痛。要看，一会儿……",
         ANNOUNCE_DETACH_BUFF_DRUNKEN = "……咦。这里，哪里。……我，做了什么？",
+        ANNOUNCE_DETACH_BUFF_HANGOVER = "……酒劲，终于，退了……",
         ANNOUNCE_DETACH_BUFF_HEALTH_PENALTY_REDUCTION = "……眼睛，好多了。",
         DESCRIBE = {
             ARAMASA = "……一挥。……八次。……够用。",

@@ -5,19 +5,6 @@ local assets = {
 
 local TAG_CAN_USE = "D_spirit"
 
-local function OnKilledOther(attacker, eventdata)
-    if attacker and attacker:IsValid() and attacker:HasTag(TAG_CAN_USE) and eventdata and eventdata.victim and eventdata.victim.components.health and
-        attacker.components.inventory then
-        local touch = attacker.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        if touch and touch.prefab == "spiderscythe" and touch.components.finiteuses ~= nil then
-            touch.components.finiteuses:SetUses(math.min(
-                touch.components.finiteuses:GetUses() +
-                math.ceil(eventdata.victim.components.health:GetMaxWithPenalty() / TUNING.SPIDER_SCYTHE_BASE_DMG * TUNING.SPIDER_SCYTHE_REPAIR_RT),
-                touch.components.finiteuses.total))
-        end
-    end
-end
-
 local function Equip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_object", "spiderscythe", "swap_spiderscythe")
     owner.AnimState:Show("arm_carry")
@@ -28,11 +15,6 @@ local function Equip(inst, owner)
     end
     inst._thron_task = owner and owner:IsValid() and not owner:HasTag(TAG_CAN_USE) and owner.components.health and
         inst:DoPeriodicTask(1, function() owner.components.health:DoDelta(TUNING.SPIDER_SCYTHE_THN_DMG, nil, "arachnecurse") end)
-    if inst._owner then
-        inst:RemoveEventCallback("killed", OnKilledOther, inst._owner)
-    end
-    inst._owner = owner
-    inst:ListenForEvent("killed", OnKilledOther, owner)
     inst.components.aoetargeting:SetEnabled(owner:HasTag(TAG_CAN_USE))
 end
 
@@ -165,26 +147,26 @@ local function AreaAttackPlus(combat, target, range, weapon, validfn, stimuli, e
     return hitcount
 end
 
-local function DoAoE(inst, attacker, target)
-    if attacker.components.combat then
-        local range = TUNING.VOIDCLOTH_SCYTHE_HARVEST_RADIUS
-        local weapon = inst
-        local excludetags = TheNet:GetPVPEnabled() and NO_TAGS_PVP or NO_TAGS
-        local hitcount = AreaAttackPlus(attacker.components.combat, target, range, weapon, AoEValidFn, nil, excludetags)
-        inst.components.finiteuses:Use(hitcount + 1)
-    end
-end
-
 local function SpellFn(inst, doer, pos)
-    local virtual = CreateEntity()
-    local doerpos = doer:GetPosition()
-    local vpos = pos - doerpos
-    vpos = vpos * ((TUNING.SPIDER_SCYTHE_ATK_RANGE + 2) / vpos:Length()) + doerpos
-    virtual.entity:AddTransform():SetPosition(vpos:Get())
-    DoAoE(inst, doer, virtual)
-    virtual:Remove()
-    if inst and inst:IsValid() then
-        inst.components.rechargeable:Discharge(3)
+    if not (inst and inst:IsValid() and doer and doer:IsValid()) then return end
+    inst.components.rechargeable:Discharge(4)
+    if inst.components.finiteuses ~= nil then
+        inst.components.finiteuses:Use(1)
+    end
+    if doer.components.inventory ~= nil then
+        doer.components.inventory:Unequip(EQUIPSLOTS.HANDS)
+    end
+    inst:RemoveFromScene()
+    local proj = SpawnPrefab("spiderscythe_projectile")
+    if proj ~= nil then
+        local doerpos = doer:GetPosition()
+        proj.Transform:SetPosition(doerpos.x, 1, doerpos.z)
+        proj:Launch(doer, pos, inst)
+    else
+        inst:ReturnToScene()
+        if doer.components.inventory ~= nil then
+            doer.components.inventory:Equip(inst)
+        end
     end
 end
 
@@ -274,14 +256,10 @@ local function fn()
     aoetargeting:SetAlwaysValid(true)
     aoetargeting:SetEnabled(false)
     aoetargeting:SetAllowRiding(false)
-    aoetargeting.reticule.reticuleprefab = "reticulearc"
-    aoetargeting.reticule.pingprefab = "reticulearcping"
-    aoetargeting.reticule.mousetargetfn = ReticuleMouseTargetFn
-    aoetargeting.reticule.updatepositionfn = ReticuleUpdatePositionFn
-    aoetargeting.reticule.validcolour = { 1, .75, 0, 1 }
-    aoetargeting.reticule.invalidcolour = { .5, 0, 0, 1 }
-    aoetargeting.reticule.ease = true
-    aoetargeting.reticule.mouseenabled = true
+    aoetargeting.reticule.reticuleprefab = "reticuleline"
+    aoetargeting.reticule.pingprefab = "reticulelineping"
+    aoetargeting:SetRange(10)
+    aoetargeting:SetDeployRadius(0)
 
     inst.displaynamefn = DisplayNameFn
 
@@ -330,6 +308,16 @@ local function fn()
     inst:AddComponent("inventoryitem")
     inst:AddComponent("inspectable")
 
+    inst:DoPeriodicTask(6, function()
+        if inst.components.finiteuses ~= nil then
+            local cur = inst.components.finiteuses:GetUses()
+            local max_uses = inst.components.finiteuses.total or TUNING.SPIDER_SCYTHE_USES
+            if cur < max_uses then
+                inst.components.finiteuses:SetUses(math.min(cur + 1, max_uses))
+            end
+        end
+    end)
+
     MakeHauntableLaunch(inst)
 
     inst.DoScythe = DoScythe
@@ -339,4 +327,137 @@ local function fn()
     return inst
 end
 
-return Prefab("spiderscythe", fn, assets)
+----------------------------------------------------------------------------------------
+-- Thrown Scythe Projectile (脱手回旋飞刃)
+----------------------------------------------------------------------------------------
+
+local function proj_fn()
+    ---@class scythe_proj: ent
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddNetwork()
+
+    inst.AnimState:SetBank("spiderscythe")
+    inst.AnimState:SetBuild("spiderscythe")
+    inst.AnimState:PlayAnimation("idle", true)
+    inst.AnimState:SetScale(1.1, 1.1, 1.1)
+
+    inst:AddTag("FX")
+    inst:AddTag("NOCLICK")
+    inst:AddTag("projectile")
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst.persists = false
+
+    local function CatchWeapon(self)
+        local doer = self._doer
+        local weapon = self._weapon
+        if weapon ~= nil and weapon:IsValid() then
+            weapon:ReturnToScene()
+            if doer ~= nil and doer:IsValid() and not doer:HasTag("playerghost") and doer.components.inventory ~= nil then
+                doer.SoundEmitter:PlaySound("dontstarve/wilson/boomerang_return")
+                if doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == nil then
+                    doer.components.inventory:Equip(weapon)
+                else
+                    doer.components.inventory:GiveItem(weapon)
+                end
+            else
+                weapon.Transform:SetPosition(self.Transform:GetWorldPosition())
+            end
+        end
+        self:Remove()
+    end
+
+    function inst:Launch(doer, targetpos, weapon)
+        self._doer = doer
+        self._weapon = weapon
+        local startpos = doer:GetPosition()
+        local dir = (targetpos - startpos):Normalize()
+        if dir:LengthSq() <= 0 then
+            dir = Vector3(1, 0, 0)
+        end
+        self._dir = dir
+        self._dist = 0
+        self._max_dist = 10
+        self._returning = false
+        self._hit_targets = {}
+
+        self:StartUpdatingComponent(self)
+    end
+
+    function inst:OnUpdate(dt)
+        local cur_rot = self.Transform:GetRotation()
+        self.Transform:SetRotation(cur_rot + 35)
+
+        local pos = self:GetPosition()
+        local doer = self._doer
+        local weapon = self._weapon
+
+        if not (doer and doer:IsValid()) then
+            CatchWeapon(self)
+            return
+        end
+
+        local speed = 22
+        if not self._returning then
+            local next_pos = pos + self._dir * (speed * dt)
+            self.Transform:SetPosition(next_pos.x, 1, next_pos.z)
+            self._dist = self._dist + speed * dt
+            if self._dist >= self._max_dist then
+                self._returning = true
+                self._hit_targets = {}
+            end
+        else
+            local doer_pos = doer:GetPosition()
+            local to_doer = doer_pos - pos
+            local dist_to_doer = to_doer:Length()
+            if dist_to_doer <= 1.5 then
+                CatchWeapon(self)
+                return
+            end
+            local return_dir = to_doer:Normalize()
+            local next_pos = pos + return_dir * (speed * dt)
+            self.Transform:SetPosition(next_pos.x, 1, next_pos.z)
+        end
+
+        local p = self:GetPosition()
+        local ents = TheSim:FindEntities(p.x, 0, p.z, 2, { "_combat" }, { "INLIMBO", "player", "companion", "playerghost", "wall" })
+        for _, ent in ipairs(ents) do
+            if ent ~= doer and ent:IsValid() and not self._hit_targets[ent] then
+                if not (ent.components.follower and ent.components.follower:GetLeader() and ent.components.follower:GetLeader():HasTag("player")) then
+                    self._hit_targets[ent] = true
+                    if ent.components.combat ~= nil then
+                        ent.components.combat:GetAttacked(doer, TUNING.SPIDER_SCYTHE_BASE_DMG, weapon, "erosion", { erosion = TUNING.SPIDER_SCYTHE_EROSION_DMG })
+                    end
+                    ent:AddDebuff("erosion", "buff_erosion", { attacker = doer, weapon = weapon })
+                    if doer:HasTag(TAG_CAN_USE) then
+                        if doer.components.health then
+                            doer.components.health:DoDelta(TUNING.SPIDER_SCYTHE_HP_DRAIN_RT, nil, "hemophagia")
+                        end
+                        if doer.components.hunger then
+                            doer.components.hunger:DoDelta(TUNING.SPIDER_SCYTHE_SP_COST_RT)
+                        end
+                    end
+                    SpawnAt("impact", ent)
+                end
+            end
+        end
+    end
+
+    inst.OnEntitySleep = function(inst)
+        CatchWeapon(inst)
+    end
+
+    return inst
+end
+
+return Prefab("spiderscythe", fn, assets, { "spiderscythe_projectile" }),
+    Prefab("spiderscythe_projectile", proj_fn, assets)

@@ -55,6 +55,11 @@ local function Toggle(player, code)
     local skilldef = skilltreedefs.SKILLTREE_DEFS[player.prefab] and
         skilltreedefs.SKILLTREE_DEFS[player.prefab][skill]
     if skilldef == nil then return false end
+    if skill == "spacemotor" and not ison then
+        if player.components.magicpoint ~= nil and player.components.magicpoint.current <= 0 then
+            return false
+        end
+    end
     if ison then
         skilldef.ondeactivate(player)
     else

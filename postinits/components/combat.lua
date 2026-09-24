@@ -68,13 +68,13 @@ end)
 
 ---@param source any
 ---@param m number
----@param key string
+---@param key any
 function Combat:AddBonusModifier(source, m, key)
     self.damagebonuslist:SetModifier(source, m, key)
 end
 
 ---@param source any
----@param key string
+---@param key any
 function Combat:RemoveBonusModifier(source, key)
     self.damagebonuslist:RemoveModifier(source, key)
 end

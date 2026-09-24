@@ -211,24 +211,84 @@ local BUFF_DEFS = {
     drunken = {
         attach = function (inst, target, followsymbol, followoffset, data)
             if target == nil then return inst:Remove() end
-            -- groggy 是 postinits/entity.lua 里的引用计数标签，加一次减一次就行，
-            -- 既不用记录原状态，也不会被 grogginess 组件或饥饿减速抢先摘掉
             target:AddTag("groggy")
             target.components.locomotor:SetExternalSpeedMultiplier(inst, "drunken", TUNING.DRUNKEN_MODI.SPEED)
             target.components.combat.externaldamagemultipliers:SetModifier(inst, TUNING.DRUNKEN_MODI.COMBAT, "drunken")
+            if target.components.erosiondamage ~= nil then
+                target.components.erosiondamage:AddBonus(inst, 10, "drunken")
+            end
+            inst._drift_task = inst:DoPeriodicTask(1.5, function()
+                if target.components.locomotor and target.sg and target.sg:HasStateTag("moving") then
+                    local rot = target.Transform:GetRotation()
+                    local offset_angle = (math.random() - 0.5) * 50
+                    target.Transform:SetRotation(rot + offset_angle)
+                end
+            end)
         end,
         detach = function (inst, target, followsymbol, followoffset, data)
+            if inst._drift_task ~= nil then
+                inst._drift_task:Cancel()
+                inst._drift_task = nil
+            end
             if not (target and target:IsValid()) then return end
             target:RemoveTag("groggy")
             target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "drunken")
             target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "drunken")
-            -- 全程只挂标签、不碰 grog_amount，所以 buff 自己放不倒人；酒劲过去了才睡。
-            -- 真睡着的话，"醒酒"那句台词就跟着推迟到睡醒（cometo）时再说
-            return dosleep(target, TUNING.DRUNKEN_MODI.SLEEPINESS, TUNING.DRUNKEN_MODI.SLEEP)
-                and "cometo"
-                or nil
+            if target.components.erosiondamage ~= nil then
+                target.components.erosiondamage:RemoveBonus(inst, "drunken")
+            end
+            local fell_asleep = dosleep(target, TUNING.DRUNKEN_MODI.SLEEPINESS, TUNING.DRUNKEN_MODI.SLEEP)
+            target:AddDebuff("hangover", "buff_hangover")
+            return fell_asleep and "cometo" or nil
         end,
         duration = TUNING.DRUNKEN_MODI.GROGGY,
+    },
+    hangover = {
+        attach = function (inst, target, followsymbol, followoffset, data)
+            if target == nil then return inst:Remove() end
+            target.components.locomotor:SetExternalSpeedMultiplier(inst, "hangover", 0.85)
+            target.components.combat.externaldamagemultipliers:SetModifier(inst, 0.75, "hangover")
+            if target.components.magicpoint ~= nil then
+                target.components.magicpoint:AddConsumptionSrc(inst, -1, "hangover")
+            end
+        end,
+        detach = function (inst, target, followsymbol, followoffset, data)
+            if not (target and target:IsValid()) then return end
+            target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "hangover")
+            target.components.combat.externaldamagemultipliers:RemoveModifier(inst, "hangover")
+            if target.components.magicpoint ~= nil then
+                target.components.magicpoint:RemoveConsumptionSrc(inst, "hangover")
+            end
+        end,
+        duration = TUNING.DRUNKEN_MODI.HANGOVER,
+    },
+    desidiae = {
+        attach = function(inst, target, followsymbol, followoffset, data)
+            if target == nil or not target:IsValid() then return inst:Remove() end
+            if target.components.locomotor ~= nil then
+                target.components.locomotor:SetExternalSpeedMultiplier(inst, "desidiae", 0.8)
+            end
+            if target.components.combat ~= nil and target.components.combat.min_attack_period ~= nil then
+                inst._orig_atk_period = target.components.combat.min_attack_period
+                target.components.combat.min_attack_period = inst._orig_atk_period * 1.35
+            end
+            AttachFX("erosion_fx_loop", inst, target, "swap_body", Vector3(0, 0, 0))
+        end,
+        extend = function(inst, target, followsymbol, followoffset, data)
+            inst.components.timer:StopTimer("buffover")
+            inst.components.timer:StartTimer("buffover", 15)
+        end,
+        detach = function(inst, target, followsymbol, followoffset, data)
+            if not (target and target:IsValid()) then return end
+            if target.components.locomotor ~= nil then
+                target.components.locomotor:RemoveExternalSpeedMultiplier(inst, "desidiae")
+            end
+            if target.components.combat ~= nil and inst._orig_atk_period ~= nil then
+                target.components.combat.min_attack_period = inst._orig_atk_period
+            end
+        end,
+        duration = 15,
+        nospeech = true,
     },
 }
 

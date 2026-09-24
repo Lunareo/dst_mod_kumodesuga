@@ -1,14 +1,5 @@
 local SourceModifierList = require "util/sourcemodifierlist"
 
--- Final speed mult → character alpha:
---   <= 1.5 (150%): full opacity
---   >= 3.0 (300%): minimum opacity 50%
---   between: linear lerp
-local ALPHA_SPEED_START = 1.5
-local ALPHA_SPEED_END = 3.0
-local ALPHA_MIN = 0.5
-local ALPHA_MAX = 1.0
-
 local function onlocomote(inst, data)
     if data and data.dir then
         inst.components.skanda:RunForward()
@@ -25,36 +16,6 @@ local function ondisable(self, disable, old)
     end
 end
 
----@param speed number
----@return number
-local function SpeedToAlpha(speed)
-    if speed == nil or speed <= ALPHA_SPEED_START then
-        return ALPHA_MAX
-    end
-    if speed >= ALPHA_SPEED_END then
-        return ALPHA_MIN
-    end
-    local t = (speed - ALPHA_SPEED_START) / (ALPHA_SPEED_END - ALPHA_SPEED_START)
-    return ALPHA_MAX - t * (ALPHA_MAX - ALPHA_MIN)
-end
-
----@param self component_skanda
----@param alpha number
-local function SetSkandaAlpha(self, alpha)
-    local inst = self.inst
-    if inst == nil or not inst:IsValid() or inst.AnimState == nil then
-        return
-    end
-    alpha = math.clamp(alpha, ALPHA_MIN, ALPHA_MAX)
-    -- Skip redundant SetMultColour (AnimState replicates from server).
-    local quantized = math.floor(alpha * 100 + 0.5) / 100
-    if self._last_alpha ~= nil and math.abs(self._last_alpha - quantized) < 0.005 then
-        return
-    end
-    self._last_alpha = quantized
-    inst.AnimState:SetMultColour(1, 1, 1, quantized)
-end
-
 ---@class components
 ---@field skanda component_skanda
 
@@ -69,7 +30,7 @@ end
 ---@field runtime number
 ---@field externalaccelerate SourceModifierList
 ---@field disable boolean|nil
----@field _last_alpha number|nil
+---@field _last_accelerate number
 local Skanda = Class(function(self, inst, root)
     self.inst = inst
     self.root = root
@@ -79,6 +40,7 @@ local Skanda = Class(function(self, inst, root)
     self.speedmult = 1
     self.maxspeedmult = 3
     self.runtime = 0
+    self._last_accelerate = 0
     self._last_alpha = nil
     self.externalaccelerate = SourceModifierList(self.inst)
     self.inst:ListenForEvent("locomote", onlocomote)
@@ -99,7 +61,19 @@ function Skanda:Enable(enable)
 end
 
 function Skanda:OnRemoveFromEntity()
-    SetSkandaAlpha(self, ALPHA_MAX)
+    local locomotor = self.inst.components.locomotor
+    if locomotor ~= nil then
+        locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
+    end
+    local hunger = self.inst.components.hunger
+    if hunger ~= nil and hunger.burnratemodifiers ~= nil then
+        hunger.burnratemodifiers:RemoveModifier(self.inst, self.name)
+    end
+    self.inst:RemoveTag("wonkey_run")
+    if self.inst.AnimState ~= nil then
+        self.inst.AnimState:SetDeltaTimeMultiplier(1)
+    end
+    self.inst:RemoveEventCallback("locomote", onlocomote)
 end
 
 function Skanda:RunForward()
@@ -110,6 +84,9 @@ end
 
 function Skanda:Stop()
     self.isrunning = false
+    if self.speedmult > 1 then
+        self.inst:StartUpdatingComponent(self)
+    end
 end
 
 ---@param acc function|number
@@ -126,13 +103,20 @@ end
 function Skanda:OnUpdate(dt)
     local locomotor = self.inst.components.locomotor
     local hunger = self.inst.components.hunger
+    local accelerate
     if self.isrunning then
+        accelerate = math.max(0, FunctionOrValue(self.accelerate,
+            self.runtime, self.speedmult, self.maxspeedmult) * self.externalaccelerate:Get())
+        self._last_accelerate = accelerate
         self.runtime = self.runtime + dt
-        self.speedmult = math.min(self.maxspeedmult,
-            self.speedmult +
-            FunctionOrValue(self.accelerate, self.runtime, self.speedmult, self.maxspeedmult) *
-            self.externalaccelerate:Get() * dt)
-        local spdsq = math.sqrt(math.max(1, self.speedmult))
+        self.speedmult = math.min(self.maxspeedmult, self.speedmult + accelerate * dt)
+    else
+        self.runtime = 0
+        self.speedmult = math.max(1, self.speedmult - self._last_accelerate * 2 * dt)
+    end
+
+    if self.speedmult > 1 then
+        local spdsq = math.sqrt(self.speedmult)
         if locomotor ~= nil then
             locomotor:SetExternalSpeedMultiplier(self.inst, self.name, self.speedmult)
         end
@@ -141,8 +125,6 @@ function Skanda:OnUpdate(dt)
         end
         self.inst:AddTag("wonkey_run")
     else
-        self.runtime = 0
-        self.speedmult = 1
         if locomotor ~= nil then
             locomotor:RemoveExternalSpeedMultiplier(self.inst, self.name)
         end
@@ -150,7 +132,9 @@ function Skanda:OnUpdate(dt)
             hunger.burnratemodifiers:RemoveModifier(self.inst, self.name)
         end
         self.inst:RemoveTag("wonkey_run")
-        self.inst:StopUpdatingComponent(self)
+        if not self.isrunning then
+            self.inst:StopUpdatingComponent(self)
+        end
     end
 
     -- Final move speed (all locomotor multipliers), not only skanda's own mult.
@@ -160,13 +144,9 @@ function Skanda:OnUpdate(dt)
     else
         final_speed = self.speedmult
     end
-    if not self.isrunning then
-        final_speed = 1
-    end
     if self.inst.AnimState ~= nil then
         self.inst.AnimState:SetDeltaTimeMultiplier(math.sqrt(math.max(1, final_speed)))
     end
-    SetSkandaAlpha(self, SpeedToAlpha(final_speed))
 end
 
 function Skanda:GetDebugString()

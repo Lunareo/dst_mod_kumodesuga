@@ -38,6 +38,8 @@
 ---| "wakaba"
 
 ---@enum equiptype_mod
-EQUIPSLOTS = {}
+EQUIPSLOTS = {
+    WAIST = "WAIST",
+}
 
 MOD_RPC = {}

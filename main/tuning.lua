@@ -6,17 +6,19 @@ TUNING = {
         "liquor", "wine", "酒",
     },
     DRUNKEN_MODI = {
-        COMBAT = 5,
-        GROGGY = 240,
-        SPEED = .2,
-        SLEEP = 240,     -- 醉意消退后的入眠时长
+        COMBAT = 2,      -- 全伤害提升100% (2倍)
+        GROGGY = 30,     -- 醉酒暴走持续30秒
+        SPEED = 1.15,    -- 移速+15%
+        SLEEP = 5,       -- 醒酒后昏睡5秒
         SLEEPINESS = 10, -- 一次性灌入的醉倒值，需高于目标的 grogginess 抗性
+        HANGOVER = 60,   -- 宿醉衰弱60秒
     },
-    SHIRO_HEALTH = 120,
+    SHIRO_HEALTH = 75,
     SHIRO_HUNGER = 180,
     SHIRO_SANITY = 150,
     SHIRO_MAGICPOINT = 150,
     SHIRO_HUNGERY_SPEED_MULT = .7,
+    SHIRO_STARVING_SANITY_RATE = 1.25, -- 每秒独立流失的理智，默认与原版饥饿伤害速率相同
     WAKABA_HEALTH = 60,
     WAKABA_OLDAGER = 12,
     WAKABA_HEALTH_SCALE = .1, -- WAKABA_OLDAGER / 120
@@ -65,8 +67,12 @@ TUNING = {
     SPELL_TWIST_COST = 10,
     SPELL_GRAVITY_COOLDOWN = nil,
     SPELL_GRAVITY_COST = 10,
+    SPELL_HYPNOSIS_COOLDOWN = 20,
+    SPELL_HYPNOSIS_COST = 20,
     SPELL_DESTRUCTION_COOLDOWN = GLOBAL.TUNING.SEG_TIME * 4,
     SPELL_DESTRUCTION_COST = 100,
+    SPELL_DESIDIAE_COOLDOWN = nil,
+    SPELL_DESIDIAE_COST = 15,
 }
 merge(GLOBAL.TUNING, env.TUNING, true)
 rawset(env, "TUNING", nil)

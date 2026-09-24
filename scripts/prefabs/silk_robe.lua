@@ -53,6 +53,8 @@ local function fn()
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("clothing")
+    inst:AddTag("waterproofer")
+    inst:AddTag("silk_robe")
 
     MakeInventoryPhysics(inst)
     MakeInventoryFloatable(inst, "small", 0.1, 0.8)
@@ -70,13 +72,20 @@ local function fn()
     inst.components.equippable.equipslot = EQUIPSLOTS.WAIST or EQUIPSLOTS.BODY
     inst.components.equippable:SetOnEquip(OnEquip)
     inst.components.equippable:SetOnUnequip(OnUnequip)
+    inst.components.equippable.insulated = true
     inst.components.equippable.critdamagerate = .1
+
+    inst:AddComponent("waterproofer")
+    inst.components.waterproofer:SetEffectiveness(1)
 
     inst:AddComponent("insulator")
     inst.components.insulator:SetInsulation(180)
 
     inst:AddComponent("armor")
     inst.components.armor:InitCondition(700, .7)
+
+    inst:AddComponent("godspunable")
+    inst.components.godspunable:Upgrade()
 
     inst:AddComponent("inventoryitem")
     inst:AddComponent("inspectable")

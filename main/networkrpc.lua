@@ -121,3 +121,19 @@ AddModRPCHandler("kmds.spells", "spells.dismount", function(player) ---@param pl
         rider:Dismount()
     end
 end)
+
+AddModRPCHandler("kmds.spells", "spells.create_clone", function(player)
+    if player == nil or not player:IsValid() or not player:HasTag("shiro") then
+        return
+    end
+    if player.components.magicpoint == nil or not player.components.magicpoint:Cost(30) then
+        return
+    end
+    local item = SpawnPrefab("shiro_clone_item")
+    if item ~= nil then
+        if player.components.inventory ~= nil then
+            player.components.inventory:GiveItem(item)
+        end
+        SpawnAt("statue_transition_2", player)
+    end
+end)

@@ -1,10 +1,3 @@
----@class replica_scorebase: replica_base
----@field _ctor fun(self:table, inst:ent, name:scoretype)
----@field inst ent
----@field name scoretype
----@field classified ent|nil
----@field ondetachclassified fun()|nil
-
 -- player_classified may replicate after the player entity (or vice versa),
 -- so wait for it instead of dropping the attach on a bad tick order.
 ---@param self replica_scorebase
@@ -47,6 +40,14 @@ local function GetComponent(self)
     return components ~= nil and components[self.name] or nil
 end
 
+---@class replica_components
+---@field scorebase replica_scorebase
+
+---@class replica_scorebase: replica_base
+---@field _ctor fun(self:table, inst:ent, name:scoretype)
+---@field inst ent
+---@field name scoretype
+---@field ondetachclassified fun()|nil
 local ScoreBase = Class(function(self, inst, name)
     self.inst = inst
     self.name = name and string.lower(name) or "scorebase"
@@ -54,7 +55,7 @@ local ScoreBase = Class(function(self, inst, name)
     if TheWorld.ismastersim and inst.player_classified ~= nil then
         self.classified = inst.player_classified
     else
-        StartThread(waitforclassified, "scorebase_replica_" .. self.name, self)
+        StartThread(waitforclassified, nil, self)
     end
 end)
 

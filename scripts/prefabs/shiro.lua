@@ -1,6 +1,6 @@
 local MakePlayerCharactor = require "prefabs/player_common"
 local SpellSetter = require "prefabs/spellsetter"
-
+local SKILL_UTIL = require "prefabs/playerskillutil"
 local avatar_name = "shiro"
 
 local assets = {
@@ -165,6 +165,32 @@ local function oneat(inst, food, feeder)
     end
 end
 
+local function CustomStatsModFn(inst, health_delta, hunger_delta, sanity_delta, food, feeder)
+    if food ~= nil then
+        if food.prefab == "spoiled_food" or food.prefab == "spoiled_fish"
+            or food.prefab == "spoiled_fish_small" or food.prefab == "rottenegg" then
+            return 0, 5, 0
+        end
+    end
+    if health_delta < 0 then
+        health_delta = 0
+    end
+    if sanity_delta < 0 then
+        sanity_delta = 0
+    end
+    return health_delta, hunger_delta, sanity_delta
+end
+---@param inst avatar_shiro
+---@return number
+local function GetStarvingSanityRate(inst)
+    local hunger = inst.components.hunger
+    if hunger ~= nil and not hunger:IsPaused() and hunger:IsStarving() then
+        -- Starvation affects sanity independently of hunger's health damage.
+        return -TUNING.SHIRO_STARVING_SANITY_RATE
+    end
+    return 0
+end
+
 local function onstarve(inst)
     inst:AddTag("groggy")
     inst.components.locomotor:SetExternalSpeedMultiplier(inst, "onstarving", TUNING.SHIRO_HUNGERY_SPEED_MULT)
@@ -177,13 +203,84 @@ local function stopstarve(inst)
     inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "onstarving")
 end
 
+local function CleanupSpacemotor(inst)
+    if inst._spacemotor_fx ~= nil then
+        if inst._spacemotor_fx:IsValid() then
+            inst._spacemotor_fx:Remove()
+        end
+        inst._spacemotor_fx = nil
+        inst._spacemotor_fx_cell = nil
+    end
+    if inst.components.magicpoint ~= nil then
+        inst.components.magicpoint:RemoveConsumptionSrc(inst, "spacemotor")
+    end
+end
+
+local function UpdateSpacemotor(inst)
+    local skilltreeupdater = inst.components.skilltreeupdater
+    if skilltreeupdater == nil or not skilltreeupdater:IsActivated("spacemotor") then
+        CleanupSpacemotor(inst)
+        return
+    end
+
+    local is_on = SKILL_UTIL.IsActivate(inst, "spacemotor")
+    if not is_on then
+        CleanupSpacemotor(inst)
+        return
+    end
+
+    if inst.components.magicpoint ~= nil and inst.components.magicpoint.current <= 0 then
+        SKILL_UTIL.Toggle(inst, "spacemotor")
+        CleanupSpacemotor(inst)
+        return
+    end
+
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local has_ground = (inst:GetCurrentPlatform() ~= nil) or TheWorld.Map:IsVisualGroundAtPoint(x, y, z)
+
+    if not has_ground then
+        if inst.components.magicpoint ~= nil then
+            inst.components.magicpoint:AddConsumptionSrc(inst, -1, "spacemotor")
+        end
+
+        local gx = math.floor(x)
+        local gz = math.floor(z)
+        if inst._spacemotor_fx == nil or inst._spacemotor_fx_cell == nil or inst._spacemotor_fx_cell.x ~= gx or inst._spacemotor_fx_cell.z ~= gz then
+            if inst._spacemotor_fx ~= nil and inst._spacemotor_fx:IsValid() then
+                inst._spacemotor_fx:Remove()
+            end
+            local fx = CreateEntity()
+            fx.entity:AddTransform()
+            fx.entity:AddAnimState()
+            fx.AnimState:SetBank("wall")
+            fx.AnimState:SetBuild("wall_stone")
+            fx.AnimState:PlayAnimation("broken")
+            fx.Transform:SetPosition(gx + 0.5, 0, gz + 0.5)
+            fx:AddTag("FX")
+            fx:AddTag("NOCLICK")
+            fx.persists = false
+            inst._spacemotor_fx = fx
+            inst._spacemotor_fx_cell = { x = gx, z = gz }
+        end
+    else
+        if inst.components.magicpoint ~= nil then
+            inst.components.magicpoint:RemoveConsumptionSrc(inst, "spacemotor")
+        end
+        if inst._spacemotor_fx ~= nil then
+            if inst._spacemotor_fx:IsValid() then
+                inst._spacemotor_fx:Remove()
+            end
+            inst._spacemotor_fx = nil
+            inst._spacemotor_fx_cell = nil
+        end
+    end
+end
 ---@param inst avatar_shiro
 local common_postinit = function(inst)
     inst.AnimState:SetHatOffset(2, 27)
 
     inst:DoTaskInTime(0, hide_backpack)
     inst:AddTag(avatar_name)
-    inst:AddTag("beyond_sanity")
     inst:AddTag("spiderdisguise")
     inst:AddTag("D_spirit")
     inst.CreateMagicBadge = true
@@ -210,14 +307,58 @@ local master_postinit = function(inst)
 
     inst.components.eater:SetStrongStomach(true)
     inst.components.eater:SetCanEatRawMeat(true)
+    inst.components.eater:SetCanEatHorrible()
     inst.components.eater:SetIgnoresSpoilage(true)
     inst.components.eater:SetOnEatFn(oneat)
+    inst.components.eater.custom_stats_mod_fn = CustomStatsModFn
 
     inst.components.foodaffinity:AddPrefabAffinity("kurikuta_dried", TUNING.AFFINITY_15_CALORIES_MED)
 
     inst.components.health:SetMaxHealth(TUNING[string.upper(avatar_name) .. "_HEALTH"] --[[@as number]])
+    inst.components.health.fire_damage_scale = 1.5
+
+    local old_DoDelta = inst.components.health.DoDelta
+    function inst.components.health:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+        if amount ~= nil and amount < 0 then
+            local updater = inst.components.skilltreeupdater
+            if updater ~= nil and updater:IsActivated("shiro_evolution_death_scythe") then
+                if cause == "acid" or cause == "acid_rain" or cause == "erosion" or cause == "buff_erosion" then
+                    amount = amount * 0.2
+                end
+            end
+
+            if updater ~= nil and updater:IsActivated("pati") and not overtime then
+                if -amount > 30 then
+                    local direct = amount * 0.3
+                    local delayed = -amount * 0.7
+                    amount = direct
+                    local ticks = 12
+                    local tick_dmg = delayed / ticks
+                    inst:DoPeriodicTask(0.5, function(task)
+                        if inst:IsValid() and not inst.components.health:IsDead() then
+                            old_DoDelta(inst.components.health, -tick_dmg, true, "pati_delayed")
+                        else
+                            task:Cancel()
+                        end
+                    end, 0.5, ticks)
+                end
+
+                local cur_hp = self.currenthealth
+                if cur_hp + amount <= 0 and inst.components.magicpoint and inst.components.magicpoint.current > 0 then
+                    local excess = math.abs(cur_hp + amount) + 1
+                    local mp_avail = inst.components.magicpoint.current
+                    local mp_spent = math.min(excess, mp_avail)
+                    inst.components.magicpoint:Cost(mp_spent)
+                    amount = amount + mp_spent
+                end
+            end
+        end
+        return old_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+    end
     inst.components.hunger:SetMax(TUNING[string.upper(avatar_name) .. "_HUNGER"] --[[@as number]])
     inst.components.sanity:SetMax(TUNING[string.upper(avatar_name) .. "_SANITY"] --[[@as number]])
+    inst.components.sanity:SetNegativeAuraImmunity(true, inst)
+    inst.components.sanity.custom_rate_fn = GetStarvingSanityRate
 
     inst:AddComponent("magicpoint")
     inst.components.magicpoint:SetMax(TUNING[string.upper(avatar_name) .. "_MAGICPOINT"] --[[@as number]])
@@ -227,6 +368,15 @@ local master_postinit = function(inst)
 
     inst.components.slipperyfeet.StartSlipperySource = function() end
 
+    if inst.components.talker ~= nil then
+        local OldSay = inst.components.talker.Say
+        function inst.components.talker:Say(script, time, noanim, force, nobroadcast, colour, text_filter_context)
+            if self.inst.components.debuffable and self.inst.components.debuffable:HasDebuff("drunken") and type(script) == "string" and #script > 0 then
+                script = script:gsub("[%.%!%?。！？%s]+$", "") .. "……喵~"
+            end
+            return OldSay(self, script, time, noanim, force, nobroadcast, colour, text_filter_context)
+        end
+    end
     local OnDespawn = inst.OnDespawn
     function inst:OnDespawn(migrationdata, ...)
         if self._other_space ~= nil then
@@ -236,6 +386,7 @@ local master_postinit = function(inst)
             self._other_space:Remove()
             self._other_space = nil
         end
+        CleanupSpacemotor(self)
         return OnDespawn ~= nil and OnDespawn(self, migrationdata, ...)
     end
 
@@ -268,6 +419,67 @@ local master_postinit = function(inst)
 
     inst:ListenForEvent("startstarving", onstarve)
     inst:ListenForEvent("stopstarving", stopstarve)
+    inst:ListenForEvent("death", CleanupSpacemotor)
+    inst:ListenForEvent("playerghost", CleanupSpacemotor)
+
+    inst:ListenForEvent("onattackother", function(inst, data)
+        local updater = inst.components.skilltreeupdater
+        if updater ~= nil and updater:IsActivated("shiro_evolution_arachne") then
+            if not inst._is_double_hitting and data and data.target and data.target:IsValid() and data.target.components.combat then
+                if math.random() < 0.25 then
+                    inst._is_double_hitting = true
+                    inst:DoTaskInTime(0.05, function()
+                        if data.target:IsValid() and data.target.components.combat then
+                            local dmg = (data.damage or 34) * 0.5
+                            data.target.components.combat:GetAttacked(inst, dmg, data.weapon, "double_strike", { erosion = 8.5 })
+                            SpawnAt("impact", data.target)
+                        end
+                        inst._is_double_hitting = false
+                    end)
+                end
+            end
+        end
+    end)
+
+    inst:DoPeriodicTask(2, function()
+        if not inst:IsValid() or inst.components.health:IsDead() then return end
+        local updater = inst.components.skilltreeupdater
+        if updater == nil then return end
+
+        if updater:IsActivated("sapiens") then
+            if not inst._sapiens_mp_boosted then
+                inst.components.magicpoint:AddConsumptionSrc(inst, 1, "sapiens")
+                inst._sapiens_mp_boosted = true
+            end
+            if inst.player_classified ~= nil and inst.player_classified.MapExplorer ~= nil then
+                local x, y, z = inst.Transform:GetWorldPosition()
+                local bosses = TheSim:FindEntities(x, 0, z, 60, { "epic" }, { "INLIMBO", "player" })
+                for _, b in ipairs(bosses) do
+                    if b:IsValid() then
+                        local bx, by, bz = b.Transform:GetWorldPosition()
+                        inst.player_classified.MapExplorer:RevealArea(bx, 0, bz)
+                    end
+                end
+            end
+        else
+            if inst._sapiens_mp_boosted then
+                inst.components.magicpoint:RemoveConsumptionSrc(inst, "sapiens")
+                inst._sapiens_mp_boosted = nil
+            end
+        end
+
+        if updater:IsActivated("shiro_evolution_queen_spider") then
+            local x, y, z = inst.Transform:GetWorldPosition()
+            local spiders = TheSim:FindEntities(x, 0, z, 8, { "spider" }, { "INLIMBO", "hostile" })
+            for _, sp in ipairs(spiders) do
+                if sp:IsValid() and sp.components.follower and sp.components.follower.leader == nil and not (sp.components.combat and sp.components.combat.target == inst) then
+                    sp.components.follower:SetLeader(inst)
+                end
+            end
+        end
+    end)
+
+    inst:DoPeriodicTask(0.25, UpdateSpacemotor)
 end
 
 return MakePlayerCharactor(avatar_name, prefabs, assets, common_postinit, master_postinit)

@@ -33,10 +33,33 @@ local function longacttion_enter_pst(rets, inst)
     return rets
 end
 
+local function hit_enter_pst(rets, inst, frozen)
+    if inst:HasTag("shiro") and (
+        (inst.components.health and inst.components.health.takingfiredamage) or
+        (inst.components.burnable and inst.components.burnable:IsBurning())
+    ) then
+        local stun_frames = math.min(inst.AnimState:GetCurrentAnimationNumFrames(), frozen and 10 or 6)
+        inst.sg:SetTimeout(stun_frames * 2 * FRAMES)
+        if inst.AnimState ~= nil then
+            inst.AnimState:SetDeltaTimeMultiplier(0.5)
+        end
+    end
+    return rets
+end
+
+local function hit_exit_pre(inst)
+    if inst:HasTag("shiro") and inst.AnimState ~= nil then
+        inst.AnimState:SetDeltaTimeMultiplier(1)
+    end
+end
+
 AddStategraphPostInit("wilson", function(sg)
     UTIL.FnExtend(sg.actionhandlers[ACTIONS.CASTAOE], "deststate", CASTAOE_dest_pre)
     UTIL.FnExtend(sg.actionhandlers[ACTIONS.ATTACK], "deststate", nil, ATTACK_dest_pst)
-    --UTIL.FnExtend(sg.states.dolongaction, "onenter", longacttion_enter_pre, longacttion_enter_pst)
+    if sg.states.hit ~= nil then
+        UTIL.FnExtend(sg.states.hit, "onenter", nil, hit_enter_pst)
+        UTIL.FnExtend(sg.states.hit, "onexit", hit_exit_pre, nil)
+    end
 end)
 
 AddStategraphPostInit("wilson_client", function(sg)

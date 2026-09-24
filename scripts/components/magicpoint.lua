@@ -1,4 +1,4 @@
----@class component
+---@class components
 ---@field magicpoint component_magicpoint
 
 ---@type SourceModifierList
@@ -24,7 +24,7 @@ end
 ---@field fb table # source -> key -> fallback (consumption source registry)
 ---@field tasks table # source -> key -> pending delayed-start task
 ---@field dt number
----@field updatetask thread|nil
+---@field updatetask Periodic|nil
 ---@field ratemodifier SourceModifierList # additive sum of consumption sources
 ---@field ratemultipliers SourceModifierList # global consumption coefficient
 local MagicPoint = Class(Base, function(self, inst)
