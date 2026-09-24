@@ -36,3 +36,9 @@ AddCharacterSkin("shiro")
 AddCharacterSkin("shiro", "shiro_jk", "Elegant")
 AddCharacterSkin("shiro", "shiro_classic", "Event")
 AddCharacterSkin("wakaba")
+AddCharacterSkin("ariel", "shiro", "Character", {
+    name = STRINGS.SKIN_NAMES.shiro,
+    des = STRINGS.SKIN_DESCRIPTIONS.shiro,
+    quotes = STRINGS.SKIN_QUOTES.shiro,
+    share_bigportrait_name = "shiro_none",
+})

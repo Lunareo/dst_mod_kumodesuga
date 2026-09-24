@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Atlas>
+    <Texture filename="selectscreen_portraits.tex"/>
+    <Elements>
+        <Element name="shiro.tex" u1="0.000488281" u2="0.183105" v1="0.446289" v2="0.999023"/>
+    </Elements>
+    <StraightAlpha>false</StraightAlpha>
+</Atlas>
+

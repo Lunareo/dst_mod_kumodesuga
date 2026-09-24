@@ -27,6 +27,11 @@ TUNING = {
     WAKABA_MIN_YEARS_OLD = 13,
     WAKABA_MAX_YEARS_OLD = 25,
     WAKABA_OLDAGE_RECOVER_RATE = 1 / 40,
+    ARIEL_HEALTH = 300,
+    ARIEL_HUNGER = 250,
+    ARIEL_SANITY = 200,
+    ARIEL_HUNGER_RATE_MULT = 1.5, -- 巨大食量负荷：饥饿消耗为普通角色 1.5 倍
+    ARIEL = require "ariel_tuning",
     BEYONDER_USES = 200,
     BEYONDER_RANGE = 10,
     BEYONDER_BASE_DMG = 42.5,
@@ -39,6 +44,7 @@ TUNING = {
         DEFAULT = {
             SHIRO = { "spiderscythe", "silk", "silk", "silk", },
             WAKABA = { "helheim_beyonder" },
+            ARIEL = {},
         },
     },
     MIGHTY_STRIKE_MULT = 3,

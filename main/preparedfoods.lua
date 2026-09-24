@@ -1,4 +1,68 @@
 local foods = {
+    ariel_battlemeal = {
+        test = function(cooker, names, tags)
+            return (names.monstermeat or 0) + (names.monstermeat_cooked or 0) >= 2 and (tags.meat or 0) >= 3
+        end,
+        priority = 50,
+        foodtype = FOODTYPE.MEAT,
+        health = 20,
+        hunger = 100,
+        sanity = 15,
+        cooktime = 1,
+        overridebuild = "cook_pot_food",
+        nospice = true,
+        oneatenfn = function(inst, eater)
+            if eater ~= nil and eater:HasTag("ariel") then
+                for _, player in ipairs(AllPlayers) do
+                    if player:IsValid() and eater:IsNear(player, TUNING.ARIEL.meal_radius) then
+                        player:AddDebuff("ariel_war", "buff_ariel_war")
+                    end
+                end
+            end
+        end,
+        prefabs = { "buff_ariel_war" },
+    },
+    ariel_mushroommeal = {
+        test = function(cooker, names, tags)
+            return (tags.veggie or 0) >= 3 and (names.red_cap or 0) + (names.green_cap or 0) + (names.blue_cap or 0) >= 2
+        end,
+        priority = 50,
+        foodtype = FOODTYPE.VEGGIE,
+        health = 40,
+        hunger = 75,
+        sanity = 40,
+        cooktime = 1.5,
+        overridebuild = "cook_pot_food",
+        nospice = true,
+        oneatenfn = function(inst, eater)
+            if eater == nil or not eater:HasTag("ariel") then return end
+            for _, player in ipairs(AllPlayers) do
+                if player:IsValid() and eater:IsNear(player, TUNING.ARIEL.meal_radius) then
+                    player:AddDebuff("ariel_resist", "buff_ariel_resist")
+                    if player.components.health ~= nil then player.components.health:DoDelta(20, false, "ariel_mushroommeal") end
+                    if player.components.sanity ~= nil then player.components.sanity:DoDelta(15) end
+                    if player.components.hunger ~= nil then player.components.hunger:DoDelta(20) end
+                end
+            end
+        end,
+        prefabs = { "buff_ariel_resist" },
+    },
+    ariel_nurturemeal = {
+        test = function(cooker, names, tags)
+            return (names.royal_jelly or 0) >= 1 and (names.nightmarefuel or 0) >= 1 and (tags.meat or 0) >= 1
+        end,
+        priority = 60,
+        foodtype = FOODTYPE.GOODIES,
+        health = 20,
+        hunger = 37.5,
+        sanity = 20,
+        cooktime = 2,
+        overridebuild = "cook_pot_food",
+        nospice = true,
+        oneatenfn = function(inst, eater)
+            if eater ~= nil and eater.components.arielgluttony ~= nil then eater.components.arielgluttony:Nurture() end
+        end,
+    },
     kurikuta_dried = {
         test = function(cooker, names, tags)
             return (tags.fruit or 0) >= 4 and not (tags.inedible or tags.meat or tags.fish or tags.veggie)

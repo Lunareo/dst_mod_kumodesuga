@@ -1,4 +1,4 @@
-local function RegisterCharacter(prefab, gender, data)
+local function RegisterCharacter(prefab, gender, minimap_prefab)
     table.insert(PrefabFiles, prefab)
     for _, v in pairs({
         Asset("ATLAS", "images/saveslot_portraits/" .. prefab .. ".xml"),
@@ -16,9 +16,10 @@ local function RegisterCharacter(prefab, gender, data)
     }) do
         table.insert(Assets, v)
     end
-    AddMinimapAtlas("images/map_icons/" .. prefab .. ".xml")
+    AddMinimapAtlas("images/map_icons/" .. (minimap_prefab or prefab) .. ".xml")
     AddModCharacter(prefab, gender or "FEMALE")
 end
 
 RegisterCharacter("shiro")
 RegisterCharacter("wakaba")
+RegisterCharacter("ariel", "FEMALE", "shiro") -- 占位：暂缺专属美术，复用白织地图图标

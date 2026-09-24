@@ -2,7 +2,7 @@ hookimport("prefabs", "allplayers", "wakaba", "beyond_sanity", "foodbuffs", "god
 hookimport("components", "builder", "builder_replica", "sanity", "playercontroller", "playeractionpicker", "combat", "playervision", "drownable", "aoetargeting", "container", "container_replica")
 hookimport("entity")
 hookimport("stategraphs", "SGwilson")
-hookimport("widgets", "eventannouncer", "itemtile", "redux/loadingwidget", "redux/templates", "redux/skilltreebuilder")
+hookimport("widgets", "eventannouncer", "itemtile", "redux/loadingwidget", "redux/templates", "redux/skilltreebuilder", "arielstatus")
 hookimport("screens", "redux/lobbyscreen")
 hookimport("workshops", "insight", "medal_showbufftime", "stella", "ndnr")
 hookimport("entityscript")
