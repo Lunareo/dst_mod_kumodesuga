@@ -48,6 +48,8 @@ local function OnDeath(inst)
             end
         end
     end
+    SpawnAt("spider_mutate_fx", inst)
+    inst:Remove()
 end
 
 local function OnSave(inst, data)
@@ -115,7 +117,7 @@ local function clone_fn()
     inst.entity:AddNetwork()
     inst.entity:AddMiniMapEntity()
 
-    MakeCharacterPhysics(inst, 10, .5)
+    MakeObstaclePhysics(inst, .1)
 
     inst.AnimState:SetBank("spider")
     inst.AnimState:SetBuild("spider_build")
