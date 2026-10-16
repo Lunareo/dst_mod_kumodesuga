@@ -25,6 +25,7 @@ end
 
 LoadAtlas("images/inventoryimage_kmds.xml")
 LoadAtlas("images/charactor_ingredients.xml")
+LoadAtlas("images/shiro_clone_item.xml")
 
 local skilltree_icon_path = softresolvefilepath("images/skilltree_icons_kmds.xml")
 local file = io.open(skilltree_icon_path, "r")

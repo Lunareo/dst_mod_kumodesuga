@@ -69,8 +69,24 @@ local function Toggle(player, code)
     return ison
 end
 
+---法术MP消耗系数：装备丝质长袍×0.8，习得睿智×0.7。
+---睿智状态经 "sapiens_unlocked" 标签同步，客户端与服务端计算结果一致。
+---@param player ent
+---@return number
+local function GetCostMultiplier(player)
+    local mult = 1
+    if player ~= nil and player.replica.inventory ~= nil and player.replica.inventory:EquipHasTag("silk_robe") then
+        mult = mult * 0.8
+    end
+    if player ~= nil and player:HasTag("sapiens_unlocked") then
+        mult = mult * 0.7
+    end
+    return mult
+end
+
 return {
     CODES = CODES,
     IsActivate = IsActivate,
     Toggle = Toggle,
+    GetCostMultiplier = GetCostMultiplier,
 }

@@ -47,7 +47,7 @@ UTIL.FnExtend(StatusDisplays, "SetHungerPercent",
 UTIL.FnExtend(StatusDisplays, "SetGhostMode",
     nil,
     function(rets, self, ghostmode)
-        if self.magic ~= nil and self.owner and self.owner:HasTag("beyond_sanity") then
+        if self.magic ~= nil and self.owner then
             if ghostmode then
                 self.magic:Hide()
             else

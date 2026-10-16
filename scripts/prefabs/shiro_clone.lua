@@ -1,10 +1,14 @@
 local assets = {
     Asset("ANIM", "anim/ds_spider_basic.zip"),
     Asset("ANIM", "anim/spider_build.zip"),
+    Asset("ATLAS", "images/shiro_clone_item.xml"),
+    Asset("IMAGE", "images/shiro_clone_item.tex"),
 }
 
 local prefabs = {
     "shiro_clone_item",
+    "spider_mutate_fx",
+    "statue_transition_2",
 }
 
 local function OnHaunt(inst, doer)
@@ -264,6 +268,7 @@ local function item_fn()
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem.atlasname = "images/shiro_clone_item.xml"
 
     inst:AddComponent("deployable")
     inst.components.deployable.ondeploy = OnDeploy

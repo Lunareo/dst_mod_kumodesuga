@@ -92,8 +92,6 @@ local SPELL_FNS = {
         field:AddTag("NOCLICK")
         field.persists = false
 
-        if not TheWorld.ismastersim then return end
-
         local ents = TheSim:FindEntities(pos.x, 0, pos.z, 3)
         for _, ent in ipairs(ents) do
             if ent ~= doer and ent:IsValid() and not ent:IsInLimbo() and ent.components.workable ~= nil then
@@ -156,8 +154,8 @@ local SPELL_FNS = {
         end
     end,
     destruction = function(target, doer)
+        -- HP下限已由法术定义的 can_cast_fn 校验
         if not (target and target.components.combat and doer and doer:IsValid() and doer.components.health) then return end
-        if doer.components.health.currenthealth < 10 then return end
         local base = doer.components.health.currenthealth * .9
         doer.components.health:DoDelta(-base, false, "spell_destruction", nil, doer)
         target.components.combat:GetAttacked(doer, 0, nil, "spell_destruction", { erosion = base * 10 })
@@ -249,11 +247,11 @@ local allskills = {
         bank = "spell_icons_shiro",
         build = "spell_icons_shiro",
         anims = {
-            idle = { anim = "eye_of_curse" },
-            focus = { anim = "eye_of_curse_focus", loop = true },
-            down = { anim = "eye_of_curse" },
-            disabled = { anim = "eye_of_curse_disabled" },
-            cooldown = { anim = "eye_of_curse_disabled" },
+            idle = { anim = "eye_of_gravity" },
+            focus = { anim = "eye_of_gravity_focus", loop = true },
+            down = { anim = "eye_of_gravity" },
+            disabled = { anim = "eye_of_gravity_disabled" },
+            cooldown = { anim = "eye_of_gravity_disabled" },
         },
         spellfn = SPELL_FNS.gravity,
         cost = TUNING.SPELL_GRAVITY_COST,
@@ -265,11 +263,11 @@ local allskills = {
         bank = "spell_icons_shiro",
         build = "spell_icons_shiro",
         anims = {
-            idle = { anim = "eye_of_freeze" },
-            focus = { anim = "eye_of_freeze_focus", loop = true },
-            down = { anim = "eye_of_freeze" },
-            disabled = { anim = "eye_of_freeze_disabled" },
-            cooldown = { anim = "eye_of_freeze_disabled" },
+            idle = { anim = "eye_of_hypnosis" },
+            focus = { anim = "eye_of_hypnosis_focus", loop = true },
+            down = { anim = "eye_of_hypnosis" },
+            disabled = { anim = "eye_of_hypnosis_disabled" },
+            cooldown = { anim = "eye_of_hypnosis_disabled" },
         },
         spellfn = SPELL_FNS.hypnosis,
         cost = TUNING.SPELL_HYPNOSIS_COST,
@@ -280,11 +278,11 @@ local allskills = {
         bank = "spell_icons_shiro",
         build = "spell_icons_shiro",
         anims = {
-            idle = { anim = "eye_of_curse" },
-            focus = { anim = "eye_of_curse_focus", loop = true },
-            down = { anim = "eye_of_curse" },
-            disabled = { anim = "eye_of_curse_disabled" },
-            cooldown = { anim = "eye_of_curse_disabled" },
+            idle = { anim = "eye_of_desidiae" },
+            focus = { anim = "eye_of_desidiae_focus", loop = true },
+            down = { anim = "eye_of_desidiae" },
+            disabled = { anim = "eye_of_desidiae_disabled" },
+            cooldown = { anim = "eye_of_desidiae_disabled" },
         },
         spellfn = SPELL_FNS.desidiae,
         cost = TUNING.SPELL_DESIDIAE_COST or 15,
@@ -332,9 +330,9 @@ local allskills = {
         bank = "spell_icons_shiro",
         build = "spell_icons_shiro",
         anims = {
-            idle = { anim = "space_proxy" },
-            focus = { anim = "space_proxy_focus", loop = true },
-            down = { anim = "space_proxy" },
+            idle = { anim = "create_clone" },
+            focus = { anim = "create_clone_focus", loop = true },
+            down = { anim = "create_clone" },
         },
         widget_scale = ICON_SCALE,
         postinit = SetupMouseOver,

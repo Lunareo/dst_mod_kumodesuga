@@ -5,6 +5,8 @@
 ---@field TRANSFER actiondata
 ---@field TRANSFER_MAP actiondata
 
+local SKILL_UTIL = require "prefabs/playerskillutil"
+
 local ACTION_PARRY = AddAction(
     "PARRY",
     STRINGS.ACTIONS.PARRY,
@@ -69,14 +71,7 @@ end
 ---@return boolean
 local function TryConsumeTransferMagicPoint(doer, cost)
     if cost == nil or cost <= 0 then return true end
-    local mult = 1
-    if doer ~= nil and doer.replica.inventory ~= nil and doer.replica.inventory:EquipHasTag("silk_robe") then
-        mult = mult * 0.8
-    end
-    if doer ~= nil and doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("sapiens") then
-        mult = mult * 0.7
-    end
-    local final_cost = math.ceil(cost * mult)
+    local final_cost = math.ceil(cost * SKILL_UTIL.GetCostMultiplier(doer))
     local magicpoint = doer and doer.components and doer.components.magicpoint
     return magicpoint ~= nil and magicpoint:Cost(final_cost)
 end
@@ -90,14 +85,7 @@ local function GetTransferMapMagicPointCost(doer, pos)
     -- Every 80 units (or any remainder) costs 3 magic points; minimum one segment.
     local segments = math.max(1, math.ceil(dist / TRANSFER_MAP_DISTANCE_SEGMENT))
     local raw_cost = segments * TRANSFER_MAP_MAGICPOINT_PER_SEGMENT
-    local mult = 1
-    if doer ~= nil and doer.replica.inventory ~= nil and doer.replica.inventory:EquipHasTag("silk_robe") then
-        mult = mult * 0.8
-    end
-    if doer ~= nil and doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("sapiens") then
-        mult = mult * 0.7
-    end
-    return math.max(1, math.ceil(raw_cost * mult))
+    return math.max(1, math.ceil(raw_cost * SKILL_UTIL.GetCostMultiplier(doer)))
 end
 
 ---@param doer ent

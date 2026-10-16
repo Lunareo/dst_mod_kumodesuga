@@ -43,6 +43,35 @@ local function GetSpaceRank(space_or_prefab)
     return prefab and SPACE_RANK[prefab] or 0
 end
 
+-- 演化系蜘蛛形态的减伤档位：巨型(advance)与超级(mega)二选一取最高
+local EVOLUTION_ABSORB_BY_SKILL = {
+    shiro_evolution_mega_spider = .30,
+    shiro_evolution_advance_spider = .15,
+}
+local EVOLUTION_ABSORB_KEY = "spider_evolution_absorb"
+
+---按当前已激活的演化技能重算蜘蛛形态减伤，activate/deactivate共用
+local function UpdateEvolutionAbsorb(inst)
+    local updater = inst.components.skilltreeupdater
+    if updater == nil then
+        return
+    end
+    local absorb
+    for skill, value in pairs(EVOLUTION_ABSORB_BY_SKILL) do
+        if absorb == nil or value > absorb then
+            if updater:IsActivated(skill) then
+                absorb = value
+            end
+        end
+    end
+    local modifiers = inst.components.health.externalabsorbmodifiers
+    if absorb ~= nil then
+        modifiers:SetModifier(inst, absorb, EVOLUTION_ABSORB_KEY)
+    else
+        modifiers:RemoveModifier(inst, EVOLUTION_ABSORB_KEY)
+    end
+end
+
 ---@param old_container component_container
 ---@param new_container component_container
 ---@param drop_pos Vector3
@@ -333,7 +362,7 @@ local function BuildSkillData(SkillTreeFns)
             tags = { "dominator", "lock" },
             root = true,
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 12
+                return SkillTreeFns.CountSkills(prefabname, activatedskills) >= 5 -- TEMP, SHOULD BE 12
             end,
             connects = { "desidiae", "pati", "sapiens" },
         },
@@ -351,6 +380,12 @@ local function BuildSkillData(SkillTreeFns)
             pos = Coord("dominator", 60, -20),
             group = "dominator",
             tags = { "dominator", "sapiens" },
+            onactivate = function(inst, fromload)
+                inst:AddTag("sapiens_unlocked")
+            end,
+            ondeactivate = function(inst, fromload)
+                inst:RemoveTag("sapiens_unlocked")
+            end,
         },
         shiro_evolution_tiny_spider_meter = {
             pos = Coord("evolution", 0, 0),
@@ -427,17 +462,17 @@ local function BuildSkillData(SkillTreeFns)
             connects = { "shiro_evolution_mega_spider" },
             onactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = inst.components.health.maxhealth + 80
+                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_EVOLUTION_HEALTH_BONUS
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
+                UpdateEvolutionAbsorb(inst)
             end,
             ondeactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - 80)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_EVOLUTION_HEALTH_BONUS)
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:RemoveModifier(inst, "advance_spider_evoluted")
+                UpdateEvolutionAbsorb(inst)
             end
         },
         shiro_evolution_mega_spider = {
@@ -447,17 +482,17 @@ local function BuildSkillData(SkillTreeFns)
             connects = { "shiro_evolution_queen_spider" },
             onactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = inst.components.health.maxhealth + 80
+                inst.components.health.maxhealth = inst.components.health.maxhealth + TUNING.SHIRO_EVOLUTION_HEALTH_BONUS
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .30, "advance_spider_evoluted")
+                UpdateEvolutionAbsorb(inst)
             end,
             ondeactivate = function(inst, fromload)
                 local pct = inst.components.health:GetPercent()
-                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - 80)
+                inst.components.health.maxhealth = math.max(5, inst.components.health.maxhealth - TUNING.SHIRO_EVOLUTION_HEALTH_BONUS)
                 inst.components.health:SetPercent(pct)
                 inst.components.health:ForceUpdateHUD(true)
-                inst.components.health.externalabsorbmodifiers:SetModifier(inst, .15, "advance_spider_evoluted")
+                UpdateEvolutionAbsorb(inst)
             end
         },
         shiro_evolution_queen_spider = {

@@ -1,5 +1,8 @@
 local SourceModifierList = require "util/sourcemodifierlist"
 
+-- 停止奔跑时的最低减速速率，防止加速为0时速度卡在高速档
+local MIN_DECELERATE = 0.1
+
 local function onlocomote(inst, data)
     if data and data.dir then
         inst.components.skanda:RunForward()
@@ -41,7 +44,6 @@ local Skanda = Class(function(self, inst, root)
     self.maxspeedmult = 3
     self.runtime = 0
     self._last_accelerate = 0
-    self._last_alpha = nil
     self.externalaccelerate = SourceModifierList(self.inst)
     self.inst:ListenForEvent("locomote", onlocomote)
     self.inst:ListenForEvent("startstarving", function() self:Enable(false) end)
@@ -112,7 +114,7 @@ function Skanda:OnUpdate(dt)
         self.speedmult = math.min(self.maxspeedmult, self.speedmult + accelerate * dt)
     else
         self.runtime = 0
-        self.speedmult = math.max(1, self.speedmult - self._last_accelerate * 2 * dt)
+        self.speedmult = math.max(1, self.speedmult - math.max(self._last_accelerate, MIN_DECELERATE) * 2 * dt)
     end
 
     if self.speedmult > 1 then

@@ -126,7 +126,7 @@ AddModRPCHandler("kmds.spells", "spells.create_clone", function(player)
     if player == nil or not player:IsValid() or not player:HasTag("shiro") then
         return
     end
-    if player.components.magicpoint == nil or not player.components.magicpoint:Cost(30) then
+    if player.components.magicpoint == nil or not player.components.magicpoint:Cost(TUNING.SPELL_CREATE_CLONE_COST) then
         return
     end
     local item = SpawnPrefab("shiro_clone_item")

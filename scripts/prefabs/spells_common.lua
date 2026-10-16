@@ -1,5 +1,6 @@
 local UIAnim = require "widgets/uianim"
 local Image = require "widgets/image"
+local SKILL_UTIL = require "prefabs/playerskillutil"
 local ICON_RADIUS = 60
 local ICON_SCALE = 0.6
 
@@ -75,14 +76,7 @@ local CREATURES_CANT = { "INLIMBO", "flight", "player", "ghost", "invisible", "n
 
 local function TryConsumeCost(doer, cost)
     if cost == nil or cost <= 0 then return true end
-    local mult = 1
-    if doer ~= nil and doer.replica.inventory ~= nil and doer.replica.inventory:EquipHasTag("silk_robe") then
-        mult = mult * 0.8
-    end
-    if doer ~= nil and doer.components.skilltreeupdater and doer.components.skilltreeupdater:IsActivated("sapiens") then
-        mult = mult * 0.7
-    end
-    local final_cost = math.ceil(cost * mult)
+    local final_cost = math.ceil(cost * SKILL_UTIL.GetCostMultiplier(doer))
     local magicpoint = doer and doer.components and doer.components.magicpoint
     return magicpoint ~= nil and magicpoint:Cost(final_cost)
 end
@@ -157,127 +151,84 @@ local function AbsorbSingleTargetSkill(data)
                 or nil
         end,
         cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
+        _validtest = data._validtest,
+    }
+end
+
+---指向性AOE法术的公共实现。PointAOESkill 与 ConeAOESkill 仅为预设不同的薄封装。
+---@param data skill_def_partial
+---@param reticule string # 瞄准圈prefab
+---@param ping string # 瞄准圈落点特效prefab
+---@param default_range number
+---@param default_radius number|nil # 为nil时固定使用0（锥形无落点半径）
+---@return table
+local function BuildAOESkill(data, reticule, ping, default_range, default_radius)
+    local spellfn = function(inst, doer, pos)
+        local cooldowns = doer.components.spellbookcooldowns
+        if cooldowns ~= nil and cooldowns:IsInCooldown(data.name) then
+            return false, "SPELL_ON_COOLDOWN"
+        end
+
+        if data.can_cast_fn ~= nil and not data.can_cast_fn(doer, pos) then
+            return false
+        end
+
+        if not TryConsumeCost(doer, data and data.cost) then
+            return false, "SPELL_NOT_ENOUGH_COST"
+        end
+
+        data.spellfn(pos, doer)
+        local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
+        if cooldowns ~= nil and cooldown ~= nil then
+            cooldowns:RestartSpellCooldown(data.name, cooldown)
+        end
+        return true
+    end
+
+    return {
+        label = STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)],
+        onselect = function(inst)
+            local spellbook = inst.components.spellbook
+            spellbook:SetSpellName(STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)])
+            inst.spellname = data.name
+            spellbook:SetSpellAction(nil)
+            local aoetargeting = inst.components.aoetargeting
+            aoetargeting:SetRange(data.range or default_range)
+            aoetargeting:SetDeployRadius(default_radius ~= nil and (data.radius or default_radius) or 0)
+            aoetargeting:SetShouldRepeatCastFn(function(_, doer)
+                return
+                    doer.components.spellbookcooldowns == nil or
+                    doer.components.spellbookcooldowns:IsInCooldown(data.name)
+            end)
+            aoetargeting.reticule.reticuleprefab = reticule
+            aoetargeting.reticule.pingprefab = ping
+            if TheWorld.ismastersim then
+                inst.components.aoespell:SetSpellFn(spellfn)
+                spellbook:SetSpellFn(nil)
+            end
+        end,
+        execute = StartAOETargeting,
+        bank = data.bank,
+        build = data.build,
+        anims = data.anims,
+        widget_scale = ICON_SCALE,
+        checkcooldown = function(user)
+            return user
+                and user.components.spellbookcooldowns
+                and user.components.spellbookcooldowns:GetSpellCooldownPercent(data.name)
+                or nil
+        end,
+        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
+        _validtest = data._validtest,
     }
 end
 
 local function PointAOESkill(data)
-    local spellfn = function(inst, doer, pos)
-        local cooldowns = doer.components.spellbookcooldowns
-        if cooldowns ~= nil and cooldowns:IsInCooldown(data.name) then
-            return false, "SPELL_ON_COOLDOWN"
-        end
-
-        if data.can_cast_fn ~= nil and not data.can_cast_fn(doer, pos) then
-            return false
-        end
-
-        if not TryConsumeCost(doer, data and data.cost) then
-            return false, "SPELL_NOT_ENOUGH_COST"
-        end
-
-        data.spellfn(pos, doer)
-        local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
-        if cooldowns ~= nil and cooldown ~= nil then
-            cooldowns:RestartSpellCooldown(data.name, cooldown)
-        end
-        return true
-    end
-
-    return {
-        label = STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)],
-        onselect = function(inst)
-            local spellbook = inst.components.spellbook
-            spellbook:SetSpellName(STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)])
-            inst.spellname = data.name
-            spellbook:SetSpellAction(nil)
-            local aoetargeting = inst.components.aoetargeting
-            aoetargeting:SetRange(data.range or 16)
-            aoetargeting:SetDeployRadius(data.radius or 3)
-            aoetargeting:SetShouldRepeatCastFn(function(_, doer)
-                return
-                    doer.components.spellbookcooldowns == nil or
-                    doer.components.spellbookcooldowns:IsInCooldown(data.name)
-            end)
-            aoetargeting.reticule.reticuleprefab = "reticuleaoe"
-            aoetargeting.reticule.pingprefab = "reticuleaoeping"
-            if TheWorld.ismastersim then
-                inst.components.aoespell:SetSpellFn(spellfn)
-                spellbook:SetSpellFn(nil)
-            end
-        end,
-        execute = StartAOETargeting,
-        bank = data.bank,
-        build = data.build,
-        anims = data.anims,
-        widget_scale = ICON_SCALE,
-        checkcooldown = function(user)
-            return user
-                and user.components.spellbookcooldowns
-                and user.components.spellbookcooldowns:GetSpellCooldownPercent(data.name)
-                or nil
-        end,
-        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
-    }
+    return BuildAOESkill(data, "reticuleaoe", "reticuleaoeping", 16, 3)
 end
 
 local function ConeAOESkill(data)
-    local spellfn = function(inst, doer, pos)
-        local cooldowns = doer.components.spellbookcooldowns
-        if cooldowns ~= nil and cooldowns:IsInCooldown(data.name) then
-            return false, "SPELL_ON_COOLDOWN"
-        end
-
-        if data.can_cast_fn ~= nil and not data.can_cast_fn(doer, pos) then
-            return false
-        end
-
-        if not TryConsumeCost(doer, data and data.cost) then
-            return false, "SPELL_NOT_ENOUGH_COST"
-        end
-
-        data.spellfn(pos, doer)
-        local cooldown = TUNING["SPELL_" .. string.upper(data.name) .. "_COOLDOWN"]
-        if cooldowns ~= nil and cooldown ~= nil then
-            cooldowns:RestartSpellCooldown(data.name, cooldown)
-        end
-        return true
-    end
-
-    return {
-        label = STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)],
-        onselect = function(inst)
-            local spellbook = inst.components.spellbook
-            spellbook:SetSpellName(STRINGS.SPELLS.EVIL_EYES[string.upper(data.name)])
-            inst.spellname = data.name
-            spellbook:SetSpellAction(nil)
-            local aoetargeting = inst.components.aoetargeting
-            aoetargeting:SetRange(data.range or 8)
-            aoetargeting:SetDeployRadius(0)
-            aoetargeting:SetShouldRepeatCastFn(function(_, doer)
-                return
-                    doer.components.spellbookcooldowns == nil or
-                    doer.components.spellbookcooldowns:IsInCooldown(data.name)
-            end)
-            aoetargeting.reticule.reticuleprefab = "reticulearc"
-            aoetargeting.reticule.pingprefab = "reticulearcping"
-            if TheWorld.ismastersim then
-                inst.components.aoespell:SetSpellFn(spellfn)
-                spellbook:SetSpellFn(nil)
-            end
-        end,
-        execute = StartAOETargeting,
-        bank = data.bank,
-        build = data.build,
-        anims = data.anims,
-        widget_scale = ICON_SCALE,
-        checkcooldown = function(user)
-            return user
-                and user.components.spellbookcooldowns
-                and user.components.spellbookcooldowns:GetSpellCooldownPercent(data.name)
-                or nil
-        end,
-        cooldowncolor = { 0.65, 0.65, 0.65, 0.75 },
-    }
+    return BuildAOESkill(data, "reticulearc", "reticulearcping", 8)
 end
 
 return {

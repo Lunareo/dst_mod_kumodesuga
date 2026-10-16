@@ -204,19 +204,16 @@ local function stopstarve(inst)
 end
 
 local function CleanupSpacemotor(inst)
-    if inst._spacemotor_fx ~= nil then
-        if inst._spacemotor_fx:IsValid() then
-            inst._spacemotor_fx:Remove()
-        end
-        inst._spacemotor_fx = nil
-        inst._spacemotor_fx_cell = nil
-    end
     if inst.components.magicpoint ~= nil then
         inst.components.magicpoint:RemoveConsumptionSrc(inst, "spacemotor")
     end
 end
 
 local function UpdateSpacemotor(inst)
+    if inst.components.health == nil or inst.components.health:IsDead() or inst:HasTag("playerghost") then
+        return
+    end
+
     local skilltreeupdater = inst.components.skilltreeupdater
     if skilltreeupdater == nil or not skilltreeupdater:IsActivated("spacemotor") then
         CleanupSpacemotor(inst)
@@ -242,36 +239,9 @@ local function UpdateSpacemotor(inst)
         if inst.components.magicpoint ~= nil then
             inst.components.magicpoint:AddConsumptionSrc(inst, -1, "spacemotor")
         end
-
-        local gx = math.floor(x)
-        local gz = math.floor(z)
-        if inst._spacemotor_fx == nil or inst._spacemotor_fx_cell == nil or inst._spacemotor_fx_cell.x ~= gx or inst._spacemotor_fx_cell.z ~= gz then
-            if inst._spacemotor_fx ~= nil and inst._spacemotor_fx:IsValid() then
-                inst._spacemotor_fx:Remove()
-            end
-            local fx = CreateEntity()
-            fx.entity:AddTransform()
-            fx.entity:AddAnimState()
-            fx.AnimState:SetBank("wall")
-            fx.AnimState:SetBuild("wall_stone")
-            fx.AnimState:PlayAnimation("broken")
-            fx.Transform:SetPosition(gx + 0.5, 0, gz + 0.5)
-            fx:AddTag("FX")
-            fx:AddTag("NOCLICK")
-            fx.persists = false
-            inst._spacemotor_fx = fx
-            inst._spacemotor_fx_cell = { x = gx, z = gz }
-        end
     else
         if inst.components.magicpoint ~= nil then
             inst.components.magicpoint:RemoveConsumptionSrc(inst, "spacemotor")
-        end
-        if inst._spacemotor_fx ~= nil then
-            if inst._spacemotor_fx:IsValid() then
-                inst._spacemotor_fx:Remove()
-            end
-            inst._spacemotor_fx = nil
-            inst._spacemotor_fx_cell = nil
         end
     end
 end
@@ -318,38 +288,64 @@ local master_postinit = function(inst)
     inst.components.health.fire_damage_scale = 1.5
 
     local old_DoDelta = inst.components.health.DoDelta
-    function inst.components.health:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
-        if amount ~= nil and amount < 0 then
-            local updater = inst.components.skilltreeupdater
-            if updater ~= nil and updater:IsActivated("shiro_evolution_death_scythe") then
-                if cause == "acid" or cause == "acid_rain" or cause == "erosion" or cause == "buff_erosion" then
-                    amount = amount * 0.2
+
+    -- 死灭法杖演化：侵蚀类来源的伤害减免80%
+    local function ApplyDeathScytheReduction(amount, cause)
+        local updater = inst.components.skilltreeupdater
+        if updater ~= nil and updater:IsActivated("shiro_evolution_death_scythe")
+            and (cause == "acid" or cause == "acid_rain" or cause == "erosion" or cause == "buff_erosion") then
+            amount = amount * 0.2
+        end
+        return amount
+    end
+
+    -- 忍耐：单次超过30点的直接伤害，70%转为6秒内（每0.5秒一次）平滑流失，返回立即生效的部分
+    local function PatiSplitDamage(amount)
+        if -amount <= 30 then
+            return amount
+        end
+        local direct = amount * 0.3
+        local ticks_left = 12
+        local tick_dmg = -amount * 0.7 / ticks_left
+        local task
+        task = inst:DoPeriodicTask(0.5, function()
+            if not (inst:IsValid() and not inst.components.health:IsDead()) then
+                task:Cancel()
+            else
+                ticks_left = ticks_left - 1
+                inst.components.health:DoDelta(-tick_dmg, true, "pati_delayed")
+                if ticks_left <= 0 then
+                    task:Cancel()
                 end
             end
+        end, 0.5)
+        return direct
+    end
 
-            if updater ~= nil and updater:IsActivated("pati") and not overtime then
-                if -amount > 30 then
-                    local direct = amount * 0.3
-                    local delayed = -amount * 0.7
-                    amount = direct
-                    local ticks = 12
-                    local tick_dmg = delayed / ticks
-                    inst:DoPeriodicTask(0.5, function(task)
-                        if inst:IsValid() and not inst.components.health:IsDead() then
-                            old_DoDelta(inst.components.health, -tick_dmg, true, "pati_delayed")
-                        else
-                            task:Cancel()
-                        end
-                    end, 0.5, ticks)
+    -- 忍耐：不足1血的伤害以1:1消耗MP抵消，MP不足时仍正常承受剩余伤害
+    local function PatiMagicPointSave(amount)
+        local magicpoint = inst.components.magicpoint
+        local cur_hp = inst.components.health.currenthealth
+        if cur_hp + amount < 1 and magicpoint ~= nil and magicpoint.current > 0 then
+            local excess = 1 - (cur_hp + amount)
+            local mp_spent = math.min(excess, magicpoint.current)
+            magicpoint:Cost(mp_spent)
+            amount = amount + mp_spent
+        end
+        return amount
+    end
+
+    function inst.components.health:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+        if amount ~= nil and amount < 0 then
+            amount = ApplyDeathScytheReduction(amount, cause)
+            local updater = inst.components.skilltreeupdater
+            if updater ~= nil and updater:IsActivated("pati") then
+                -- 延迟伤害只走保命，不重复拆分；其他持续伤害维持原有结算。
+                if not overtime then
+                    amount = PatiSplitDamage(amount)
                 end
-
-                local cur_hp = self.currenthealth
-                if cur_hp + amount <= 0 and inst.components.magicpoint and inst.components.magicpoint.current > 0 then
-                    local excess = math.abs(cur_hp + amount) + 1
-                    local mp_avail = inst.components.magicpoint.current
-                    local mp_spent = math.min(excess, mp_avail)
-                    inst.components.magicpoint:Cost(mp_spent)
-                    amount = amount + mp_spent
+                if not overtime or cause == "pati_delayed" then
+                    amount = PatiMagicPointSave(amount)
                 end
             end
         end
@@ -424,20 +420,30 @@ local master_postinit = function(inst)
 
     inst:ListenForEvent("onattackother", function(inst, data)
         local updater = inst.components.skilltreeupdater
-        if updater ~= nil and updater:IsActivated("shiro_evolution_arachne") then
-            if not inst._is_double_hitting and data and data.target and data.target:IsValid() and data.target.components.combat then
-                if math.random() < 0.25 then
-                    inst._is_double_hitting = true
-                    inst:DoTaskInTime(0.05, function()
-                        if data.target:IsValid() and data.target.components.combat then
-                            local dmg = (data.damage or 34) * 0.5
-                            data.target.components.combat:GetAttacked(inst, dmg, data.weapon, "double_strike", { erosion = 8.5 })
-                            SpawnAt("impact", data.target)
-                        end
-                        inst._is_double_hitting = false
-                    end)
+        if updater == nil or not updater:IsActivated("shiro_evolution_arachne") then
+            return
+        end
+        -- onattackother 事件不携带伤害数值，二重打击按本次攻击的实际伤害重新计算
+        if not inst._is_double_hitting and data and data.target and data.target:IsValid() and data.target.components.combat
+            and math.random() < 0.25 then
+            local dmg, spdamage = inst.components.combat:CalcDamage(data.target, data.weapon)
+            dmg = dmg * 0.5
+            if spdamage ~= nil then
+                local half = {}
+                for k, v in pairs(spdamage) do
+                    half[k] = v * 0.5
                 end
+                spdamage = half
             end
+
+            inst._is_double_hitting = true
+            inst:DoTaskInTime(0.05, function()
+                if data.target:IsValid() and data.target.components.combat then
+                    data.target.components.combat:GetAttacked(inst, dmg, data.weapon, "double_strike", spdamage)
+                    SpawnAt("impact", data.target)
+                end
+                inst._is_double_hitting = false
+            end)
         end
     end)
 
