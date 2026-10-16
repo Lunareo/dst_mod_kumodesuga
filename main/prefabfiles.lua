@@ -1,5 +1,9 @@
 PrefabFiles = {
     "aramasa",
+    "ariel_buffs",
+    "ariel_gate",
+    "ariel_items",
+    "ariel_puppets",
     "buffs_kmds",
     "erosion_fx",
     "godspunsilk",

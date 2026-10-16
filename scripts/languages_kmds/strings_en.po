@@ -8,6 +8,26 @@ msgctxt "STRINGS.ACTIONS.ACTIVATE.RETRIEVE"
 msgid "收回"
 msgstr ""
 
+#. STRINGS.ACTIONS.ARIEL_DEVOUR
+msgctxt "STRINGS.ACTIONS.ARIEL_DEVOUR"
+msgid "吞食"
+msgstr "Devour"
+
+#. STRINGS.ACTIONS.ARIEL_MASSAGE
+msgctxt "STRINGS.ACTIONS.ARIEL_MASSAGE"
+msgid "推拿"
+msgstr "Massage"
+
+#. STRINGS.ACTIONS.ARIEL_PACK
+msgctxt "STRINGS.ACTIONS.ARIEL_PACK"
+msgid "收起操偶"
+msgstr "Pack Puppet"
+
+#. STRINGS.ACTIONS.ARIEL_RECRUIT
+msgctxt "STRINGS.ACTIONS.ARIEL_RECRUIT"
+msgid "号令"
+msgstr "Command"
+
 #. STRINGS.ACTIONS.CASTAOE.SPIDERSCYTHE
 msgctxt "STRINGS.ACTIONS.CASTAOE.SPIDERSCYTHE"
 msgid "横扫"
@@ -42,6 +62,91 @@ msgstr ""
 msgctxt "STRINGS.ANNOUNCE_CLONE_LIMIT"
 msgid "……分体数量，已达上限。"
 msgstr ""
+
+#. STRINGS.ARIEL.POOL
+msgctxt "STRINGS.ARIEL.POOL"
+msgid "暴食储能：%.1f／%.0f\n灵魂磨损：%.1f\n%s"
+msgstr "Gluttony: %.1f/%.0f\nSoul Wear: %.1f\n%s"
+
+#. STRINGS.ARIEL.SPELLS.DASH
+msgctxt "STRINGS.ARIEL.SPELLS.DASH"
+msgid "魔王突进（１５储能）"
+msgstr "Demon Lord's Dash (15 Gluttony)"
+
+#. STRINGS.ARIEL.SPELLS.DEVOUR
+msgctxt "STRINGS.ARIEL.SPELLS.DEVOUR"
+msgid "暴食"
+msgstr "Gluttony"
+
+#. STRINGS.ARIEL.SPELLS.FOCUS
+msgctxt "STRINGS.ARIEL.SPELLS.FOCUS"
+msgid "集火"
+msgstr "Focus Fire"
+
+#. STRINGS.ARIEL.SPELLS.FOLLOW
+msgctxt "STRINGS.ARIEL.SPELLS.FOLLOW"
+msgid "跟随"
+msgstr "Follow"
+
+#. STRINGS.ARIEL.SPELLS.GATE
+msgctxt "STRINGS.ARIEL.SPELLS.GATE"
+msgid "地狱门（６０储能、１５生命上限）"
+msgstr "Hell Gate (60 Gluttony, 15 Max Health)"
+
+#. STRINGS.ARIEL.SPELLS.GUARD
+msgctxt "STRINGS.ARIEL.SPELLS.GUARD"
+msgid "驻守巡逻"
+msgstr "Guard and Patrol"
+
+#. STRINGS.ARIEL.SPELLS.HUMILITY
+msgctxt "STRINGS.ARIEL.SPELLS.HUMILITY"
+msgid "谦虚·最终决战"
+msgstr "Humility: Final Stand"
+
+#. STRINGS.ARIEL.SPELLS.JOKE
+msgctxt "STRINGS.ARIEL.SPELLS.JOKE"
+msgid "冷场大王"
+msgstr "Awkward Joke"
+
+#. STRINGS.ARIEL.SPELLS.MASSAGE
+msgctxt "STRINGS.ARIEL.SPELLS.MASSAGE"
+msgid "神级推拿（１０储能）"
+msgstr "Divine Massage (10 Gluttony)"
+
+#. STRINGS.ARIEL.SPELLS.PUPPET_1
+msgctxt "STRINGS.ARIEL.SPELLS.PUPPET_1"
+msgid "召唤／部署阿艾尔"
+msgstr "Summon / Deploy Ael"
+
+#. STRINGS.ARIEL.SPELLS.PUPPET_2
+msgctxt "STRINGS.ARIEL.SPELLS.PUPPET_2"
+msgid "召唤／部署萨艾尔"
+msgstr "Summon / Deploy Sael"
+
+#. STRINGS.ARIEL.SPELLS.PUPPET_3
+msgctxt "STRINGS.ARIEL.SPELLS.PUPPET_3"
+msgid "召唤／部署莉艾尔"
+msgstr "Summon / Deploy Riel"
+
+#. STRINGS.ARIEL.SPELLS.PUPPET_4
+msgctxt "STRINGS.ARIEL.SPELLS.PUPPET_4"
+msgid "召唤／部署菲艾尔"
+msgstr "Summon / Deploy Fiel"
+
+#. STRINGS.ARIEL.STANCES.1
+msgctxt "STRINGS.ARIEL.STANCES.1"
+msgid "常态"
+msgstr "Normal"
+
+#. STRINGS.ARIEL.STANCES.2
+msgctxt "STRINGS.ARIEL.STANCES.2"
+msgid "最终决战"
+msgstr "Final Stand"
+
+#. STRINGS.ARIEL.STANCES.3
+msgctxt "STRINGS.ARIEL.STANCES.3"
+msgid "脱力"
+msgstr "Exhausted"
 
 #. STRINGS.CHARACTERS.ARIEL.ACTIONFAIL.ACTIVATE.CARNIVAL_HOST_HERE
 msgctxt "STRINGS.CHARACTERS.ARIEL.ACTIONFAIL.ACTIVATE.CARNIVAL_HOST_HERE"
@@ -1457,6 +1562,11 @@ msgstr "No energy, feed it something~"
 msgctxt "STRINGS.CHARACTERS.ARIEL.ANNOUNCE_ARCHIVE_OLD_KNOWLEDGE"
 msgid "已经知道了哟～"
 msgstr "Already knew that~"
+
+#. STRINGS.CHARACTERS.ARIEL.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.ARIEL.ANNOUNCE_ARIEL_JOKE"
+msgid "蜘蛛为什么不怕断网？因为它会自己织呀～……咦，怎么没人笑？"
+msgstr "Why don't spiders fear losing the web? They can spin another~ ...Huh? Nobody's laughing?"
 
 #. STRINGS.CHARACTERS.ARIEL.ANNOUNCE_ATRIUM_DESTABILIZING.1
 msgctxt "STRINGS.CHARACTERS.ARIEL.ANNOUNCE_ATRIUM_DESTABILIZING.1"
@@ -4032,6 +4142,61 @@ msgstr "The slot is empty."
 msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARCHIVE_SWITCH.VALID"
 msgid "大概是靠宝石供能吧。"
 msgstr "Gem-powered, probably, science."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL"
+msgid "另一位魔王少女？要不要一起喝一杯呀～"
+msgstr "Another Demon Lord girl? Care for a drink together~?"
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "多吃点，打架也得先吃饱呀～"
+msgstr "Eat up! Even fighting has to wait for a full stomach~"
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "放心放心，这次配得刚刚好。"
+msgstr "Relax, relax. I got the mix just right this time."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "活得久了，灵魂也需要保养呢。"
+msgstr "Live long enough, and even your soul needs a little care."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "孩子们，准备出门啦～"
+msgstr "Girls, get ready to head out~"
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_1"
+msgid "阿艾尔，剑拿稳哟～"
+msgstr "Ael, keep a firm grip on that sword~"
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_2"
+msgid "萨艾尔，交给你啦～"
+msgstr "Sael, I'm counting on you~"
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_3"
+msgid "莉艾尔，别跑得太远。"
+msgstr "Riel, don't wander too far."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_PUPPET_4"
+msgid "菲艾尔，要保护好姊妹们呀。"
+msgstr "Fiel, look after your sisters."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_SILKBED"
+msgid "乖孩子该好好睡一觉。"
+msgstr "Good children need a good night's sleep."
+
+#. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "坐好，魔王级的招待开始咯～"
+msgstr "Sit down. Time for some Demon Lord hospitality~"
 
 #. STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARMORDRAGONFLY
 msgctxt "STRINGS.CHARACTERS.ARIEL.DESCRIBE.ARMORDRAGONFLY"
@@ -19933,6 +20098,11 @@ msgctxt "STRINGS.CHARACTERS.GENERIC.ACTIONFAIL.CASTAOE.SPELL_NOT_ENOUGH_COST"
 msgid "施放这个法术需要更多的魔力！"
 msgstr "Performing this spell requires more cost."
 
+#. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ARIEL_JOKE"
+msgid "蜘蛛为什么不怕断网？因为它会自己织。"
+msgstr "Why don't spiders fear losing the web? They can spin another."
+
 #. STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_DRUNKEN
 msgctxt "STRINGS.CHARACTERS.GENERIC.ANNOUNCE_ATTACH_BUFF_DRUNKEN"
 msgid "喝下去之后，脚步开始不受控制了。"
@@ -19957,6 +20127,61 @@ msgstr "The mending has finished."
 msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARAMASA"
 msgid "戴在手上的武器，一次挥击会连续命中八下。"
 msgstr "A weapon worn on the hand. One swing lands eight hits."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL"
+msgid "她身边的蜘蛛很听话。"
+msgstr "The spiders around her are very obedient."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "给附近伙伴鼓劲的烤肉。"
+msgstr "Roast meat to rally nearby companions."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "三色蘑菇做成的丰盛料理。"
+msgstr "A hearty meal made from three colors of mushrooms."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "能够温养受损的灵魂。"
+msgstr "It can nurture a worn soul."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "可以牵动操偶的丝线。"
+msgstr "Silk threads for controlling puppets."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_1"
+msgid "挥舞大剑的操偶。"
+msgstr "A puppet wielding a greatsword."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_2"
+msgid "手持长枪的操偶。"
+msgstr "A puppet carrying a long spear."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_3"
+msgid "双刀出手很快。"
+msgstr "Those twin blades strike quickly."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_PUPPET_4"
+msgid "负责守护伙伴的操偶。"
+msgstr "A puppet that protects her companions."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_SILKBED"
+msgid "一张柔软的丝床。"
+msgstr "A soft silk bed."
+
+#. STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "坐着休息会消耗一些食物。"
+msgstr "Resting here consumes some food."
 
 #. STRINGS.CHARACTERS.GENERIC.DESCRIBE.CHIPS
 msgctxt "STRINGS.CHARACTERS.GENERIC.DESCRIBE.CHIPS"
@@ -21407,6 +21632,11 @@ msgstr "...No power. Feed it."
 msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ARCHIVE_OLD_KNOWLEDGE"
 msgid "……已经知道了。"
 msgstr "...Already knew."
+
+#. STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ARIEL_JOKE"
+msgid "……断网。再织。……笑话？"
+msgstr "...Web lost. Spin again. ...A joke?"
 
 #. STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATRIUM_DESTABILIZING.1
 msgctxt "STRINGS.CHARACTERS.SHIRO.ANNOUNCE_ATRIUM_DESTABILIZING.1"
@@ -23992,6 +24222,61 @@ msgstr "...The slot. Empty."
 msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARCHIVE_SWITCH.VALID"
 msgid "……宝石……动力。……大概，科学。"
 msgstr "...A gem... Power. ...Probably. Science."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL"
+msgid "……魔王。"
+msgstr "...Demon Lord."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "……好吃。还要。"
+msgstr "...Delicious. More."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "……居然。能吃。"
+msgstr "...Actually. Edible."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "……灵魂。修补。"
+msgstr "...Soul. Mending."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "……操偶。的丝。"
+msgstr "...Puppet. Silk."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_1"
+msgid "……阿艾尔。"
+msgstr "...Ael."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_2"
+msgid "……萨艾尔。"
+msgstr "...Sael."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_3"
+msgid "……莉艾尔。好快。"
+msgstr "...Riel. Fast."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_PUPPET_4"
+msgid "……菲艾尔。可靠。"
+msgstr "...Fiel. Reliable."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_SILKBED"
+msgid "……软。"
+msgstr "...Soft."
+
+#. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "……坐。一下。"
+msgstr "...Sit. A moment."
 
 #. STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARMORDRAGONFLY
 msgctxt "STRINGS.CHARACTERS.SHIRO.DESCRIBE.ARMORDRAGONFLY"
@@ -41303,6 +41588,11 @@ msgctxt "STRINGS.CHARACTERS.SOPHIA.ANNOUNCE_ARCHIVE_OLD_KNOWLEDGE"
 msgid "这个我已经知道了。"
 msgstr "Already know it."
 
+#. STRINGS.CHARACTERS.SOPHIA.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.SOPHIA.ANNOUNCE_ARIEL_JOKE"
+msgid "蜘蛛断网就再织一张……这哪里好笑了！"
+msgstr "Spiders can spin another web if they lose one... How is that funny?!"
+
 #. STRINGS.CHARACTERS.SOPHIA.ANNOUNCE_ATRIUM_DESTABILIZING.1
 msgctxt "STRINGS.CHARACTERS.SOPHIA.ANNOUNCE_ATRIUM_DESTABILIZING.1"
 msgid "该走了。"
@@ -43877,6 +44167,61 @@ msgstr "The slot is empty."
 msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARCHIVE_SWITCH.VALID"
 msgid "宝石供能。古代的机关。"
 msgstr "Gem-powered. An ancient mechanism."
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL"
+msgid "魔王大人又在打什么主意？"
+msgstr "What is the Demon Lord plotting now?"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "我可不是因为想吃才过来的！"
+msgstr "I didn't come over just because I wanted a bite!"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "颜色这么多，真的没问题？"
+msgstr "So many colors. Is this really safe?"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "这种损伤，果然只能慢慢养。"
+msgstr "That kind of damage really does take time to heal."
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "丝线也能当武器？"
+msgstr "Silk can be a weapon too?"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_1"
+msgid "大剑可别砸到我。"
+msgstr "Don't hit me with that greatsword."
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_2"
+msgid "长枪保持好距离！"
+msgstr "Keep that spear at a proper distance!"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_3"
+msgid "双刀耍得还不错嘛。"
+msgstr "Not bad with those twin blades."
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_PUPPET_4"
+msgid "站在她后面就安全了吧。"
+msgstr "It should be safe behind her, right?"
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_SILKBED"
+msgid "这床倒是挺舒服的。"
+msgstr "This bed is rather comfortable."
+
+#. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "勉强配得上我坐。"
+msgstr "Just barely worthy of my sitting on it."
 
 #. STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARMORDRAGONFLY
 msgctxt "STRINGS.CHARACTERS.SOPHIA.DESCRIBE.ARMORDRAGONFLY"
@@ -61188,6 +61533,11 @@ msgctxt "STRINGS.CHARACTERS.WAKABA.ANNOUNCE_ARCHIVE_OLD_KNOWLEDGE"
 msgid "这个我早就知道。"
 msgstr "I knew this long ago."
 
+#. STRINGS.CHARACTERS.WAKABA.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.WAKABA.ANNOUNCE_ARIEL_JOKE"
+msgid "蜘蛛断网了。它选择自己组网。很合理。"
+msgstr "A spider lost the web. It built its own network. Quite logical."
+
 #. STRINGS.CHARACTERS.WAKABA.ANNOUNCE_ATRIUM_DESTABILIZING.1
 msgctxt "STRINGS.CHARACTERS.WAKABA.ANNOUNCE_ATRIUM_DESTABILIZING.1"
 msgid "该走了。"
@@ -63762,6 +64112,61 @@ msgstr "The sockets are empty."
 msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARCHIVE_SWITCH.VALID"
 msgid "那些宝石似乎在给它供能。用完全讲道理的方式。"
 msgstr "Those gems seem to power it. In an entirely reasonable way."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL"
+msgid "最古老的那只蜘蛛。"
+msgstr "The oldest spider."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "给全队增加输出。"
+msgstr "Increases the team's damage output."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "兼有补给和防御。"
+msgstr "Both supplies and defense."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "修复磨损，不返还生命。"
+msgstr "Repairs wear without restoring health."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "操作人偶的接口。"
+msgstr "An interface for controlling puppets."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_1"
+msgid "重击单位。"
+msgstr "A heavy-strike unit."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_2"
+msgid "直线攻击单位。"
+msgstr "A line-attack unit."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_3"
+msgid "快速攻击单位。"
+msgstr "A fast-attack unit."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_PUPPET_4"
+msgid "承伤单位。"
+msgstr "A damage-absorbing unit."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_SILKBED"
+msgid "睡眠功能正常。"
+msgstr "The sleep function works."
+
+#. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "把食物转化为休息。"
+msgstr "Converts food into rest."
 
 #. STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARMORDRAGONFLY
 msgctxt "STRINGS.CHARACTERS.WAKABA.DESCRIBE.ARMORDRAGONFLY"
@@ -81073,6 +81478,11 @@ msgctxt "STRINGS.CHARACTERS.WRATH.ANNOUNCE_ARCHIVE_OLD_KNOWLEDGE"
 msgid "这些已经知道了。"
 msgstr "Already known."
 
+#. STRINGS.CHARACTERS.WRATH.ANNOUNCE_ARIEL_JOKE
+msgctxt "STRINGS.CHARACTERS.WRATH.ANNOUNCE_ARIEL_JOKE"
+msgid "蜘蛛不怕断网，因为可以再织。在下讲完了。"
+msgstr "Spiders do not fear losing their web. They can weave another. That is all."
+
 #. STRINGS.CHARACTERS.WRATH.ANNOUNCE_ATRIUM_DESTABILIZING.1
 msgctxt "STRINGS.CHARACTERS.WRATH.ANNOUNCE_ATRIUM_DESTABILIZING.1"
 msgid "该走了。"
@@ -83647,6 +84057,61 @@ msgstr "The slot is empty."
 msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARCHIVE_SWITCH.VALID"
 msgid "宝石，就是动力。……大概算学问。"
 msgstr "Gems. ...Power. ...Science, probably."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL"
+msgid "魔王大人。在下听候差遣。"
+msgstr "Demon Lord. I await your orders."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_BATTLEMEAL"
+msgid "多谢款待。在下会全力以赴。"
+msgstr "Thank you for the meal. I shall give my all."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_MUSHROOMMEAL"
+msgid "足够让大家恢复体力了。"
+msgstr "Enough to restore everyone's strength."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_NURTUREMEAL"
+msgid "愿损伤能一点点复原。"
+msgstr "May the damage heal little by little."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPETSILK
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPETSILK"
+msgid "细丝也能担起重任。"
+msgstr "Even fine silk can shoulder a heavy duty."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_1
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_1"
+msgid "沉稳的重剑。"
+msgstr "A steady greatsword."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_2
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_2"
+msgid "锐利的枪锋。"
+msgstr "A keen spearpoint."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_3
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_3"
+msgid "迅捷的双刃。"
+msgstr "Swift twin blades."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_4
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_PUPPET_4"
+msgid "坚实的守护。"
+msgstr "A steadfast guardian."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_SILKBED
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_SILKBED"
+msgid "今夜可以睡得安稳。"
+msgstr "Tonight we can sleep peacefully."
+
+#. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_SILKCHAIR
+msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARIEL_SILKCHAIR"
+msgid "休息之后，再战。"
+msgstr "Rest, then fight again."
 
 #. STRINGS.CHARACTERS.WRATH.DESCRIBE.ARMORDRAGONFLY
 msgctxt "STRINGS.CHARACTERS.WRATH.DESCRIBE.ARMORDRAGONFLY"
@@ -99543,6 +100008,11 @@ msgctxt "STRINGS.CHARACTERS.WRATH.WENDY_SKILLTREE_EASTEREGG"
 msgid "only_used_by_wendy"
 msgstr "only_used_by_wendy"
 
+#. STRINGS.CHARACTER_DESCRIPTIONS.ariel
+msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.ariel"
+msgid "*原初蜘蛛真祖，号令万蛛\n*以暴食储能驱动魔王之力\n*神兽体质与操偶四姊妹\n*巨大食量、灵魂磨损与决战后的脱力"
+msgstr "*Progenitor of spiders, commander of her kin\n*Gluttony fuels the Demon Lord's power\n*A divine beast's body and four puppet sisters\n*Ravenous hunger, soul wear and exhaustion after battle"
+
 #. STRINGS.CHARACTER_DESCRIPTIONS.shiro
 msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.shiro"
 msgid "*身份神秘的少女\n*不善于表达\n*不要让她接触酒精"
@@ -99552,6 +100022,11 @@ msgstr "*A girl with a mysterious identity\n*Bad at expressing\n*Cannot hold the
 msgctxt "STRINGS.CHARACTER_DESCRIPTIONS.wakaba"
 msgid "*沉默寡言的JK\n*没有共情的能力\n*很擅长电子游戏\n*（这也是游戏的一部分）"
 msgstr "*A taciturn female high school student\n*Cannot empathize with others\n*Is good at action games\n*This is also part of \"Game\""
+
+#. STRINGS.CHARACTER_NAMES.ariel
+msgctxt "STRINGS.CHARACTER_NAMES.ariel"
+msgid "爱丽儿"
+msgstr "Ariel"
 
 #. STRINGS.CHARACTER_NAMES.shiro
 msgctxt "STRINGS.CHARACTER_NAMES.shiro"
@@ -99563,6 +100038,11 @@ msgctxt "STRINGS.CHARACTER_NAMES.wakaba"
 msgid "若叶姬色"
 msgstr "Hiiro Wakaba"
 
+#. STRINGS.CHARACTER_QUOTES.ariel
+msgctxt "STRINGS.CHARACTER_QUOTES.ariel"
+msgid "魔王少女爱丽儿，华丽登场！"
+msgstr "Demon Lord girl Ariel makes her grand entrance!"
+
 #. STRINGS.CHARACTER_QUOTES.shiro
 msgctxt "STRINGS.CHARACTER_QUOTES.shiro"
 msgid "..."
@@ -99572,6 +100052,11 @@ msgstr "..."
 msgctxt "STRINGS.CHARACTER_QUOTES.wakaba"
 msgid "..."
 msgstr "..."
+
+#. STRINGS.CHARACTER_TITLES.ariel
+msgctxt "STRINGS.CHARACTER_TITLES.ariel"
+msgid "魔王少女"
+msgstr "The Demon Lord Girl"
 
 #. STRINGS.CHARACTER_TITLES.shiro
 msgctxt "STRINGS.CHARACTER_TITLES.shiro"
@@ -99607,6 +100092,81 @@ msgstr "Curse of Arachne"
 msgctxt "STRINGS.NAMES.ARAMASA"
 msgid "天羽羽斩"
 msgstr "Aramasa"
+
+#. STRINGS.NAMES.ARIEL
+msgctxt "STRINGS.NAMES.ARIEL"
+msgid "爱丽儿"
+msgstr "Ariel"
+
+#. STRINGS.NAMES.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.NAMES.ARIEL_BATTLEMEAL"
+msgid "魔物烧烤"
+msgstr "Monster Barbecue"
+
+#. STRINGS.NAMES.ARIEL_GATE
+msgctxt "STRINGS.NAMES.ARIEL_GATE"
+msgid "地狱门"
+msgstr "Hell Gate"
+
+#. STRINGS.NAMES.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.NAMES.ARIEL_MUSHROOMMEAL"
+msgid "香菇全餐"
+msgstr "Mushroom Feast"
+
+#. STRINGS.NAMES.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.NAMES.ARIEL_NURTUREMEAL"
+msgid "温养料理"
+msgstr "Soul-Nurturing Meal"
+
+#. STRINGS.NAMES.ARIEL_PUPPETSILK
+msgctxt "STRINGS.NAMES.ARIEL_PUPPETSILK"
+msgid "操偶丝"
+msgstr "Puppet Silk"
+
+#. STRINGS.NAMES.ARIEL_PUPPET_1
+msgctxt "STRINGS.NAMES.ARIEL_PUPPET_1"
+msgid "阿艾尔"
+msgstr "Ael"
+
+#. STRINGS.NAMES.ARIEL_PUPPET_2
+msgctxt "STRINGS.NAMES.ARIEL_PUPPET_2"
+msgid "萨艾尔"
+msgstr "Sael"
+
+#. STRINGS.NAMES.ARIEL_PUPPET_3
+msgctxt "STRINGS.NAMES.ARIEL_PUPPET_3"
+msgid "莉艾尔"
+msgstr "Riel"
+
+#. STRINGS.NAMES.ARIEL_PUPPET_4
+msgctxt "STRINGS.NAMES.ARIEL_PUPPET_4"
+msgid "菲艾尔"
+msgstr "Fiel"
+
+#. STRINGS.NAMES.ARIEL_SILKBED
+msgctxt "STRINGS.NAMES.ARIEL_SILKBED"
+msgid "丝床"
+msgstr "Silk Bed"
+
+#. STRINGS.NAMES.ARIEL_SILKCHAIR
+msgctxt "STRINGS.NAMES.ARIEL_SILKCHAIR"
+msgid "操丝椅"
+msgstr "Silken Chair"
+
+#. STRINGS.NAMES.ARIEL_SPIDERDEN
+msgctxt "STRINGS.NAMES.ARIEL_SPIDERDEN"
+msgid "蜘蛛卵囊"
+msgstr "Spider Eggs"
+
+#. STRINGS.NAMES.BUFF_ARIEL_RESIST
+msgctxt "STRINGS.NAMES.BUFF_ARIEL_RESIST"
+msgid "菌菇守护"
+msgstr "Mushroom Guard"
+
+#. STRINGS.NAMES.BUFF_ARIEL_WAR
+msgctxt "STRINGS.NAMES.BUFF_ARIEL_WAR"
+msgid "战意"
+msgstr "Fighting Spirit"
 
 #. STRINGS.NAMES.BUFF_CURSE
 msgctxt "STRINGS.NAMES.BUFF_CURSE"
@@ -99763,6 +100323,41 @@ msgctxt "STRINGS.RECIPE_DESC.ARAMASA"
 msgid "一位创世者的手套的仿品。"
 msgstr "A replica of a creator's glove."
 
+#. STRINGS.RECIPE_DESC.ARIEL_BATTLEMEAL
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_BATTLEMEAL"
+msgid "大口吃肉，鼓舞附近的伙伴。"
+msgstr "A hearty roast to rally nearby companions."
+
+#. STRINGS.RECIPE_DESC.ARIEL_MUSHROOMMEAL
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_MUSHROOMMEAL"
+msgid "三色蘑菇带来的团队补给。"
+msgstr "Team supplies from three colorful mushrooms."
+
+#. STRINGS.RECIPE_DESC.ARIEL_NURTUREMEAL
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_NURTUREMEAL"
+msgid "缓慢修复爱丽儿的灵魂磨损。"
+msgstr "Slowly mend Ariel's soul wear."
+
+#. STRINGS.RECIPE_DESC.ARIEL_PUPPETSILK
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_PUPPETSILK"
+msgid "召唤操偶四姊妹的丝线。"
+msgstr "Silk for summoning the four puppet sisters."
+
+#. STRINGS.RECIPE_DESC.ARIEL_SILKBED
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_SILKBED"
+msgid "在柔软的蛛丝中安心休息。"
+msgstr "Rest peacefully in soft spider silk."
+
+#. STRINGS.RECIPE_DESC.ARIEL_SILKCHAIR
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_SILKCHAIR"
+msgid "消耗饥饿，恢复生命与理智。"
+msgstr "Trade hunger for health and sanity."
+
+#. STRINGS.RECIPE_DESC.ARIEL_SPIDERDEN
+msgctxt "STRINGS.RECIPE_DESC.ARIEL_SPIDERDEN"
+msgid "部署一座新的蜘蛛巢。"
+msgstr "Plant a new spider nest."
+
 #. STRINGS.RECIPE_DESC.SHIRO_CLONE_ITEM
 msgctxt "STRINGS.RECIPE_DESC.SHIRO_CLONE_ITEM"
 msgid "制造一只用于侦察与重生的分体。"
@@ -99783,6 +100378,146 @@ msgctxt "STRINGS.RECIPE_DESC.STORING_SPACE"
 msgid "对空间魔术的娴熟应用。"
 msgstr "Applycation of space magic."
 
+#. STRINGS.SKILLTREE.ARIEL.ABYSS_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.ABYSS_DESC"
+msgid "地狱门半径增加１，伤害提高２０％。"
+msgstr "Hell Gate gains 1 radius and 20 percent damage."
+
+#. STRINGS.SKILLTREE.ARIEL.ABYSS_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.ABYSS_TITLE"
+msgid "深渊扩张"
+msgstr "Expanding Abyss"
+
+#. STRINGS.SKILLTREE.ARIEL.CONVERSION_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.CONVERSION_DESC"
+msgid "非食物吞食储能提高２５％。"
+msgstr "Gain 25 percent more Gluttony from non-food items."
+
+#. STRINGS.SKILLTREE.ARIEL.CONVERSION_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.CONVERSION_TITLE"
+msgid "高效消化"
+msgstr "Efficient Digestion"
+
+#. STRINGS.SKILLTREE.ARIEL.DASH_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.DASH_DESC"
+msgid "突进距离增加２单位。"
+msgstr "Dash travels 2 units farther."
+
+#. STRINGS.SKILLTREE.ARIEL.DASH_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.DASH_TITLE"
+msgid "魔王突进"
+msgstr "Demon Lord's Dash"
+
+#. STRINGS.SKILLTREE.ARIEL.ENDLESS_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.ENDLESS_DESC"
+msgid "储能不再自然流失。"
+msgstr "Gluttony no longer decays naturally."
+
+#. STRINGS.SKILLTREE.ARIEL.ENDLESS_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.ENDLESS_TITLE"
+msgid "无尽暴食"
+msgstr "Endless Gluttony"
+
+#. STRINGS.SKILLTREE.ARIEL.LAST_STAND_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.LAST_STAND_DESC"
+msgid "谦虚决战姿态延长５秒。"
+msgstr "Humility's Final Stand lasts 5 seconds longer."
+
+#. STRINGS.SKILLTREE.ARIEL.LAST_STAND_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.LAST_STAND_TITLE"
+msgid "最终决战"
+msgstr "Final Stand"
+
+#. STRINGS.SKILLTREE.ARIEL.LEGION_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.LEGION_DESC"
+msgid "普通蜘蛛统御上限提高至１６只。"
+msgstr "Command up to 16 ordinary spiders."
+
+#. STRINGS.SKILLTREE.ARIEL.LEGION_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.LEGION_TITLE"
+msgid "万蛛"
+msgstr "Spider Legion"
+
+#. STRINGS.SKILLTREE.ARIEL.NEST_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.NEST_DESC"
+msgid "可以制作蜘蛛卵囊。"
+msgstr "Allows crafting Spider Eggs."
+
+#. STRINGS.SKILLTREE.ARIEL.NEST_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.NEST_TITLE"
+msgid "专属蛛巢"
+msgstr "Spider Nursery"
+
+#. STRINGS.SKILLTREE.ARIEL.PUPPETEER_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.PUPPETEER_DESC"
+msgid "操偶伤害提高２５％。"
+msgstr "Puppet damage increases by 25%."
+
+#. STRINGS.SKILLTREE.ARIEL.PUPPETEER_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.PUPPETEER_TITLE"
+msgid "神织操偶"
+msgstr "Divine Puppeteer"
+
+#. STRINGS.SKILLTREE.ARIEL.QUEEN_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.QUEEN_DESC"
+msgid "蜘蛛女王的跟随时间翻倍。"
+msgstr "Spider Queens follow for twice as long."
+
+#. STRINGS.SKILLTREE.ARIEL.QUEEN_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.QUEEN_TITLE"
+msgid "真祖号令"
+msgstr "Progenitor's Command"
+
+#. STRINGS.SKILLTREE.ARIEL.RESERVOIR_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.RESERVOIR_DESC"
+msgid "暴食储能上限提高５０。"
+msgstr "Maximum Gluttony increases by 50."
+
+#. STRINGS.SKILLTREE.ARIEL.RESERVOIR_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.RESERVOIR_TITLE"
+msgid "暴食之胃"
+msgstr "Gluttonous Stomach"
+
+#. STRINGS.SKILLTREE.ARIEL.SATIATED_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.SATIATED_DESC"
+msgid "霸食态伤害再提高１０％。"
+msgstr "Satiated damage increases by another 10%."
+
+#. STRINGS.SKILLTREE.ARIEL.SATIATED_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.SATIATED_TITLE"
+msgid "饱足狂战"
+msgstr "Satiated Berserker"
+
+#. STRINGS.SKILLTREE.ARIEL.SOVEREIGN_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.SOVEREIGN_DESC"
+msgid "普通敌人处刑阈值提高至３０％。"
+msgstr "The execution threshold for ordinary enemies increases to 30%."
+
+#. STRINGS.SKILLTREE.ARIEL.SOVEREIGN_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.SOVEREIGN_TITLE"
+msgid "深渊真祖"
+msgstr "Abyssal Progenitor"
+
+#. STRINGS.SKILLTREE.ARIEL.TEMPERANCE_DESC
+msgctxt "STRINGS.SKILLTREE.ARIEL.TEMPERANCE_DESC"
+msgid "灵魂磨损代价降低２０％。"
+msgstr "Soul wear costs are reduced by 20%."
+
+#. STRINGS.SKILLTREE.ARIEL.TEMPERANCE_TITLE
+msgctxt "STRINGS.SKILLTREE.ARIEL.TEMPERANCE_TITLE"
+msgid "节制"
+msgstr "Temperance"
+
+#. STRINGS.SKILLTREE.PANELS.ABYSS
+msgctxt "STRINGS.SKILLTREE.PANELS.ABYSS"
+msgid "深渊魔道"
+msgstr "Abyssal Magic"
+
+#. STRINGS.SKILLTREE.PANELS.COMMAND
+msgctxt "STRINGS.SKILLTREE.PANELS.COMMAND"
+msgid "蛛群统御"
+msgstr "Spider Command"
+
 #. STRINGS.SKILLTREE.PANELS.CONSTMAGIC
 msgctxt "STRINGS.SKILLTREE.PANELS.CONSTMAGIC"
 msgid "预构筑魔术"
@@ -99797,6 +100532,11 @@ msgstr "Dominator"
 msgctxt "STRINGS.SKILLTREE.PANELS.EVOLUTION"
 msgid "进化"
 msgstr "Evolution"
+
+#. STRINGS.SKILLTREE.PANELS.GLUTTONY
+msgctxt "STRINGS.SKILLTREE.PANELS.GLUTTONY"
+msgid "暴食之道"
+msgstr "Path of Gluttony"
 
 #. STRINGS.SKILLTREE.SHIRO.ARROGANS_DESC
 msgctxt "STRINGS.SKILLTREE.SHIRO.ARROGANS_DESC"
@@ -100063,6 +100803,11 @@ msgctxt "STRINGS.SKILLTREE.WAKABA.HEARTFLOW_TITLE"
 msgid "心流"
 msgstr "Heart Flow"
 
+#. STRINGS.SKIN_DESCRIPTIONS.ariel_none
+msgctxt "STRINGS.SKIN_DESCRIPTIONS.ariel_none"
+msgid "原初蜘蛛真祖，暂用白织外观。"
+msgstr "The spider progenitor, temporarily using Shiro's appearance."
+
 #. STRINGS.SKIN_DESCRIPTIONS.shiro
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.shiro"
 msgid "她看似弱不禁风\n实则拥有摧枯拉朽的力量。"
@@ -100077,6 +100822,11 @@ msgstr "Initial version from mod \"Kumoko\""
 msgctxt "STRINGS.SKIN_DESCRIPTIONS.wakaba"
 msgid "神造人偶。"
 msgstr "God made puppet."
+
+#. STRINGS.SKIN_NAMES.ariel_none
+msgctxt "STRINGS.SKIN_NAMES.ariel_none"
+msgid "魔王少女"
+msgstr "The Demon Lord Girl"
 
 #. STRINGS.SKIN_NAMES.shiro
 msgctxt "STRINGS.SKIN_NAMES.shiro"

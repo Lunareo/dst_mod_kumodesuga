@@ -22,3 +22,4 @@ end
 
 RegisterCharacter("shiro")
 RegisterCharacter("wakaba")
+RegisterCharacter("ariel", "FEMALE")

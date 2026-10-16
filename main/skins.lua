@@ -36,3 +36,18 @@ AddCharacterSkin("shiro")
 AddCharacterSkin("shiro", "shiro_jk", "Elegant")
 AddCharacterSkin("shiro", "shiro_classic", "Event")
 AddCharacterSkin("wakaba")
+
+-- 独立皮肤 ID 复用白织的 build；不用助手隐式加载不存在的 ghost_ariel_build。
+MakeCharacterSkin("ariel", "ariel_none", {
+    name = STRINGS.SKIN_NAMES.ariel_none,
+    des = STRINGS.SKIN_DESCRIPTIONS.ariel_none,
+    quotes = STRINGS.CHARACTER_QUOTES.ariel,
+    rarity = STRINGS.UI.RARITY.Character,
+    rarityorder = RARITY_ORDER.Character,
+    raritycolor = SKIN_RARITY_COLORS.Character,
+    skin_tags = { "BASE", "ariel", "CHARACTER" },
+    skins = { normal_skin = "shiro", ghost_skin = "ghost_shiro_build" },
+    build_name_override = "shiro",
+    share_bigportrait_name = "ariel_none",
+    assets = { Asset("ANIM", "anim/shiro.zip"), Asset("ANIM", "anim/ghost_shiro_build.zip") },
+})

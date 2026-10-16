@@ -17,6 +17,7 @@ modimport "main/postinit"
 modimport "main/componentactions"
 modimport "main/characters"
 modimport "main/networkrpc"
+modimport "main/ariel_actions"
 ---Tier 4
 modimport "main/debugcommands"
 modimport "main/scrapbook_kmds"
