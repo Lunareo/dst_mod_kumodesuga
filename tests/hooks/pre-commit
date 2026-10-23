@@ -1,0 +1,15 @@
+#!/bin/sh
+# 提交前拦截 Lua 语法错误。启用方式（仓库内执行一次即可）：
+#   git config core.hooksPath tests/hooks
+# 缺少 node 或 luaparse 时跳过检查，避免在没装开发工具的环境里阻塞提交。
+root=$(git rev-parse --show-toplevel) || exit 1
+
+if ! command -v node >/dev/null 2>&1; then
+    echo "check_syntax: 未找到 node，跳过 Lua 语法检查"
+    exit 0
+fi
+
+if ! node "$root/tests/check_syntax.js"; then
+    echo "提交被拦截：请先修复上述 Lua 语法错误（git commit --no-verify 可跳过）"
+    exit 1
+fi
