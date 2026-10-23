@@ -84,10 +84,12 @@ local function master_postinit(inst)
     inst:ListenForEvent("dismounted", function() inst.components.arielgluttony:Refresh() end)
 
     -- 只免疫明确标记的毒伤；电击由原版绝缘与防雷路径处理，不扩大到整次攻击免伤。
-    local getattacked = inst.components.combat.GetAttacked
-    inst.components.combat.GetAttacked = function(self, attacker, damage, weapon, stimuli, spdamage)
+    -- 同上：v759671 起 DoAttack 直连 GetAttacked_Internal，旧版本回退到 GetAttacked。
+    local damage_entry = inst.components.combat.GetAttacked_Internal ~= nil and "GetAttacked_Internal" or "GetAttacked"
+    local getattacked = inst.components.combat[damage_entry]
+    inst.components.combat[damage_entry] = function(self, attacker, damage, weapon, stimuli, spdamage, ...)
         if stimuli == "poison" then damage = 0 end
-        return getattacked(self, attacker, damage, weapon, stimuli, spdamage)
+        return getattacked(self, attacker, damage, weapon, stimuli, spdamage, ...)
     end
     local delta = inst.components.health.DoDelta
     inst.components.health.DoDelta = function(self, amount, overtime, cause, ...)

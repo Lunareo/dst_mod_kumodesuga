@@ -51,7 +51,10 @@ function Combat:GetAttacked(attacker, ...)
 end
 ]=]
 
-UTIL.FnExtend(Combat, "GetAttacked", function(self, attacker)
+-- 游戏 v759671 起 Combat:DoAttack 改为直连 GetAttacked_Internal（绕过 GetAttacked），
+-- 暴击补偿需在每次实际命中后结算，故挂到新的入口；旧版本没有该方法时回退。
+local DAMAGE_ENTRY = Combat.GetAttacked_Internal ~= nil and "GetAttacked_Internal" or "GetAttacked"
+UTIL.FnExtend(Combat, DAMAGE_ENTRY, function(self, attacker)
     if attacker ~= nil and attacker.components.combat ~= nil then
         if not attacker.components.combat.critical_flag then
             if attacker.components.combat.cachetarget and attacker.components.combat.cachetarget[1] == self.inst then
