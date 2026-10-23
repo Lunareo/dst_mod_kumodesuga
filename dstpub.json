@@ -8,7 +8,8 @@
     "UPDATE.md",
     "kmds.code-workspace",
     "LSP",
-    "DOC"
+    "DOC",
+    "tests"
   ],
   "keep": []
 }
