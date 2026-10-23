@@ -1,10 +1,14 @@
 local is_character_ingredient = {
     [CHARACTER_INGREDIENT.HUNGER] = true,
     [CHARACTER_INGREDIENT.MAX_SANITY_VAL] = true,
+    [CHARACTER_INGREDIENT.MAGICPOINT or "magicpoint"] = true,
 }
 local old_IsCharacterIngredient = GLOBAL.IsCharacterIngredient
 function GLOBAL.IsCharacterIngredient(ingredienttype, ...)
     return is_character_ingredient[ingredienttype] or old_IsCharacterIngredient(ingredienttype, ...)
+end
+if CHARACTER_INGREDIENT.MAGICPOINT == nil then
+    CHARACTER_INGREDIENT.MAGICPOINT = "magicpoint"
 end
 
 AddRecipe2("spiderscythe",        { Ingredient(CHARACTER_INGREDIENT.HEALTH, CHARACTER_INGREDIENT_SEG * 20) },                                               TECH.NONE,        { builder_tag = "shiro" },                                                                                                                                                                    { "CHARACTER", "WEAPONS" })
@@ -26,3 +30,13 @@ AddRecipe2("ariel_spiderden", { Ingredient("ariel_puppetsilk", 2, GetInventoryIt
 AddRecipe2("ariel_battlemeal", { Ingredient("monstermeat", 3), Ingredient("twigs", 1) }, TECH.NONE, { builder_tag = "ariel", image = "meatballs.tex" }, { "CHARACTER", "FOOD" })
 AddRecipe2("ariel_mushroommeal", { Ingredient("red_cap", 1), Ingredient("green_cap", 1), Ingredient("blue_cap", 1) }, TECH.NONE, { builder_tag = "ariel", image = "shroomcake.tex" }, { "CHARACTER", "FOOD" })
 AddRecipe2("ariel_nurturemeal", { Ingredient("royal_jelly", 1), Ingredient("meat", 2), Ingredient("ariel_puppetsilk", 1, GetInventoryItemAtlas("silk.tex"), nil, "silk.tex") }, TECH.NONE, { builder_tag = "ariel", image = "jellybean.tex" }, { "CHARACTER", "FOOD" })
+
+-- 拉斯专属常规武器：武士刀
+AddRecipe2("katana_wrath", { Ingredient("goldnugget", 2), Ingredient("flint", 1), Ingredient("charcoal", 2) }, TECH.SCIENCE_TWO, { builder_tag = "wrath", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })
+
+-- 拉斯随身魔剑炼成
+AddRecipe2("goblin_dagger", { Ingredient(CHARACTER_INGREDIENT.MAGICPOINT, 5) }, TECH.NONE, { builder_tag = "wrath", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })
+AddRecipe2("flame_sword", { Ingredient(CHARACTER_INGREDIENT.MAGICPOINT, 30) }, TECH.NONE, { builder_tag = "wrath", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })
+AddRecipe2("lightning_sword", { Ingredient(CHARACTER_INGREDIENT.MAGICPOINT, 40) }, TECH.NONE, { builder_tag = "wrath", builder_skill = "wrath_unlock_lightning", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })
+AddRecipe2("explosive_sword", { Ingredient(CHARACTER_INGREDIENT.MAGICPOINT, 50) }, TECH.NONE, { builder_tag = "wrath", builder_skill = "wrath_unlock_explosive", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })
+AddRecipe2("lightning_grid_sword", { Ingredient(CHARACTER_INGREDIENT.MAGICPOINT, 60) }, TECH.NONE, { builder_tag = "wrath", builder_skill = "wrath_unlock_grid", image = "spear.tex" }, { "CHARACTER", "WEAPONS" })

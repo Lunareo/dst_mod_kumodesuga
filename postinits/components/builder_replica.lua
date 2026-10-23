@@ -16,6 +16,12 @@ UTIL.FnExtend(Builder, "HasCharacterIngredient", function(self, ingredient)
             local cur = hunger:GetCurrent() + (satura and satura:GetCurrent() or 0)
             return { ingredient.amount <= cur, cur }, true
         end
+    elseif ingredient.type == CHARACTER_INGREDIENT.MAGICPOINT then
+        local magicpoint = self.inst.replica.magicpoint
+        if magicpoint ~= nil then
+            local cur = magicpoint:GetCurrent()
+            return { cur >= ingredient.amount, cur }, true
+        end
     end
 end, function(rets, self, ingredient)
     if self.inst.prefab == "wakaba" and ingredient.type == CHARACTER_INGREDIENT.HEALTH then

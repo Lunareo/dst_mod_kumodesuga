@@ -14,6 +14,11 @@ UTIL.FnExtend(Builder, "HasCharacterIngredient", function(self, ingredient)
             local cur = hunger.current + (satura and satura.current or 0)
             return { ingredient.amount <= cur, cur }, true
         end
+    elseif ingredient.type == CHARACTER_INGREDIENT.MAGICPOINT then
+        local magicpoint = self.inst.components.magicpoint
+        if magicpoint ~= nil then
+            return { magicpoint:CanAfford(ingredient.amount), magicpoint.current }, true
+        end
     end
 end, function(rets, self, ingredient)
     if self.inst.prefab == "wakaba" and ingredient.type == CHARACTER_INGREDIENT.HEALTH then
@@ -36,6 +41,8 @@ UTIL.FnExtend(Builder, "RemoveIngredients", function(self, ingredients, recname)
         for _, v in pairs(recipe.character_ingredients) do
             if v.type == CHARACTER_INGREDIENT.HUNGER and self.inst.components.hunger ~= nil then
                 self.inst.components.hunger:DoDelta(-v.amount)
+            elseif v.type == CHARACTER_INGREDIENT.MAGICPOINT and self.inst.components.magicpoint ~= nil then
+                self.inst.components.magicpoint:Cost(v.amount)
             end
         end
     end

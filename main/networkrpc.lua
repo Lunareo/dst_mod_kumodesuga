@@ -137,3 +137,53 @@ AddModRPCHandler("kmds.spells", "spells.create_clone", function(player)
         SpawnAt("statue_transition_2", player)
     end
 end)
+
+AddModRPCHandler("kmds.spells", "spells.wrath_rage", function(player)
+    if player == nil or not player:IsValid() or not player:HasTag("wrath") then return end
+    if player.components.wrathstate ~= nil then
+        if player.components.wrathstate.is_raging then
+            player.components.wrathstate:StopRage(false)
+        else
+            player.components.wrathstate:StartRage()
+        end
+    end
+end)
+
+AddModRPCHandler("kmds.spells", "spells.wrath_enma", function(player)
+    if player == nil or not player:IsValid() or not player:HasTag("wrath") then return end
+    if player.components.wrathstate ~= nil then
+        player.components.wrathstate:StartEnma()
+    end
+end)
+
+AddModRPCHandler("kmds.spells", "spells.wrath_quick_draw", function(player)
+    if player == nil or not player:IsValid() or not player:HasTag("wrath") then return end
+    local inv = player.components.inventory
+    if inv ~= nil then
+        local hand = inv:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local target_weapon = nil
+        -- 如果当前拿的是魔剑或小刀，优先切武士刀；如果拿的是武士刀或非魔剑，优先切魔剑
+        local is_magic_sword = hand and (hand.prefab == "flame_sword" or hand.prefab == "lightning_sword" or hand.prefab == "explosive_sword" or hand.prefab == "lightning_grid_sword" or hand.prefab == "goblin_dagger")
+        for k, v in pairs(inv.itemslots) do
+            if v ~= nil and v.components.equippable ~= nil and v.components.equippable.equipslot == EQUIPSLOTS.HANDS then
+                if is_magic_sword and v.prefab == "katana_wrath" then
+                    target_weapon = v
+                    break
+                elseif not is_magic_sword and (v.prefab == "flame_sword" or v.prefab == "lightning_sword" or v.prefab == "explosive_sword" or v.prefab == "katana_wrath") then
+                    target_weapon = v
+                    break
+                end
+            end
+        end
+        if target_weapon ~= nil then
+            inv:Equip(target_weapon)
+            -- 切换后首刀攻速提升 20%
+            player.components.combat.min_attack_period = 0.4
+            player:DoTaskInTime(2, function()
+                if player:IsValid() and not (player.components.wrathstate and player.components.wrathstate.is_raging) then
+                    player.components.combat.min_attack_period = nil
+                end
+            end)
+        end
+    end
+end)
