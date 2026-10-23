@@ -15,19 +15,6 @@ local skillhashes = {
 local SKILL_UTIL = require "prefabs/playerskillutil"
 AddModRPCHandler("kmds.toggleskill", "skills.toggle", SKILL_UTIL.Toggle)
 
----@param player ent
----@return boolean|nil
-local function HasSpaceMotor(player)
-    local skilltreeupdater = player.components and player.components.skilltreeupdater
-    if skilltreeupdater == nil then
-        return false
-    end
-    if skilltreeupdater:IsActivated("spacemotor") then
-        return true
-    end
-    return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
-end
-
 --- Whether the player may open space_proxy at their current location.
 --- Land / boat: always (with spacemagic). Open ocean: only with spacemotor.
 ---@param player ent
@@ -35,13 +22,13 @@ end
 local function CanOpenSpaceProxyHere(player)
     local x, y, z = player.Transform:GetWorldPosition()
     if TheWorld.Map:IsOceanAtPoint(x, y, z, false) then
-        return HasSpaceMotor(player)
+        return SKILL_UTIL.HasSpaceMotor(player)
     end
     -- Ocean tile, not passable, no boat: treat like open ocean.
     if TheWorld.Map:IsOceanTileAtPoint(x, y, z)
         and not TheWorld.Map:IsPassableAtPoint(x, y, z)
         and TheWorld.Map:GetPlatformAtPoint(x, z) == nil then
-        return HasSpaceMotor(player)
+        return SKILL_UTIL.HasSpaceMotor(player)
     end
     return true
 end
@@ -53,7 +40,7 @@ end
 ---@return Vector3|nil
 local function GetSpaceProxySpawnPos(player)
     local pos = player:GetPosition()
-    local has_motor = HasSpaceMotor(player)
+    local has_motor = SKILL_UTIL.HasSpaceMotor(player)
 
     -- 1) Land or boat (same as pre-ocean fix for non-motor players).
     local offset = FindWalkableOffset(pos, math.random() * PI2, .5, 8, nil, nil, nil, false, true)

@@ -88,48 +88,12 @@ local function GetTransferMapMagicPointCost(doer, pos)
     return math.max(1, math.ceil(raw_cost * SKILL_UTIL.GetCostMultiplier(doer)))
 end
 
----@param doer ent
----@return boolean
-local function HasSpaceMotor(doer)
-    local skilltreeupdater = doer and doer.components.skilltreeupdater
-    if skilltreeupdater == nil then
-        return false
-    end
-    if skilltreeupdater:IsActivated("spacemotor") then
-        return true
-    end
-    -- Tag fallback (activated skills with the spacemotor tag).
-    return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
-end
-
---- Land / boat, or open ocean only with spacemotor.
----@param doer ent
----@param pos Vector3
----@return boolean
-local function CanTransferToPoint(doer, pos)
-    if doer == nil or pos == nil then
-        return false
-    end
-    local x, y, z = pos:Get()
-    -- Open ocean (not land overhang, not a boat): require spacemotor.
-    if TheWorld.Map:IsOceanAtPoint(x, y, z, false) then
-        return HasSpaceMotor(doer)
-    end
-    -- Also treat non-passable ocean tiles the same (defensive).
-    if TheWorld.Map:IsOceanTileAtPoint(x, y, z)
-        and not TheWorld.Map:IsPassableAtPoint(x, y, z)
-        and TheWorld.Map:GetPlatformAtPoint(x, z) == nil then
-        return HasSpaceMotor(doer)
-    end
-    return TheWorld.Map:IsPassableAtPoint(x, y, z)
-end
-
 --- Whether far-transfer may be shown / remapped (destination + affordability).
 ---@param doer ent
 ---@param pos Vector3
 ---@return boolean
 local function CanShowTransferMap(doer, pos)
-    if doer == nil or pos == nil or not CanTransferToPoint(doer, pos) then
+    if doer == nil or pos == nil or not SKILL_UTIL.CanTransferToPoint(doer, pos) then
         return false
     end
     return CanAffordMagicPointCost(doer, GetTransferMapMagicPointCost(doer, pos))
@@ -142,7 +106,7 @@ local ACTION_TRANSFER = AddAction(
         local pos = act.pos ~= nil and act.pos:GetPosition()
         local doer = act and act.doer
         local skilltreeupdater = doer and doer.components.skilltreeupdater
-        if pos and skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(doer, pos) then
+        if pos and skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_2") and SKILL_UTIL.CanTransferToPoint(doer, pos) then
             local maxdist = 48
             if doer:GetDistanceSqToPoint(pos:Get()) > maxdist * maxdist then
                 return false
@@ -171,7 +135,7 @@ local ACTION_TRANSFER_MAP = AddAction(
         local pos = act.pos and act.pos:GetPosition()
         local doer = act and act.doer
         local skilltreeupdater = doer and doer.components.skilltreeupdater
-        if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and pos and CanTransferToPoint(doer, pos) then
+        if skilltreeupdater and skilltreeupdater:IsActivated("spacemagic_3") and pos and SKILL_UTIL.CanTransferToPoint(doer, pos) then
             local cost = GetTransferMapMagicPointCost(doer, pos)
             if not TryConsumeTransferMagicPoint(doer, cost) then
                 return false
@@ -259,7 +223,7 @@ KMDS = rawget(_G, "KMDS") or {}
 KMDS.GetTransferMapMagicPointCost = GetTransferMapMagicPointCost
 KMDS.CanAffordMagicPointCost = CanAffordMagicPointCost
 KMDS.CanShowTransferMap = CanShowTransferMap
-KMDS.CanTransferToPoint = CanTransferToPoint
+KMDS.CanTransferToPoint = SKILL_UTIL.CanTransferToPoint
 rawset(_G, "KMDS", KMDS)
 
 -- postinits

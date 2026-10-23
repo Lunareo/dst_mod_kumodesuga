@@ -124,52 +124,95 @@ local function AddParryComponent(inst)
 end
 
 --------------------------------------------------------------------------------
+-- 通用魔剑骨架：五把剑仅伤害、耐久、附魔与外观参数不同
+--------------------------------------------------------------------------------
+local SWORD_FLOATABLE = { "med", 0.05, { 1.1, 0.5, 1.1 }, true, -9 }
+local DAGGER_FLOATABLE = { "med", 0.05, { 0.8, 0.4, 0.8 }, true, -9 }
+local SWORD_LIGHT_COLOUR = { 240 / 255, 120 / 255, 40 / 255 }
+
+---@param config table
+---@return fun(): ent
+local function MakeSword(config)
+    return function()
+        local inst = CreateEntity()
+        inst.entity:AddTransform()
+        inst.entity:AddAnimState()
+        inst.entity:AddNetwork()
+
+        MakeInventoryPhysics(inst)
+
+        inst.AnimState:SetBank("spear")
+        inst.AnimState:SetBuild("swap_spear")
+        inst.AnimState:PlayAnimation("idle")
+
+        inst:AddTag("sharp")
+        inst:AddTag("pointy")
+        inst:AddTag("weapon")
+        if config.tags ~= nil then
+            for _, tag in ipairs(config.tags) do
+                inst:AddTag(tag)
+            end
+        end
+        if config.parry then
+            AddParryComponent(inst)
+        end
+
+        MakeInventoryFloatable(inst, unpack(config.floatable))
+
+        inst.entity:SetPristine()
+        if not TheWorld.ismastersim then return inst end
+
+        inst:AddComponent("weapon")
+        inst.components.weapon:SetDamage(config.damage)
+        if config.onattack ~= nil then
+            inst.components.weapon:SetOnAttack(config.onattack)
+        end
+
+        inst:AddComponent("finiteuses")
+        inst.components.finiteuses:SetMaxUses(config.uses)
+        inst.components.finiteuses:SetUses(config.uses)
+        inst.components.finiteuses:SetOnFinished(inst.Remove)
+
+        inst:AddComponent("inspectable")
+        inst:AddComponent("inventoryitem")
+
+        inst:AddComponent("equippable")
+        inst.components.equippable:SetOnEquip(onequip)
+        inst.components.equippable:SetOnUnequip(onunequip)
+
+        if config.spellfn ~= nil then
+            inst:AddComponent("aoespell")
+            inst.components.aoespell:SetSpellFn(config.spellfn)
+        end
+
+        if config.light then
+            local light = SpawnPrefab("minerhatlight")
+            if light ~= nil then
+                light.entity:SetParent(inst.entity)
+                light.Light:SetRadius(2.0)
+                light.Light:SetFalloff(0.7)
+                light.Light:SetIntensity(0.6)
+                light.Light:SetColour(unpack(SWORD_LIGHT_COLOUR))
+                light.Light:Enable(false)
+                inst._light = light
+            end
+        end
+
+        SetupDecay(inst, 480)
+        inst.OnSave = OnSaveSword
+        inst.OnLoad = OnLoadSword
+
+        MakeHauntableLaunch(inst)
+        return inst
+    end
+end
+
+--------------------------------------------------------------------------------
 -- 1. 破烂哥布林小刀 (goblin_dagger)
 --------------------------------------------------------------------------------
-local function goblin_dagger_fn()
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-
-    MakeInventoryPhysics(inst)
-
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
-    inst.AnimState:PlayAnimation("idle")
-
-    inst:AddTag("sharp")
-    inst:AddTag("pointy")
-    inst:AddTag("weapon")
-    inst:AddTag("quick_murderer")
-
-    MakeInventoryFloatable(inst, "med", 0.05, { 0.8, 0.4, 0.8 }, true, -9)
-
-    inst.entity:SetPristine()
-    if not TheWorld.ismastersim then return inst end
-
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(17)
-
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(40)
-    inst.components.finiteuses:SetUses(40)
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(onequip)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    SetupDecay(inst, 480)
-    inst.OnSave = OnSaveSword
-    inst.OnLoad = OnLoadSword
-
-    MakeHauntableLaunch(inst)
-    return inst
-end
+local goblin_dagger_fn = MakeSword {
+    damage = 17, uses = 40, floatable = DAGGER_FLOATABLE, tags = { "quick_murderer" },
+}
 
 --------------------------------------------------------------------------------
 -- 2. 烈焰魔剑 (flame_sword)
@@ -204,64 +247,9 @@ local function OnAttackFlameSword(inst, attacker, target)
     end
 end
 
-local function flame_sword_fn()
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-
-    MakeInventoryPhysics(inst)
-
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
-    inst.AnimState:PlayAnimation("idle")
-
-    inst:AddTag("sharp")
-    inst:AddTag("pointy")
-    inst:AddTag("weapon")
-
-    AddParryComponent(inst)
-
-    MakeInventoryFloatable(inst, "med", 0.05, { 1.1, 0.5, 1.1 }, true, -9)
-
-    inst.entity:SetPristine()
-    if not TheWorld.ismastersim then return inst end
-
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(51)
-    inst.components.weapon:SetOnAttack(OnAttackFlameSword)
-
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(80)
-    inst.components.finiteuses:SetUses(80)
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(onequip)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    -- 手持微光
-    local light = SpawnPrefab("minerhatlight")
-    if light ~= nil then
-        light.entity:SetParent(inst.entity)
-        light.Light:SetRadius(2.0)
-        light.Light:SetFalloff(0.7)
-        light.Light:SetIntensity(0.6)
-        light.Light:SetColour(240 / 255, 120 / 255, 40 / 255)
-        light.Light:Enable(false)
-        inst._light = light
-    end
-
-    SetupDecay(inst, 480)
-    inst.OnSave = OnSaveSword
-    inst.OnLoad = OnLoadSword
-
-    MakeHauntableLaunch(inst)
-    return inst
-end
+local flame_sword_fn = MakeSword {
+    damage = 51, uses = 80, floatable = SWORD_FLOATABLE, parry = true, light = true, onattack = OnAttackFlameSword,
+}
 
 --------------------------------------------------------------------------------
 -- 3. 迅雷魔剑 (lightning_sword)
@@ -317,52 +305,9 @@ local function OnAttackLightningSword(inst, attacker, target)
     end
 end
 
-local function lightning_sword_fn()
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-
-    MakeInventoryPhysics(inst)
-
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
-    inst.AnimState:PlayAnimation("idle")
-
-    inst:AddTag("sharp")
-    inst:AddTag("pointy")
-    inst:AddTag("weapon")
-
-    AddParryComponent(inst)
-
-    MakeInventoryFloatable(inst, "med", 0.05, { 1.1, 0.5, 1.1 }, true, -9)
-
-    inst.entity:SetPristine()
-    if not TheWorld.ismastersim then return inst end
-
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(51)
-    inst.components.weapon:SetOnAttack(OnAttackLightningSword)
-
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(60)
-    inst.components.finiteuses:SetUses(60)
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(onequip)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    SetupDecay(inst, 480)
-    inst.OnSave = OnSaveSword
-    inst.OnLoad = OnLoadSword
-
-    MakeHauntableLaunch(inst)
-    return inst
-end
+local lightning_sword_fn = MakeSword {
+    damage = 51, uses = 60, floatable = SWORD_FLOATABLE, parry = true, onattack = OnAttackLightningSword,
+}
 
 --------------------------------------------------------------------------------
 -- 4. 爆碎魔剑 (explosive_sword)
@@ -427,52 +372,9 @@ local function ThrowSpellFn(inst, doer, pos)
     DoExplosionAt(inst, doer, pos)
 end
 
-local function explosive_sword_fn()
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-
-    MakeInventoryPhysics(inst)
-
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
-    inst.AnimState:PlayAnimation("idle")
-
-    inst:AddTag("sharp")
-    inst:AddTag("pointy")
-    inst:AddTag("weapon")
-
-    MakeInventoryFloatable(inst, "med", 0.05, { 1.1, 0.5, 1.1 }, true, -9)
-
-    inst.entity:SetPristine()
-    if not TheWorld.ismastersim then return inst end
-
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(51)
-
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(20)
-    inst.components.finiteuses:SetUses(20)
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(onequip)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    inst:AddComponent("aoespell")
-    inst.components.aoespell:SetSpellFn(ThrowSpellFn)
-
-    SetupDecay(inst, 480)
-    inst.OnSave = OnSaveSword
-    inst.OnLoad = OnLoadSword
-
-    MakeHauntableLaunch(inst)
-    return inst
-end
+local explosive_sword_fn = MakeSword {
+    damage = 51, uses = 20, floatable = SWORD_FLOATABLE, spellfn = ThrowSpellFn,
+}
 
 --------------------------------------------------------------------------------
 -- 5. 雷栅阵剑 (lightning_grid_sword) 与 雷栅力场 (lightning_grid_field)
@@ -497,52 +399,9 @@ local function GridSpellFn(inst, doer, pos)
     inst:Remove()
 end
 
-local function lightning_grid_sword_fn()
-    local inst = CreateEntity()
-    inst.entity:AddTransform()
-    inst.entity:AddAnimState()
-    inst.entity:AddNetwork()
-
-    MakeInventoryPhysics(inst)
-
-    inst.AnimState:SetBank("spear")
-    inst.AnimState:SetBuild("swap_spear")
-    inst.AnimState:PlayAnimation("idle")
-
-    inst:AddTag("sharp")
-    inst:AddTag("pointy")
-    inst:AddTag("weapon")
-
-    MakeInventoryFloatable(inst, "med", 0.05, { 1.1, 0.5, 1.1 }, true, -9)
-
-    inst.entity:SetPristine()
-    if not TheWorld.ismastersim then return inst end
-
-    inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(34)
-
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(40)
-    inst.components.finiteuses:SetUses(40)
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip(onequip)
-    inst.components.equippable:SetOnUnequip(onunequip)
-
-    inst:AddComponent("aoespell")
-    inst.components.aoespell:SetSpellFn(GridSpellFn)
-
-    SetupDecay(inst, 480)
-    inst.OnSave = OnSaveSword
-    inst.OnLoad = OnLoadSword
-
-    MakeHauntableLaunch(inst)
-    return inst
-end
+local lightning_grid_sword_fn = MakeSword {
+    damage = 34, uses = 40, floatable = SWORD_FLOATABLE, spellfn = GridSpellFn,
+}
 
 --------------------------------------------------------------------------------
 -- 雷栅力场预制件 (lightning_grid_field)

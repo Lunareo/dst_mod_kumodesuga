@@ -84,9 +84,49 @@ local function GetCostMultiplier(player)
     return mult
 end
 
+---是否已解锁空间机动（含 spacemotor 技能标签兜底）。
+---@param ent ent
+---@return boolean
+local function HasSpaceMotor(ent)
+    local skilltreeupdater = ent and ent.components and ent.components.skilltreeupdater
+    if skilltreeupdater == nil then
+        return false
+    end
+    if skilltreeupdater:IsActivated("spacemotor") then
+        return true
+    end
+    -- Tag fallback (activated skills with the spacemotor tag).
+    return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
+end
+
+---目标点是否可转移：陆地/船面恒可，开阔海面与不可通行海格需要空间机动。
+---@param ent ent
+---@param pos Vector3
+---@return boolean
+local function CanTransferToPoint(ent, pos)
+    if ent == nil or pos == nil then
+        return false
+    end
+
+    local x, y, z = pos:Get()
+    -- Open ocean (not land overhang, not a boat): require spacemotor.
+    if TheWorld.Map:IsOceanAtPoint(x, y, z, false) then
+        return HasSpaceMotor(ent)
+    end
+    -- 防御性判定：不可通行的海格且无船只平台。
+    if TheWorld.Map:IsOceanTileAtPoint(x, y, z)
+        and not TheWorld.Map:IsPassableAtPoint(x, y, z)
+        and TheWorld.Map:GetPlatformAtPoint(x, z) == nil then
+        return HasSpaceMotor(ent)
+    end
+    return TheWorld.Map:IsPassableAtPoint(x, y, z)
+end
+
 return {
     CODES = CODES,
     IsActivate = IsActivate,
     Toggle = Toggle,
     GetCostMultiplier = GetCostMultiplier,
+    HasSpaceMotor = HasSpaceMotor,
+    CanTransferToPoint = CanTransferToPoint,
 }

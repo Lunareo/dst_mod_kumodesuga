@@ -39,18 +39,6 @@ local function hide_backpack(inst)
     inst.AnimState:SetSymbolExchange("hair", "swap_body")
 end
 
----@param inst avatar_shiro
----@return boolean|nil
-local function HasSpaceMotor(inst)
-    local skilltreeupdater = inst.components.skilltreeupdater
-    if skilltreeupdater == nil then
-        return false
-    end
-    if skilltreeupdater:IsActivated("spacemotor") then
-        return true
-    end
-    return skilltreeupdater.HasSkillTag ~= nil and skilltreeupdater:HasSkillTag("spacemotor")
-end
 
 --- Transfer / far-transfer only while holding Alt (CONTROL_FORCE_INSPECT).
 --- Server receives this via EncodeControlMods / DecodeControlMods on click RPC.
@@ -59,29 +47,6 @@ end
 local function IsTransferModifierHeld(inst)
     local pc = inst.components.playercontroller
     return pc ~= nil and pc:IsControlPressed(CONTROL_FORCE_INSPECT)
-end
-
---- Land / boat, or open ocean only with spacemotor.
----@param inst avatar_shiro
----@param pos Vector3
----@return boolean|nil
-local function CanTransferToPoint(inst, pos)
-    if pos == nil then
-        return false
-    end
-    local x, y, z = pos:Get()
-    -- Open ocean (not land overhang, not a boat): require spacemotor.
-    if TheWorld.Map:IsOceanAtPoint(x, y, z, false) then
-        return HasSpaceMotor(inst)
-    end
-    -- Defensive: ocean tile, not passable, no boat platform.
-    if TheWorld.Map:IsOceanTileAtPoint(x, y, z)
-        and not TheWorld.Map:IsPassableAtPoint(x, y, z)
-        and TheWorld.Map:GetPlatformAtPoint(x, z) == nil then
-        return HasSpaceMotor(inst)
-    end
-    -- Land / visual overhang / boats.
-    return TheWorld.Map:IsPassableAtPoint(x, y, z)
 end
 
 ---@param inst avatar_shiro
@@ -113,7 +78,7 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
             if KMDS and KMDS.CanShowTransferMap then
                 can_show = KMDS.CanShowTransferMap(inst, targetpos)
             else
-                can_show = CanTransferToPoint(inst, targetpos)
+                can_show = SKILL_UTIL.CanTransferToPoint(inst, targetpos)
             end
         end
         if can_show then
@@ -124,7 +89,7 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
 
     -- Alt already held: allow TRANSFER even with aoetargeting weapons
     -- (hand cast is suppressed separately while Alt is held).
-    if skilltreeupdater:IsActivated("spacemagic_2") and CanTransferToPoint(inst, pos) then
+    if skilltreeupdater:IsActivated("spacemagic_2") and SKILL_UTIL.CanTransferToPoint(inst, pos) then
         -- Short transfer also needs magic points; hide when unaffordable.
         local afford = true
         if KMDS and KMDS.CanAffordMagicPointCost then
