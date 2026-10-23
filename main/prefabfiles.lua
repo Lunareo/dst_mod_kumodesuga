@@ -8,6 +8,7 @@ PrefabFiles = {
     "erosion_fx",
     "godspunsilk",
     "helheim_beyonder",
+    "other_space",
     "reticule_kmds",
     "shiro_clone",
     "silk_robe",
