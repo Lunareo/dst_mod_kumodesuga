@@ -37,6 +37,12 @@ end
 
 ----------------------------------------------------------------------------------------------------
 
+-- 饱和（饱食溢出）资源，挂在所有玩家身上：hunger 溢出、builder 的 HUNGER 配方成本与
+-- 状态栏/徽章都读它（postinits/components/hunger.lua、builder.lua、widgets/statusdisplays.lua），
+-- 因此不能只加在 wakaba 或 Shiro 身上。
+-- 与 components/scorebase.lua 的 Score* 家族（stamina/magicpoint/accela）形似而非同类：
+-- max 由 hunger.max 派生、存档为 { satura = current }、另有暂停/恢复机制，故不并入基类。
+
 ---@class components
 ---@field satura component_satura
 
