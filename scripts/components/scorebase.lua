@@ -40,14 +40,12 @@ end
 ---@field updatemodifier SourceModifierList
 ---@field maxmultipliers SourceModifierList
 ---@field updatemultipliers SourceModifierList
----@field save_max boolean|nil
 local ScoreBase = Class(function(self, inst, name)
     assert(type(name) == "string", "Derive component must be named!")
     self.inst = inst
     self.name = name and string.lower(name) or "scorebase"
     self.current = 0 -- consider self["current" .. name]
     self.max = 100
-    self.save_max = nil
     self.maxmodifier = SourceModifierList(self.inst, 0, SourceModifierList.additive)
     self.maxmultipliers = SourceModifierList(self.inst)
     self.updatemodifier = SourceModifierList(self.inst, 0, SourceModifierList.additive)
@@ -61,7 +59,6 @@ function ScoreBase:OnSave()
     return
     {
         current = self.current,
-        max = self.save_max and self.max or nil,
     }
 end
 
@@ -115,10 +112,6 @@ function ScoreBase:GetMax(native)
     return native and (self.max - self.maxmodifier:Get()) / self.maxmultipliers:Get() or self.max
 end
 
-function ScoreBase:SetVal(val)
-
-end
-
 function ScoreBase:DoDelta(delta, overtime, ignore_invincible)
     if self.redirect ~= nil then
         self.redirect(self.inst, delta, overtime)
@@ -135,10 +128,6 @@ function ScoreBase:DoDelta(delta, overtime, ignore_invincible)
     end
 
     self:SetCurrent(self.current + delta)
-end
-
-function ScoreBase:OnUpdate(dt)
-
 end
 
 function ScoreBase:GetDebugString()

@@ -24,7 +24,7 @@ end
 
 ---@class component_skanda: component_base
 ---@field inst avatar_shiro
----@field root component_skillscript
+---@field root table|nil
 ---@field name string
 ---@field isrunning boolean
 ---@field accelerate function|number

@@ -3,7 +3,7 @@
 ---@field nightvision component_nightvision
 
 ---@class component_nightvision: component_base
----@field root table|nil # component_skillscript
+---@field root table|nil
 ---@field name string
 ---@field activate netvar # net_bool
 ---@field update netvar # net_bool
